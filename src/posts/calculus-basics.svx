@@ -1,0 +1,62 @@
+---
+title: "Calculus Basics: Derivatives and Integrals"
+date: "2024-01-20"
+description: "An introduction to the fundamental concepts of calculus"
+tags: ["math", "calculus"]
+---
+
+# Calculus Basics
+
+Let's explore the two fundamental operations in calculus: **derivatives** and **integrals**.
+
+## Derivatives
+
+The derivative measures the rate of change of a function. The definition:
+
+$$
+f'(x) = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}
+$$
+
+### Power Rule
+
+For $f(x) = x^n$, the derivative is:
+
+$$
+f'(x) = nx^{n-1}
+$$
+
+**Example:** If $f(x) = x^3$, then $f'(x) = 3x^2$.
+
+## Integrals
+
+The integral represents the area under a curve:
+
+$$
+\int_a^b f(x) \, dx
+$$
+
+### Fundamental Theorem of Calculus
+
+The derivative and integral are inverse operations:
+
+$$
+\frac{d}{dx} \int_a^x f(t) \, dt = f(x)
+$$
+
+## Chain Rule
+
+For composite functions:
+
+$$
+\frac{d}{dx} f(g(x)) = f'(g(x)) \cdot g'(x)
+$$
+
+## Integration by Parts
+
+$$
+\int u \, dv = uv - \int v \, du
+$$
+
+## Conclusion
+
+These concepts form the foundation of calculus. In future posts, we'll explore applications in physics, economics, and machine learning!

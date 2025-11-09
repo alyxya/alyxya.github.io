@@ -1,0 +1,69 @@
+---
+title: "Welcome to My Technical Blog"
+date: "2024-01-15"
+description: "A first post demonstrating markdown, LaTeX, and the power of mdsvex"
+tags: ["intro", "math"]
+---
+
+# Welcome!
+
+This is a sample blog post written in **markdown** with support for LaTeX math rendering.
+
+## Inline Math
+
+You can write inline equations like $E = mc^2$ or $a^2 + b^2 = c^2$ directly in your text.
+
+## Display Math
+
+For larger equations, use display math:
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+
+Here's the quadratic formula:
+
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+
+## Matrix Example
+
+You can even write matrices:
+
+$$
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+\begin{bmatrix}
+x \\
+y
+\end{bmatrix}
+=
+\begin{bmatrix}
+ax + by \\
+cx + dy
+\end{bmatrix}
+$$
+
+## Code Blocks
+
+```javascript
+function fibonacci(n) {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+```
+
+## What's Next?
+
+This blog supports:
+
+- ✅ Markdown formatting
+- ✅ LaTeX math rendering with KaTeX
+- ✅ Code syntax highlighting
+- ✅ Images (coming soon)
+- ✅ Interactive Svelte components (when needed)
+
+Stay tuned for more technical posts!

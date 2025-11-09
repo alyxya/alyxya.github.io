@@ -4,7 +4,7 @@ import rehypeKatex from 'rehype-katex';
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const config = {
-	extensions: ['.svelte', '.svx', '.md'],
+	extensions: ['.svx', '.md'],
 	remarkPlugins: [remarkMath],
 	rehypePlugins: [rehypeKatex],
 	smartypants: false
