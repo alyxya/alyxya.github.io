@@ -1,5 +1,5 @@
 export async function load() {
-	const postModules = import.meta.glob('/src/posts/*.svx');
+	const postModules = import.meta.glob('/src/posts/*.sveltex');
 
 	const posts = await Promise.all(
 		Object.entries(postModules).map(async ([path, resolver]) => {
@@ -12,7 +12,7 @@ export async function load() {
 				};
 			};
 
-			const slug = path.split('/').pop()?.replace('.svx', '') || '';
+			const slug = path.split('/').pop()?.replace('.sveltex', '') || '';
 
 			return {
 				slug,
