@@ -1,19 +1,13 @@
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import { sveltex } from '@nvl/sveltex';
+import sveltexPreprocessor from './sveltex.config.js';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	extensions: ['.svelte', '.sveltex'],
 	preprocess: [
 		vitePreprocess(),
-		await sveltex({
-			markdownBackend: 'unified',
-			codeBackend: 'shiki',
-			mathBackend: 'mathjax'
-		}, {
-			// Options
-		})
+		sveltexPreprocessor
 	],
 	kit: {
 		adapter: adapter()

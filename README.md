@@ -9,7 +9,7 @@ Minimal SvelteKit blog that renders posts written in Markdown/LaTeX via
 - **Vite 7** – build/dev server.
 - **Tailwind CSS 4 + Typography plugin** – prose-friendly styling.
 - **SvelTeX** – `.sveltex` content compiled with the recommended backends:
-  - `unified` for Markdown parsing (`remark-parse`, `remark-rehype`, `rehype-stringify`, `hast-util-to-html`)
+  - `unified` for Markdown parsing (`remark-parse`, `remark-retext`, `remark-rehype`, `rehype-stringify`)
   - `shiki` for code fences
   - `mathjax` (`mathjax-full`) for TeX/LaTeX rendering
 
@@ -39,13 +39,15 @@ npm run preview      # serve the production build locally
 
 ## SvelTeX wiring
 
-- `svelte.config.js` registers the SvelTeX preprocessor with
-  `markdownBackend: 'unified'`, `codeBackend: 'shiki'`, and
-  `mathBackend: 'mathjax'`, and enables `.sveltex` as a Svelte extension.
+- `sveltex.config.js` follows the docs and exports the preprocessor configured
+  with `markdownBackend: 'unified'`, `codeBackend: 'shiki'`, and
+  `mathBackend: 'mathjax'`.
+- `svelte.config.js` imports that preprocessor, enables `.sveltex` extensions,
+  and layers it after `vitePreprocess`.
 - `src/app.d.ts` declares the module shape for `.sveltex` files so TypeScript
   knows about the component + metadata exports.
-- MathJax client assets from the docs (`static/sveltex/mathjax@3.2.2.chtml.min.css`)
-  are linked globally in `src/routes/+layout.svelte`.
+- SvelTeX injects MathJax styles automatically, so no extra static assets are
+  required.
 
 With that plumbing in place you can freely mix Markdown, fenced code blocks,
 LaTeX, and Svelte components inside your posts using only one file format.

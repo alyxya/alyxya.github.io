@@ -1,4 +1,5 @@
 import type { ComponentType, SvelteComponent } from 'svelte';
+import type { BlogPostMetadata } from '$lib';
 
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
@@ -13,7 +14,7 @@ declare global {
 }
 
 declare module '*.sveltex' {
-	export const metadata: Record<string, unknown>;
+	export const metadata: BlogPostMetadata;
 	const component: ComponentType<SvelteComponent>;
 	export default component;
 }
