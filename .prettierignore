@@ -5,5 +5,8 @@ yarn.lock
 bun.lock
 bun.lockb
 
+# SvelTeX files (contain LaTeX that shouldn't be parsed as JS)
+*.sveltex
+
 # Miscellaneous
 /static/

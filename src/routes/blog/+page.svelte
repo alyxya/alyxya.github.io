@@ -10,7 +10,7 @@
 	<h1 class="mb-8 text-4xl font-bold">Blog</h1>
 
 	<div class="space-y-8">
-		{#each data.posts as post}
+		{#each data.posts as post (post.slug)}
 			<article class="border-b border-gray-200 pb-8">
 				<a href="/blog/{post.slug}" class="group">
 					<h2 class="mb-2 text-2xl font-semibold text-gray-900 group-hover:text-blue-600">
@@ -34,7 +34,7 @@
 
 				{#if post.tags && post.tags.length > 0}
 					<div class="flex flex-wrap gap-2">
-						{#each post.tags as tag}
+						{#each post.tags as tag (tag)}
 							<span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
 								{tag}
 							</span>

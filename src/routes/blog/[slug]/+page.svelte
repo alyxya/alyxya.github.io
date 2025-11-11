@@ -37,7 +37,7 @@
 
 		{#if data.metadata.tags && data.metadata.tags.length > 0}
 			<div class="flex flex-wrap gap-2">
-				{#each data.metadata.tags as tag}
+				{#each data.metadata.tags as tag (tag)}
 					<span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
 						{tag}
 					</span>
@@ -49,7 +49,7 @@
 	{#await postPromise}
 		<div class="text-gray-600">Loading post...</div>
 	{:then postModule}
-		<div class="prose prose-lg prose-slate max-w-none">
+		<div class="prose prose-lg max-w-none prose-slate">
 			<postModule.default />
 		</div>
 	{:catch error}

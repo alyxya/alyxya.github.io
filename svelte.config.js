@@ -5,10 +5,7 @@ import sveltexPreprocessor from './sveltex.config.js';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	extensions: ['.svelte', '.sveltex'],
-	preprocess: [
-		vitePreprocess(),
-		sveltexPreprocessor
-	],
+	preprocess: [vitePreprocess(), sveltexPreprocessor],
 	kit: {
 		adapter: adapter()
 	}

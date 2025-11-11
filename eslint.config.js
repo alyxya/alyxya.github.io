@@ -24,7 +24,10 @@ export default defineConfig(
 		rules: {
 			// typescript-eslint strongly recommend that you do not use the no-undef lint rule on TypeScript projects.
 			// see: https://typescript-eslint.io/troubleshooting/faqs/eslint/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
-			'no-undef': 'off'
+			'no-undef': 'off',
+			// Disable resolve() requirement for simple anchor links (content navigation)
+			// Keep it active for programmatic navigation (goto, pushState, etc.)
+			'svelte/no-navigation-without-resolve': ['error', { ignoreLinks: true }]
 		}
 	},
 	{
@@ -37,5 +40,9 @@ export default defineConfig(
 				svelteConfig
 			}
 		}
+	},
+	{
+		// Ignore .sveltex files (content files, not source code)
+		ignores: ['**/*.sveltex']
 	}
 );
