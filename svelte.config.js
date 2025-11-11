@@ -6,6 +6,10 @@ import sveltexPreprocessor from './sveltex.config.js';
 const config = {
 	extensions: ['.svelte', '.sveltex'],
 	preprocess: [vitePreprocess(), sveltexPreprocessor],
+	onwarn: (warning, handler) => {
+		if (warning.code === 'a11y_no_noninteractive_tabindex') return;
+		handler(warning);
+	},
 	kit: {
 		adapter: adapter()
 	}
