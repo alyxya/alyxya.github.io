@@ -5,11 +5,13 @@
 		default: ComponentType<SvelteComponent>;
 	};
 
-	const posts = import.meta.glob<PostModule>('/src/posts/*.sveltex', { eager: true });
+	const posts = import.meta.glob<PostModule>('/src/posts/*.sveltex');
 
 	let { data } = $props();
 	const path = `/src/posts/${data.slug}.sveltex`;
-	const Content = posts[path]?.default;
+
+	// Load the specific post component asynchronously
+	const postPromise = posts[path]?.() || Promise.reject(new Error('Post not found'));
 </script>
 
 <svelte:head>
@@ -44,13 +46,15 @@
 		{/if}
 	</header>
 
-	{#if Content}
+	{#await postPromise}
+		<div class="text-gray-600">Loading post...</div>
+	{:then postModule}
 		<div class="prose prose-lg prose-slate max-w-none">
-			<Content />
+			<postModule.default />
 		</div>
-	{:else}
-		<p class="text-red-600">Unable to render this post.</p>
-	{/if}
+	{:catch error}
+		<p class="text-red-600">Unable to render this post: {error.message}</p>
+	{/await}
 
 	<div class="mt-12 border-t border-gray-200 pt-8">
 		<a href="/blog" class="text-blue-600 hover:text-blue-800">← Back to all posts</a>
