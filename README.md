@@ -36,3 +36,24 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## SvelTeX Configuration
+
+This project uses [SvelTeX](https://sveltex.dev) for processing markdown blog posts with LaTeX math and code highlighting.
+
+### Backends
+
+- **Markdown**: `unified` - Industry-standard markdown processor
+- **Code**: `shiki` - Beautiful syntax highlighting
+- **Math**: `mathjax` - Professional LaTeX math rendering
+
+### Peer Dependencies
+
+The following packages are required as peer dependencies by `@nvl/sveltex`:
+
+- `unified`, `remark-parse`, `remark-rehype`, `remark-retext`, `rehype-stringify` - Markdown processing pipeline
+- `hast-util-to-html` - HTML transformation utilities
+- `shiki` - Code syntax highlighting
+- `mathjax-full` - LaTeX math rendering
+
+These are listed in `devDependencies` and will be installed automatically with `npm install`.
