@@ -1,5 +1,15 @@
 <script lang="ts">
+	import type { ComponentType, SvelteComponent } from 'svelte';
+
+	type PostModule = {
+		default: ComponentType<SvelteComponent>;
+	};
+
+	const posts = import.meta.glob<PostModule>('/src/posts/*.sveltex', { eager: true });
+
 	let { data } = $props();
+	const path = `/src/posts/${data.slug}.sveltex`;
+	const Content = posts[path]?.default;
 </script>
 
 <svelte:head>
@@ -34,9 +44,13 @@
 		{/if}
 	</header>
 
-	<div class="prose prose-lg prose-slate max-w-none">
-		<data.content />
-	</div>
+	{#if Content}
+		<div class="prose prose-lg prose-slate max-w-none">
+			<Content />
+		</div>
+	{:else}
+		<p class="text-red-600">Unable to render this post.</p>
+	{/if}
 
 	<div class="mt-12 border-t border-gray-200 pt-8">
 		<a href="/blog" class="text-blue-600 hover:text-blue-800">← Back to all posts</a>

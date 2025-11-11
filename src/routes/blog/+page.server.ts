@@ -1,16 +1,16 @@
-export async function load() {
+import type { BlogPostMetadata } from '$lib';
+import type { PageServerLoad } from './$types';
+
+type PostModule = {
+	metadata: BlogPostMetadata;
+};
+
+export const load: PageServerLoad = async () => {
 	const postModules = import.meta.glob('/src/posts/*.sveltex');
 
 	const posts = await Promise.all(
 		Object.entries(postModules).map(async ([path, resolver]) => {
-			const module = (await resolver()) as {
-				metadata: {
-					title: string;
-					date: string;
-					description?: string;
-					tags?: string[];
-				};
-			};
+			const module = (await resolver()) as PostModule;
 
 			const slug = path.split('/').pop()?.replace('.sveltex', '') || '';
 
@@ -27,4 +27,4 @@ export async function load() {
 	return {
 		posts
 	};
-}
+};

@@ -61,7 +61,7 @@ function fibonacci(n) {
 This blog supports:
 
 - ✅ Markdown formatting
-- ✅ LaTeX math rendering with KaTeX
+- ✅ LaTeX math rendering with MathJax
 - ✅ Code syntax highlighting
 - ✅ Images (coming soon)
 - ✅ Interactive Svelte components (when needed)

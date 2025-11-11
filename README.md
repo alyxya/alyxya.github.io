@@ -1,59 +1,51 @@
-# sv
+# alyxya.dev blog
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Minimal SvelteKit blog that renders posts written in Markdown/LaTeX via
+[SvelTeX](https://sveltex.dev) with Tailwind CSS styling.
 
-## Creating a project
+## Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **SvelteKit 2 / Svelte 5** – application/runtime.
+- **Vite 7** – build/dev server.
+- **Tailwind CSS 4 + Typography plugin** – prose-friendly styling.
+- **SvelTeX** – `.sveltex` content compiled with the recommended backends:
+  - `unified` for Markdown parsing (`remark-parse`, `remark-rehype`, `rehype-stringify`, `hast-util-to-html`)
+  - `shiki` for code fences
+  - `mathjax` (`mathjax-full`) for TeX/LaTeX rendering
 
-```sh
-# create a new project in the current directory
-npx sv create
+All peer dependencies required by this setup live in `devDependencies`, so
+`npm install` pulls everything that the SvelTeX docs call for.
 
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
+## Development
 
 ```sh
-npm run build
+npm install          # install deps once
+npm run dev          # local dev server
+npm run check        # type-check + validate Svelte routes
+npm run lint         # prettier + eslint
+npm run build        # production build
+npm run preview      # serve the production build locally
 ```
 
-You can preview the production build with `npm run preview`.
+## Authoring content
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- Posts live in `src/posts` as `.sveltex` files. See
+  `src/posts/welcome.sveltex` for frontmatter conventions:
+  `title`, `date` (ISO string), optional `description`, and `tags`.
+- Each post is automatically available at `/blog/<slug>` where `<slug>` equals
+  the filename.
+- The blog index at `/blog` loads metadata on the server (`+page.server.ts`),
+  sorts by date, and never ships markdown to the client.
 
-## SvelTeX Configuration
+## SvelTeX wiring
 
-This project uses [SvelTeX](https://sveltex.dev) for processing markdown blog posts with LaTeX math and code highlighting.
+- `svelte.config.js` registers the SvelTeX preprocessor with
+  `markdownBackend: 'unified'`, `codeBackend: 'shiki'`, and
+  `mathBackend: 'mathjax'`, and enables `.sveltex` as a Svelte extension.
+- `src/app.d.ts` declares the module shape for `.sveltex` files so TypeScript
+  knows about the component + metadata exports.
+- MathJax client assets from the docs (`static/sveltex/mathjax@3.2.2.chtml.min.css`)
+  are linked globally in `src/routes/+layout.svelte`.
 
-### Backends
-
-- **Markdown**: `unified` - Industry-standard markdown processor
-- **Code**: `shiki` - Beautiful syntax highlighting
-- **Math**: `mathjax` - Professional LaTeX math rendering
-
-### Peer Dependencies
-
-The following packages are required as peer dependencies by `@nvl/sveltex`:
-
-- `unified`, `remark-parse`, `remark-rehype`, `remark-retext`, `rehype-stringify` - Markdown processing pipeline
-- `hast-util-to-html` - HTML transformation utilities
-- `shiki` - Code syntax highlighting
-- `mathjax-full` - LaTeX math rendering
-
-These are listed in `devDependencies` and will be installed automatically with `npm install`.
+With that plumbing in place you can freely mix Markdown, fenced code blocks,
+LaTeX, and Svelte components inside your posts using only one file format.
