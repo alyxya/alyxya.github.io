@@ -7,11 +7,13 @@
 </svelte:head>
 
 <div class="mx-auto max-w-3xl px-4 py-12">
-	<h1 class="mb-8 text-4xl font-bold text-ocean-900">Blog</h1>
+	<div class="glass-card mb-8 p-6">
+		<h1 class="text-4xl font-bold text-ocean-900">Blog</h1>
+	</div>
 
-	<div class="space-y-8">
+	<div class="space-y-6">
 		{#each data.posts as post (post.slug)}
-			<article class="border-b border-ocean-200 pb-8 transition-all hover:border-ocean-300">
+			<article class="glass-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
 				<a href="/blog/{post.slug}" class="group">
 					<h2 class="mb-2 text-2xl font-semibold text-ocean-900 transition-colors group-hover:text-ocean-600">
 						{post.title}
