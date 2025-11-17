@@ -43,5 +43,9 @@
 		"typescript-eslint": "^8.46.1",
 		"unified": "^11.0.5",
 		"vite": "^7.1.10"
+	},
+	"dependencies": {
+		"plotly.js-dist": "^3.3.0",
+		"svelte-plotly.js": "^1.2.0"
 	}
 }

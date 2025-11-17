@@ -1,0 +1,171 @@
+---
+title: "Plot Playground"
+date: "2025-02-14"
+description: "Mixed markdown, LaTeX, code, and Plotly visualizations powered by SvelTeX."
+tags: ["plots", "interactive", "plotly"]
+---
+
+<script lang="ts">
+	'use runes';
+
+	import Plotly from 'svelte-plotly.js';
+
+	const scatterData = [
+		{
+			x: [0, 1, 2, 3, 4],
+			y: [0, 1, 4, 9, 16],
+			type: 'scatter',
+			mode: 'lines+markers',
+			name: 'Quadratic growth',
+			line: { color: '#2563eb' },
+			marker: { size: 8 }
+		},
+		{
+			x: [0, 1, 2, 3, 4],
+			y: [0, 0.6, 1, 0.6, 0],
+			type: 'scatter',
+			mode: 'lines',
+			name: 'Smoothing kernel',
+			line: { color: '#16a34a', dash: 'dash' }
+		}
+	];
+
+	const scatterLayout = {
+		title: '2D Scatter + Line Plot',
+		xaxis: { title: 't' },
+		yaxis: { title: 'f(t)' },
+		margin: { l: 50, r: 20, b: 50, t: 50 }
+	};
+
+	const size = 30;
+	const xValues = Array.from({ length: size }, (_, i) => -3 + (6 * i) / (size - 1));
+	const yValues = Array.from({ length: size }, (_, i) => -3 + (6 * i) / (size - 1));
+	const surfaceZ = xValues.map((x) =>
+		yValues.map((y) => Math.sin(Math.sqrt(x ** 2 + y ** 2)))
+	);
+
+	const surfaceData = [
+		{
+			type: 'surface',
+			x: xValues,
+			y: yValues,
+			z: surfaceZ,
+			colorscale: 'Viridis',
+			showscale: false
+		}
+	];
+
+	const surfaceLayout = {
+		title: '3D Surface: sin(r)',
+		scene: {
+			xaxis: { title: 'x' },
+			yaxis: { title: 'y' },
+			zaxis: { title: 'z' }
+		},
+		margin: { l: 0, r: 0, b: 0, t: 50 }
+	};
+
+	const t = Array.from({ length: 400 }, (_, i) => i / 40);
+	const signalFamilies = {
+		sine: {
+			label: 'Modulated Sine',
+			fn: (x) => Math.sin(2 * Math.PI * 0.25 * x) * Math.exp(-0.02 * x)
+		},
+		saw: {
+			label: 'Sawtooth Sweep',
+			fn: (x) => (2 / Math.PI) * Math.atan(Math.tan(Math.PI * 0.1 * x))
+		},
+		beats: {
+			label: 'Beat Pattern',
+			fn: (x) => Math.sin(0.2 * x) + 0.5 * Math.sin(0.22 * x + Math.PI / 6)
+		}
+	} as const;
+
+	let selectedSignal = $state<keyof typeof signalFamilies>('sine');
+
+	const interactiveData = $derived([
+		{
+			x: t,
+			y: t.map(signalFamilies[selectedSignal].fn),
+			type: 'scatter',
+			mode: 'lines',
+			line: { color: '#db2777', width: 3 }
+		}
+	]);
+
+	const interactiveLayout = $derived({
+		title: `Interactive ${signalFamilies[selectedSignal].label}`,
+		xaxis: { title: 'Time (s)' },
+		yaxis: { title: 'Amplitude' },
+		margin: { l: 50, r: 20, b: 50, t: 50 }
+	});
+
+	const config = { responsive: true, displaylogo: false };
+</script>
+
+# Plot Playground
+
+This post mixes Markdown, LaTeX, fenced code blocks, and live Plotly charts to show how
+SvelTeX lets you stay within a single `.sveltex` file while still composing interactive
+experiences. The plots below render on the client, but the surrounding prose is pure
+Markdown.
+
+## Markdown + LaTeX
+
+The characteristic function of a normal distribution can be written as
+$\varphi_X(t) = \exp\left(it\mu - \tfrac{1}{2}\sigma^2 t^2\right)$, while the PDF is
+
+$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right).
+$$
+
+With MathJax configured in SvelTeX this renders crisply without any extra work.
+
+## 2D Scatter Plot
+
+The figure combines discrete samples and a smooth kernel to highlight how Plotly handles
+multiple traces inside a single graph.
+
+<Plotly data={scatterData} layout={scatterLayout} {config} style="width: 100%; height: 360px;" />
+
+## 3D Surface
+
+Sampling $z = \sin(\sqrt{x^2 + y^2})$ on a grid produces rich interference patterns. The
+Plotly surface plot provides lighting, zoom, and rotation out of the box.
+
+<Plotly data={surfaceData} layout={surfaceLayout} {config} style="width: 100%; height: 420px;" />
+
+## Interactive Signal Lab
+
+Pick a waveform below to see a different analytic expression plotted instantly. The plot
+reacts thanks to normal Svelte reactivity embedded right in this SvelTeX post.
+
+<div class="mb-4 flex flex-col gap-2">
+	<label class="font-semibold" for="signalSelect">Choose a waveform</label>
+	<select
+		id="signalSelect"
+		bind:value={selectedSignal}
+		class="rounded border border-gray-300 px-3 py-2 text-base"
+	>
+		{#each Object.entries(signalFamilies) as [value, meta]}
+			<option value={value}>{meta.label}</option>
+		{/each}
+	</select>
+	<p class="text-sm text-gray-600">Currently viewing: {signalFamilies[selectedSignal].label}</p>
+</div>
+
+<Plotly data={interactiveData} layout={interactiveLayout} {config} style="width: 100%; height: 360px;" />
+
+## Code Block Reference
+
+```ts
+import Plotly from 'svelte-plotly.js';
+
+const layout = { title: 'Hello Plotly', xaxis: { title: 'x' }, yaxis: { title: 'y' } };
+const data = [{ x: [0, 1, 2], y: [0, 1, 0], mode: 'lines', type: 'scatter' }];
+
+<Plotly {data} {layout} />;
+```
+
+The snippet above is exactly what powers every figure in this post—just wrapped in SvelTeX
+so you can mix prose, LaTeX, and components effortlessly.
