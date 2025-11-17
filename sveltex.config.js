@@ -7,7 +7,7 @@ export default await sveltex({
 }, {
 	code: {
 		shiki: {
-			theme: 'github-dark'
+			theme: 'nord'
 		}
 	}
 });

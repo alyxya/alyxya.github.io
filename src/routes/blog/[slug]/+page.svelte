@@ -23,9 +23,9 @@
 
 <article class="mx-auto max-w-3xl px-4 py-12">
 	<header class="mb-8">
-		<h1 class="mb-4 text-4xl font-bold">{data.metadata.title}</h1>
+		<h1 class="mb-4 text-4xl font-bold text-ocean-900">{data.metadata.title}</h1>
 
-		<div class="mb-4 text-gray-600">
+		<div class="mb-4 text-ocean-600">
 			<time datetime={data.metadata.date}>
 				{new Date(data.metadata.date).toLocaleDateString('en-US', {
 					year: 'numeric',
@@ -38,7 +38,7 @@
 		{#if data.metadata.tags && data.metadata.tags.length > 0}
 			<div class="flex flex-wrap gap-2">
 				{#each data.metadata.tags as tag (tag)}
-					<span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
+					<span class="rounded-full bg-ocean-100 px-3 py-1 text-sm text-ocean-700 ring-1 ring-ocean-200">
 						{tag}
 					</span>
 				{/each}
@@ -47,16 +47,16 @@
 	</header>
 
 	{#await postPromise}
-		<div class="text-gray-600">Loading post...</div>
+		<div class="text-ocean-600">Loading post...</div>
 	{:then postModule}
-		<div class="prose prose-lg max-w-none prose-slate">
+		<div class="prose prose-lg max-w-none prose-ocean">
 			<postModule.default />
 		</div>
 	{:catch error}
 		<p class="text-red-600">Unable to render this post: {error.message}</p>
 	{/await}
 
-	<div class="mt-12 border-t border-gray-200 pt-8">
-		<a href="/blog" class="text-blue-600 hover:text-blue-800">← Back to all posts</a>
+	<div class="mt-12 border-t border-ocean-200 pt-8">
+		<a href="/blog" class="ocean-link-hover text-ocean-600 transition-colors hover:text-ocean-800">← Back to all posts</a>
 	</div>
 </article>

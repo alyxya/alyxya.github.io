@@ -1,2 +1,192 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
+@theme {
+	/* Ocean-inspired color palette */
+	--color-ocean-deep: oklch(25% 0.08 240);
+	--color-ocean-dark: oklch(35% 0.1 235);
+	--color-ocean-primary: oklch(45% 0.15 230);
+	--color-ocean-medium: oklch(55% 0.12 225);
+	--color-ocean-light: oklch(65% 0.1 220);
+	--color-ocean-pale: oklch(85% 0.05 215);
+	--color-ocean-surface: oklch(95% 0.02 210);
+
+	--color-aqua-bright: oklch(75% 0.15 200);
+	--color-aqua-glow: oklch(80% 0.12 195);
+	--color-teal-deep: oklch(50% 0.12 180);
+	--color-teal-medium: oklch(60% 0.1 185);
+
+	--color-biolume-cyan: oklch(85% 0.15 200);
+	--color-biolume-blue: oklch(80% 0.18 225);
+	--color-jellyfish-glow: oklch(90% 0.12 210);
+
+	/* Custom ocean theme colors for Tailwind */
+	--color-ocean-950: var(--color-ocean-deep);
+	--color-ocean-900: var(--color-ocean-dark);
+	--color-ocean-800: var(--color-ocean-primary);
+	--color-ocean-700: var(--color-ocean-medium);
+	--color-ocean-600: oklch(60% 0.12 220);
+	--color-ocean-500: var(--color-ocean-light);
+	--color-ocean-400: oklch(70% 0.08 215);
+	--color-ocean-300: oklch(75% 0.06 212);
+	--color-ocean-200: var(--color-ocean-pale);
+	--color-ocean-100: oklch(90% 0.03 210);
+	--color-ocean-50: var(--color-ocean-surface);
+}
+
+/* Ocean gradient background */
+body {
+	background: linear-gradient(
+		180deg,
+		oklch(92% 0.04 215) 0%,
+		oklch(88% 0.06 210) 50%,
+		oklch(82% 0.08 205) 100%
+	);
+	min-height: 100vh;
+}
+
+/* Jellyfish floating animation */
+@keyframes float {
+	0%, 100% {
+		transform: translateY(0px) translateX(0px);
+	}
+	25% {
+		transform: translateY(-20px) translateX(10px);
+	}
+	50% {
+		transform: translateY(-10px) translateX(-5px);
+	}
+	75% {
+		transform: translateY(-30px) translateX(5px);
+	}
+}
+
+@keyframes pulse-glow {
+	0%, 100% {
+		opacity: 0.4;
+		filter: blur(20px);
+	}
+	50% {
+		opacity: 0.7;
+		filter: blur(25px);
+	}
+}
+
+@keyframes wave {
+	0% {
+		transform: translateX(0) translateY(0);
+	}
+	50% {
+		transform: translateX(-25%) translateY(-5px);
+	}
+	100% {
+		transform: translateX(-50%) translateY(0);
+	}
+}
+
+.jellyfish-float {
+	animation: float 12s ease-in-out infinite;
+}
+
+.biolume-glow {
+	animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Custom scrollbar with ocean theme */
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+::-webkit-scrollbar-track {
+	background: oklch(90% 0.03 210);
+}
+
+::-webkit-scrollbar-thumb {
+	background: oklch(60% 0.12 220);
+	border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: oklch(55% 0.15 225);
+}
+
+/* Ripple effect for links */
+@keyframes ripple {
+	0% {
+		box-shadow: 0 0 0 0 oklch(75% 0.15 200 / 0.4);
+	}
+	100% {
+		box-shadow: 0 0 0 10px oklch(75% 0.15 200 / 0);
+	}
+}
+
+.ocean-link-hover:hover {
+	animation: ripple 0.6s ease-out;
+}
+
+/* Ocean-themed prose styling */
+.prose-ocean {
+	--tw-prose-body: oklch(37.3% 0.034 259.733);
+	--tw-prose-headings: oklch(25% 0.08 240);
+	--tw-prose-links: oklch(55% 0.12 225);
+	--tw-prose-bold: oklch(30% 0.08 235);
+	--tw-prose-counters: oklch(55% 0.12 225);
+	--tw-prose-bullets: oklch(65% 0.1 220);
+	--tw-prose-hr: oklch(85% 0.05 215);
+	--tw-prose-quotes: oklch(37.3% 0.034 259.733);
+	--tw-prose-quote-borders: oklch(65% 0.1 220);
+	--tw-prose-captions: oklch(55% 0.12 225);
+	--tw-prose-code: oklch(35% 0.1 235);
+	--tw-prose-pre-code: oklch(88% 0.06 210);
+	--tw-prose-pre-bg: oklch(30% 0.08 235);
+	--tw-prose-th-borders: oklch(75% 0.06 212);
+	--tw-prose-td-borders: oklch(85% 0.05 215);
+}
+
+.prose-ocean :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	transition: color 0.2s ease;
+}
+
+.prose-ocean :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)):hover {
+	color: oklch(60% 0.12 220);
+}
+
+/* Inline code styling */
+.prose-ocean :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)):not(:where(pre *)) {
+	background-color: oklch(90% 0.03 210) !important;
+	padding: 0.2em 0.4em !important;
+	border-radius: 0.25rem !important;
+	font-weight: 500 !important;
+	color: oklch(35% 0.1 235) !important;
+}
+
+/* Remove backticks added by typography plugin */
+.prose-ocean :where(code):not(:where(pre *))::before,
+.prose-ocean :where(code):not(:where(pre *))::after {
+	content: '' !important;
+}
+
+/* Ensure inline code span elements inherit styles */
+.prose-ocean :where(code):not(:where(pre *)) span {
+	background-color: transparent !important;
+	color: inherit !important;
+}
+
+/* Code block pre styling */
+.prose-ocean :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	background: linear-gradient(135deg, oklch(28% 0.08 238) 0%, oklch(32% 0.08 232) 100%) !important;
+	border: 1px solid oklch(40% 0.1 230);
+	box-shadow: 0 4px 6px -1px oklch(25% 0.08 240 / 0.3);
+	padding: 1rem;
+	border-radius: 0.5rem;
+	overflow-x: auto;
+}
+
+/* Code inside pre blocks */
+.prose-ocean :where(pre code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	background-color: transparent !important;
+	padding: 0 !important;
+	border-radius: 0 !important;
+	font-weight: normal !important;
+	color: inherit !important;
+}

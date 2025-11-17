@@ -47,7 +47,15 @@ cx + dy
 \end{bmatrix}
 $$
 
-## Code Blocks
+## Code Examples
+
+Here's an example of inline code: you can use `const result = fibonacci(10)` or call `Math.sqrt(16)` directly in your text.
+
+Variables like `x`, `y`, and function names like `calculateSum()` are styled as inline code.
+
+### Code Blocks
+
+Full code blocks look different from inline code:
 
 ```javascript
 function fibonacci(n) {
@@ -55,6 +63,8 @@ function fibonacci(n) {
   return fibonacci(n - 1) + fibonacci(n - 2);
 }
 ```
+
+Notice how inline `code` has a light background, while code blocks have a dark ocean-themed background.
 
 ## What's Next?
 
