@@ -66,6 +66,33 @@ tags: ["plots", "interactive", "plotly"]
 		margin: { l: 50, r: 20, b: 50, t: 50 }
 	};
 
+	// Interactive Heatmap
+	const heatmapZ = [];
+	for (let i = 0; i < 20; i++) {
+		const row = [];
+		for (let j = 0; j < 20; j++) {
+			row.push(Math.sin(i / 3) * Math.cos(j / 3));
+		}
+		heatmapZ.push(row);
+	}
+
+	const heatmapData = [
+		{
+			z: heatmapZ,
+			type: 'heatmap',
+			colorscale: 'RdBu',
+			hoverongaps: false
+		}
+	];
+
+	const heatmapLayout = {
+		title: 'Interactive Heatmap',
+		xaxis: { title: 'Column Index' },
+		yaxis: { title: 'Row Index' },
+		autosize: true,
+		height: 500
+	};
+
 	const size = 30;
 	const xValues = Array.from({ length: size }, (_, i) => -3 + (6 * i) / (size - 1));
 	const yValues = Array.from({ length: size }, (_, i) => -3 + (6 * i) / (size - 1));
@@ -92,6 +119,54 @@ tags: ["plots", "interactive", "plotly"]
 			zaxis: { title: 'z' }
 		},
 		margin: { l: 0, r: 0, b: 0, t: 50 }
+	};
+
+	// 3D Scatter Plot
+	const scatter3DData = [
+		{
+			x: Array.from({ length: 100 }, () => Math.random() * 10 - 5),
+			y: Array.from({ length: 100 }, () => Math.random() * 10 - 5),
+			z: Array.from({ length: 100 }, () => Math.random() * 10 - 5),
+			type: 'scatter3d',
+			mode: 'markers',
+			marker: {
+				size: 5,
+				color: Array.from({ length: 100 }, () => Math.random()),
+				colorscale: 'Portland',
+				showscale: true
+			}
+		}
+	];
+
+	const scatter3DLayout = {
+		title: '3D Scatter Plot',
+		scene: {
+			xaxis: { title: 'X Axis' },
+			yaxis: { title: 'Y Axis' },
+			zaxis: { title: 'Z Axis' }
+		},
+		autosize: true,
+		height: 600
+	};
+
+	// Contour Plot
+	const contourData = [
+		{
+			z: surfaceZ,
+			type: 'contour',
+			colorscale: 'Electric',
+			contours: {
+				showlabels: true
+			}
+		}
+	];
+
+	const contourLayout = {
+		title: 'Contour Plot',
+		xaxis: { title: 'X' },
+		yaxis: { title: 'Y' },
+		autosize: true,
+		height: 500
 	};
 
 	const t = Array.from({ length: 400 }, (_, i) => i / 40);
@@ -164,12 +239,42 @@ $$
 
 <Plotly data={sineCosineData} layout={sineCosineLayout} {config} style="width: 100%; height: 500px;" />
 
+### Code Example: Generating Sine Wave
+
+Here's how you can generate a sine wave in JavaScript:
+
+```javascript
+function generateSineWave(numPoints = 100) {
+	const data = [];
+	for (let i = 0; i < numPoints; i++) {
+		const x = (i * 2 * Math.PI) / numPoints;
+		const y = Math.sin(x);
+		data.push({ x, y });
+	}
+	return data;
+}
+
+// Usage
+const sineData = generateSineWave(100);
+console.log(sineData);
+```
+
 ## 2D Scatter Plot
 
 The figure combines discrete samples and a smooth kernel to highlight how Plotly handles
-multiple traces inside a single graph.
+multiple traces inside a single graph. Scatter plots are excellent for showing relationships between two variables. The correlation between variables can be measured using Pearson's correlation coefficient:
+
+$$
+r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2}\sqrt{\sum_{i=1}^{n}(y_i - \bar{y})^2}}
+$$
 
 <Plotly data={scatterData} layout={scatterLayout} {config} style="width: 100%; height: 360px;" />
+
+## Interactive Heatmap
+
+Heatmaps visualize data through variations in coloring. They're particularly useful for understanding patterns in matrix data:
+
+<Plotly data={heatmapData} layout={heatmapLayout} {config} style="width: 100%; height: 500px;" />
 
 ## 3D Surface
 
@@ -177,6 +282,18 @@ Sampling $z = \sin(\sqrt{x^2 + y^2})$ on a grid produces rich interference patte
 Plotly surface plot provides lighting, zoom, and rotation out of the box.
 
 <Plotly data={surfaceData} layout={surfaceLayout} {config} style="width: 100%; height: 420px;" />
+
+## 3D Scatter Plot
+
+Three-dimensional scatter plots help visualize relationships between three variables simultaneously:
+
+<Plotly data={scatter3DData} layout={scatter3DLayout} {config} style="width: 100%; height: 600px;" />
+
+## Contour Plot
+
+Contour plots show the level curves of a function, similar to topographic maps:
+
+<Plotly data={contourData} layout={contourLayout} {config} style="width: 100%; height: 500px;" />
 
 ## Interactive Signal Lab
 
@@ -212,3 +329,26 @@ const data = [{ x: [0, 1, 2], y: [0, 1, 0], mode: 'lines', type: 'scatter' }];
 
 The snippet above is exactly what powers every figure in this post—just wrapped in SvelTeX
 so you can mix prose, LaTeX, and components effortlessly.
+
+## Interactive Features
+
+All the plots above are fully interactive! Try:
+
+- **Hovering** over data points to see values
+- **Zooming** by clicking and dragging
+- **Panning** by holding shift and dragging
+- **Rotating** 3D plots by clicking and dragging
+- **Resetting** the view using the home icon
+
+## Conclusion
+
+This demonstration combines several powerful technologies:
+
+1. **SvelTeX** - For seamless integration of Svelte components with LaTeX
+2. **Plotly.js** - For interactive, publication-quality visualizations
+3. **Markdown** - For readable, formatted text
+4. **LaTeX** - For beautiful mathematical notation
+5. **Code Blocks** - For syntax-highlighted examples
+6. **Svelte Runes** - For reactive, interactive components
+
+The combination enables creating rich, interactive technical documents that are perfect for data science, mathematics, physics, and engineering content!
