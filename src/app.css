@@ -26,6 +26,11 @@
 }
 
 /* Ocean gradient background */
+html {
+	/* Solid background colors for overscroll areas */
+	background: oklch(92% 0.04 215); /* Matches top of gradient */
+}
+
 body {
 	background: linear-gradient(
 		180deg,
@@ -33,6 +38,7 @@ body {
 		oklch(88% 0.06 210) 50%,
 		oklch(82% 0.08 205) 100%
 	);
+	background-attachment: fixed;
 	min-height: 100vh;
 }
 
