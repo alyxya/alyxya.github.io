@@ -10,6 +10,35 @@ tags: ["plots", "interactive", "plotly"]
 
 	import Plotly from 'svelte-plotly.js';
 
+	// 2D Line Plot - Sine and Cosine
+	const sineCosineData = [
+		{
+			x: Array.from({ length: 100 }, (_, i) => (i * 2 * Math.PI) / 100),
+			y: Array.from({ length: 100 }, (_, i) => Math.sin((i * 2 * Math.PI) / 100)),
+			type: 'scatter',
+			mode: 'lines',
+			name: 'sin(x)',
+			line: { color: '#3b82f6', width: 2 }
+		},
+		{
+			x: Array.from({ length: 100 }, (_, i) => (i * 2 * Math.PI) / 100),
+			y: Array.from({ length: 100 }, (_, i) => Math.cos((i * 2 * Math.PI) / 100)),
+			type: 'scatter',
+			mode: 'lines',
+			name: 'cos(x)',
+			line: { color: '#ef4444', width: 2 }
+		}
+	];
+
+	const sineCosineLayout = {
+		title: 'Trigonometric Functions',
+		xaxis: { title: 'x (radians)' },
+		yaxis: { title: 'y' },
+		hovermode: 'closest',
+		autosize: true,
+		height: 500
+	};
+
 	const scatterData = [
 		{
 			x: [0, 1, 2, 3, 4],
@@ -120,6 +149,20 @@ f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \
 $$
 
 With MathJax configured in SvelTeX this renders crisply without any extra work.
+
+## Trigonometric Functions
+
+The sine and cosine functions are fundamental in mathematics and can be defined through their Taylor series expansions:
+
+$$
+\sin(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n+1)!} x^{2n+1} = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots
+$$
+
+$$
+\cos(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!} x^{2n} = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots
+$$
+
+<Plotly data={sineCosineData} layout={sineCosineLayout} {config} style="width: 100%; height: 500px;" />
 
 ## 2D Scatter Plot
 
