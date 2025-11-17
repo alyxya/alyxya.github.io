@@ -30,13 +30,25 @@ tags: ["plots", "interactive", "plotly"]
 		}
 	];
 
+	const oceanPlotConfig = {
+		paper_bgcolor: 'rgba(255,255,255,0.4)',
+		plot_bgcolor: 'rgba(255,255,255,0.25)',
+		font: { color: 'oklch(35% 0.1 235)' }
+	};
+
+	const ocean3DPlotConfig = {
+		paper_bgcolor: 'rgba(255,255,255,0.4)',
+		font: { color: 'oklch(35% 0.1 235)' }
+	};
+
 	const sineCosineLayout = {
 		title: 'Trigonometric Functions',
 		xaxis: { title: 'x (radians)' },
 		yaxis: { title: 'y' },
 		hovermode: 'closest',
 		autosize: true,
-		height: 500
+		height: 500,
+		...oceanPlotConfig
 	};
 
 	const scatterData = [
@@ -63,7 +75,8 @@ tags: ["plots", "interactive", "plotly"]
 		title: '2D Scatter + Line Plot',
 		xaxis: { title: 't' },
 		yaxis: { title: 'f(t)' },
-		margin: { l: 50, r: 20, b: 50, t: 50 }
+		margin: { l: 50, r: 20, b: 50, t: 50 },
+		...oceanPlotConfig
 	};
 
 	// Interactive Heatmap
@@ -90,7 +103,8 @@ tags: ["plots", "interactive", "plotly"]
 		xaxis: { title: 'Column Index' },
 		yaxis: { title: 'Row Index' },
 		autosize: true,
-		height: 500
+		height: 500,
+		...oceanPlotConfig
 	};
 
 	const size = 30;
@@ -114,11 +128,13 @@ tags: ["plots", "interactive", "plotly"]
 	const surfaceLayout = {
 		title: '3D Surface: sin(r)',
 		scene: {
-			xaxis: { title: 'x' },
-			yaxis: { title: 'y' },
-			zaxis: { title: 'z' }
+			xaxis: { title: 'x', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
+			yaxis: { title: 'y', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
+			zaxis: { title: 'z', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
+			bgcolor: 'rgba(0,0,0,0)'
 		},
-		margin: { l: 0, r: 0, b: 0, t: 50 }
+		margin: { l: 0, r: 0, b: 0, t: 50 },
+		...ocean3DPlotConfig
 	};
 
 	// 3D Scatter Plot
@@ -141,12 +157,14 @@ tags: ["plots", "interactive", "plotly"]
 	const scatter3DLayout = {
 		title: '3D Scatter Plot',
 		scene: {
-			xaxis: { title: 'X Axis' },
-			yaxis: { title: 'Y Axis' },
-			zaxis: { title: 'Z Axis' }
+			xaxis: { title: 'X Axis', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
+			yaxis: { title: 'Y Axis', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
+			zaxis: { title: 'Z Axis', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
+			bgcolor: 'rgba(0,0,0,0)'
 		},
 		autosize: true,
-		height: 600
+		height: 600,
+		...ocean3DPlotConfig
 	};
 
 	// Contour Plot
@@ -166,7 +184,8 @@ tags: ["plots", "interactive", "plotly"]
 		xaxis: { title: 'X' },
 		yaxis: { title: 'Y' },
 		autosize: true,
-		height: 500
+		height: 500,
+		...oceanPlotConfig
 	};
 
 	const t = Array.from({ length: 400 }, (_, i) => i / 40);
@@ -201,7 +220,8 @@ tags: ["plots", "interactive", "plotly"]
 		title: `Interactive ${signalFamilies[selectedSignal].label}`,
 		xaxis: { title: 'Time (s)' },
 		yaxis: { title: 'Amplitude' },
-		margin: { l: 50, r: 20, b: 50, t: 50 }
+		margin: { l: 50, r: 20, b: 50, t: 50 },
+		...oceanPlotConfig
 	});
 
 	const config = { responsive: true, displaylogo: false };
