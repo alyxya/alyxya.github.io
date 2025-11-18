@@ -22,6 +22,7 @@
 	let partyMode = false;
 	let normalJellyfishClicks = 0;
 	let shinyJellyfishClicks = 0;
+	let currentPalette = getTimeOfDayPalette();
 
 	type Sparkle = {
 		x: number;
@@ -62,6 +63,65 @@
 		speed: number;
 		phase: number;
 	};
+
+	type ColorPalette = {
+		background: [string, string, string];
+		waves: string;
+	};
+
+	function getTimeOfDayPalette(): ColorPalette {
+		const hour = new Date().getHours();
+
+		// Dawn (5-7): Soft purples, pinks, and oranges
+		if (hour >= 5 && hour < 7) {
+			return {
+				background: ['rgba(25, 15, 45, 0.8)', 'rgba(45, 25, 60, 0.85)', 'rgba(15, 8, 30, 0.95)'],
+				waves: '120, 80, 180'
+			};
+		}
+		// Morning (7-11): Bright blues and teals
+		else if (hour >= 7 && hour < 11) {
+			return {
+				background: ['rgba(10, 35, 60, 0.8)', 'rgba(15, 50, 80, 0.85)', 'rgba(5, 20, 40, 0.95)'],
+				waves: '100, 200, 255'
+			};
+		}
+		// Midday (11-15): Light turquoise
+		else if (hour >= 11 && hour < 15) {
+			return {
+				background: ['rgba(15, 45, 70, 0.8)', 'rgba(20, 60, 90, 0.85)', 'rgba(10, 30, 50, 0.95)'],
+				waves: '120, 220, 255'
+			};
+		}
+		// Afternoon (15-17): Warmer blues with hints of gold
+		else if (hour >= 15 && hour < 17) {
+			return {
+				background: ['rgba(20, 30, 55, 0.8)', 'rgba(25, 45, 75, 0.85)', 'rgba(10, 20, 40, 0.95)'],
+				waves: '140, 180, 230'
+			};
+		}
+		// Dusk (17-19): Deep oranges, purples, and reds
+		else if (hour >= 17 && hour < 19) {
+			return {
+				background: ['rgba(35, 20, 45, 0.8)', 'rgba(50, 30, 60, 0.85)', 'rgba(20, 10, 30, 0.95)'],
+				waves: '160, 100, 200'
+			};
+		}
+		// Evening (19-21): Deep blues and purples
+		else if (hour >= 19 && hour < 21) {
+			return {
+				background: ['rgba(5, 15, 40, 0.8)', 'rgba(8, 25, 55, 0.85)', 'rgba(3, 10, 25, 0.95)'],
+				waves: '80, 120, 200'
+			};
+		}
+		// Night (21-5): Dark blues and blacks (default)
+		else {
+			return {
+				background: ['rgba(3, 19, 41, 0.8)', 'rgba(5, 32, 63, 0.85)', 'rgba(2, 11, 26, 0.95)'],
+				waves: '80, 178, 255'
+			};
+		}
+	}
 
 	class Jellyfish {
 		x = 0;
@@ -455,9 +515,9 @@
 	function drawBackground() {
 		if (!ctx) return;
 		const gradient = ctx.createLinearGradient(0, 0, 0, height);
-		gradient.addColorStop(0, 'rgba(3, 19, 41, 0.8)');
-		gradient.addColorStop(0.4, 'rgba(5, 32, 63, 0.85)');
-		gradient.addColorStop(1, 'rgba(2, 11, 26, 0.95)');
+		gradient.addColorStop(0, currentPalette.background[0]);
+		gradient.addColorStop(0.4, currentPalette.background[1]);
+		gradient.addColorStop(1, currentPalette.background[2]);
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, width, height);
 
@@ -479,7 +539,7 @@
 			ctx.lineTo(width, height);
 			ctx.lineTo(0, height);
 			ctx.closePath();
-			ctx.fillStyle = `rgba(80, 178, 255, ${0.05 - i * 0.01})`;
+			ctx.fillStyle = `rgba(${currentPalette.waves}, ${0.05 - i * 0.01})`;
 			ctx.fill();
 		}
 
@@ -741,6 +801,11 @@
 		const onWindowResize = () => handleResize();
 		window.addEventListener('resize', onWindowResize);
 
+		// Update color palette every minute to reflect time of day changes
+		const paletteInterval = setInterval(() => {
+			currentPalette = getTimeOfDayPalette();
+		}, 60000);
+
 		const onKeyDown = (e: KeyboardEvent) => {
 			if (konamiProgress < konamiCode.length && e.key === konamiCode[konamiProgress]) {
 				konamiProgress++;
@@ -892,6 +957,7 @@
 
 		return () => {
 			if (animationFrame) cancelAnimationFrame(animationFrame);
+			clearInterval(paletteInterval);
 			resizeObserver.disconnect();
 			window.removeEventListener('resize', onWindowResize);
 			window.removeEventListener('keydown', onKeyDown);
