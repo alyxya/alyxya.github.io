@@ -15,6 +15,7 @@
 	let bubbles: Bubble[] = [];
 	let isMouseDown = false;
 	let bubbleSpawnTimer = 0;
+	let jellyfishSpawnTimer = 0;
 
 	type Particle = {
 		x: number;
@@ -46,7 +47,6 @@
 	};
 
 	class Jellyfish {
-		private index: number;
 		x = 0;
 		y = 0;
 		baseRadius = 40;
@@ -59,30 +59,33 @@
 		time = Math.random() * 10;
 		anchorX = 0;
 		tentacles: Tentacle[] = [];
-		fade = 1;
+		fade = 0;
 		velocityX = 0;
 		velocityY = 0;
+		active = false;
 
-		constructor(index: number) {
-			this.index = index;
-			this.reset(false);
+		constructor() {
+			this.randomize();
 		}
 
-		reset(fromBottom = true) {
+		randomize() {
 			const safeHeight = Math.max(height, 1);
 			const safeWidth = Math.max(width, 1);
 			this.baseRadius = 26 + Math.random() * 38;
 			this.x = Math.random() * safeWidth;
 			this.anchorX = this.x;
-			this.y = fromBottom ? safeHeight + Math.random() * safeHeight * 0.4 : Math.random() * safeHeight;
+			this.y = safeHeight + Math.random() * safeHeight * 0.4;
 			this.riseSpeed = 16 + Math.random() * 22;
 			this.swayAmplitude = 10 + Math.random() * 22;
 			this.waveSpeed = 0.8 + Math.random() * 0.6;
 			this.drift = (Math.random() - 0.5) * 10;
 			this.glow = 0.25 + Math.random() * 0.25;
 			this.pulseOffset = Math.random() * Math.PI * 2;
-			this.time = Math.random() * 6 + this.index;
-			this.fade = fromBottom ? 0 : 1;
+			this.time = Math.random() * 6;
+			this.fade = 0;
+			this.velocityX = 0;
+			this.velocityY = 0;
+			this.active = true;
 			const tentacleCount = 10 + Math.floor(Math.random() * 6);
 			this.tentacles = [];
 
@@ -100,6 +103,8 @@
 		}
 
 		update(delta: number) {
+			if (!this.active) return;
+
 			const seconds = delta / 1000;
 			this.time += seconds;
 			const sceneHeight = Math.max(height, 1);
@@ -147,8 +152,9 @@
 			if (this.anchorX < -80) this.anchorX = width + 80;
 			if (this.anchorX > width + 80) this.anchorX = -80;
 
+			// Check if off screen and deactivate
 			if (this.y < -this.baseRadius * 2) {
-				this.reset(true);
+				this.active = false;
 			}
 		}
 
@@ -446,13 +452,27 @@
 			}
 		}
 
+		// Spawn new jellyfish periodically from the pool
+		jellyfishSpawnTimer += seconds;
+		if (jellyfishSpawnTimer > 4) {
+			// Find an inactive jellyfish to reuse
+			const inactive = jellyfish.find(j => !j.active);
+			if (inactive) {
+				inactive.randomize();
+			}
+			jellyfishSpawnTimer = 0;
+		}
+
 		drawBackground();
 		drawParticles(delta);
 		drawBubbles(delta);
 
+		// Update and draw active jellyfish
 		for (const jelly of jellyfish) {
 			jelly.update(delta);
-			jelly.draw(ctx);
+			if (jelly.active) {
+				jelly.draw(ctx);
+			}
 		}
 	}
 
@@ -469,7 +489,19 @@
 	}
 
 	function initScene() {
-		jellyfish = Array.from({ length: 7 }, (_, index) => new Jellyfish(index));
+		// Create pool of 20 jellyfish, start with 3-4 active
+		jellyfish = Array.from({ length: 20 }, () => {
+			const jelly = new Jellyfish();
+			jelly.active = false;
+			return jelly;
+		});
+
+		// Activate a few to start
+		const initialCount = 3 + Math.floor(Math.random() * 2);
+		for (let i = 0; i < initialCount; i++) {
+			jellyfish[i].randomize();
+		}
+
 		particles = Array.from({ length: 60 }, () => createParticle());
 	}
 
