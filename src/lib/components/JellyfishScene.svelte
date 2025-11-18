@@ -129,8 +129,8 @@
 
 			const fadeInStart = sceneHeight * 0.85;
 			const fadeInEnd = sceneHeight * 1.08;
-			const fadeOutStart = -sceneHeight * 0.02;
-			const fadeOutEnd = -sceneHeight * 0.22;
+			const fadeOutStart = -sceneHeight * 0.3;
+			const fadeOutEnd = -sceneHeight * 0.5;
 
 			if (this.y > fadeInEnd && this.fade < 1) {
 				this.fade = Math.min(1, this.fade + seconds * 0.9);
