@@ -63,6 +63,7 @@
 		velocityX = 0;
 		velocityY = 0;
 		active = false;
+		isShiny = false;
 
 		constructor() {
 			this.randomize();
@@ -86,6 +87,13 @@
 			this.velocityX = 0;
 			this.velocityY = 0;
 			this.active = true;
+
+			// 5% chance of being shiny
+			this.isShiny = Math.random() < 0.05;
+			if (this.isShiny) {
+				this.glow = 0.6 + Math.random() * 0.3; // Shiny jellyfish glow more
+			}
+
 			const tentacleCount = 10 + Math.floor(Math.random() * 6);
 			this.tentacles = [];
 
@@ -163,7 +171,7 @@
 			ctx.save();
 			ctx.globalAlpha *= Math.min(1, Math.max(0, this.fade));
 			const radius = this.baseRadius * (1 + Math.sin(this.time * 2 + this.pulseOffset) * 0.08);
-				const bellTop = this.y - radius * 0.62;
+			const bellTop = this.y - radius * 0.62;
 			const gradient = ctx.createRadialGradient(
 				this.x,
 				this.y - radius * 0.35,
@@ -173,10 +181,19 @@
 				radius * 1.5
 			);
 
+			if (this.isShiny) {
+				// Golden/shiny jellyfish colors
+				gradient.addColorStop(0, `rgba(255, 250, 200, ${0.9 + this.glow * 0.1})`);
+				gradient.addColorStop(0.35, `rgba(255, 230, 150, ${0.65 + this.glow * 0.25})`);
+				gradient.addColorStop(0.8, `rgba(200, 160, 80, ${0.35 + this.glow * 0.2})`);
+				gradient.addColorStop(1, 'rgba(50, 30, 10, 0)');
+			} else {
+				// Normal jellyfish colors
 				gradient.addColorStop(0, `rgba(255, 255, 255, ${0.78 + this.glow * 0.35})`);
 				gradient.addColorStop(0.35, `rgba(205, 240, 255, ${0.32 + this.glow * 0.35})`);
 				gradient.addColorStop(0.8, `rgba(45, 125, 200, ${0.16 + this.glow * 0.25})`);
 				gradient.addColorStop(1, 'rgba(4, 18, 38, 0)');
+			}
 
 			const crownTop = bellTop - radius * 0.12;
 			const rimY = this.y + radius * 0.08;
@@ -221,8 +238,13 @@
 			// Bell
 			ctx.save();
 			ctx.fillStyle = gradient;
-			ctx.shadowColor = `rgba(115, 192, 255, ${0.35 + this.glow * 0.5})`;
-			ctx.shadowBlur = 20;
+			if (this.isShiny) {
+				ctx.shadowColor = `rgba(255, 220, 120, ${0.6 + this.glow * 0.4})`;
+				ctx.shadowBlur = 30;
+			} else {
+				ctx.shadowColor = `rgba(115, 192, 255, ${0.35 + this.glow * 0.5})`;
+				ctx.shadowBlur = 20;
+			}
 			ctx.fill(bellPath);
 			ctx.restore();
 
@@ -249,9 +271,15 @@
 			ctx.save();
 			ctx.lineWidth = 1.2;
 			ctx.lineCap = 'round';
-			ctx.strokeStyle = `rgba(100, 150, 200, ${0.18 + this.glow * 0.15})`;
-			ctx.shadowColor = `rgba(80, 140, 180, ${0.15 + this.glow * 0.3})`;
-			ctx.shadowBlur = 10;
+			if (this.isShiny) {
+				ctx.strokeStyle = `rgba(180, 150, 80, ${0.25 + this.glow * 0.2})`;
+				ctx.shadowColor = `rgba(200, 160, 60, ${0.2 + this.glow * 0.4})`;
+				ctx.shadowBlur = 15;
+			} else {
+				ctx.strokeStyle = `rgba(100, 150, 200, ${0.18 + this.glow * 0.15})`;
+				ctx.shadowColor = `rgba(80, 140, 180, ${0.15 + this.glow * 0.3})`;
+				ctx.shadowBlur = 10;
+			}
 			const rimBase = this.y + radius * 0.28;
 			const depth = radius * 0.2;
 
@@ -304,9 +332,15 @@
 			ctx.save();
 			ctx.lineWidth = 1.4;
 			ctx.lineCap = 'round';
-			ctx.strokeStyle = `rgba(174, 220, 255, ${0.32 + this.glow * 0.25})`;
-			ctx.shadowColor = `rgba(120, 210, 255, ${0.2 + this.glow * 0.5})`;
-			ctx.shadowBlur = 14;
+			if (this.isShiny) {
+				ctx.strokeStyle = `rgba(255, 230, 150, ${0.5 + this.glow * 0.3})`;
+				ctx.shadowColor = `rgba(255, 220, 120, ${0.4 + this.glow * 0.6})`;
+				ctx.shadowBlur = 20;
+			} else {
+				ctx.strokeStyle = `rgba(174, 220, 255, ${0.32 + this.glow * 0.25})`;
+				ctx.shadowColor = `rgba(120, 210, 255, ${0.2 + this.glow * 0.5})`;
+				ctx.shadowBlur = 14;
+			}
 
 			for (const tentacle of this.tentacles) {
 				ctx.beginPath();
