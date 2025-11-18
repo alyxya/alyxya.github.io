@@ -9,15 +9,10 @@ tags: ["plots", "interactive", "plotly"]
 	'use runes';
 
 	import LazyPlot from '$lib/components/LazyPlot.svelte';
-	import Plotly from '$lib/components/LazyPlotly.svelte';
 	import * as plotConfigs from '$lib/plotConfigs';
 
-	// Only keep reactive state for interactive plot
+	// Reactive state for interactive plot
 	let selectedSignal = $state<keyof typeof plotConfigs.signalFamilies>('sine');
-
-	// Factory functions that create data/layout only when plot is visible
-	const createInteractiveData = () => plotConfigs.createInteractiveData(selectedSignal);
-	const createInteractiveLayout = () => plotConfigs.createInteractiveLayout(selectedSignal);
 </script>
 
 # Plot Playground
@@ -128,21 +123,28 @@ reacts thanks to normal Svelte reactivity embedded right in this SvelTeX post.
 </div>
 
 {#key selectedSignal}
-	<Plotly data={createInteractiveData()} layout={createInteractiveLayout()} style="width: 100%; height: 360px;" />
+	<LazyPlot
+		dataFactory={() => plotConfigs.createInteractiveData(selectedSignal)}
+		layoutFactory={() => plotConfigs.createInteractiveLayout(selectedSignal)}
+		style="width: 100%; height: 360px;"
+	/>
 {/key}
 
 ## Code Block Reference
 
 ```ts
-import Plotly from '$lib/components/LazyPlotly.svelte';
+import LazyPlot from '$lib/components/LazyPlot.svelte';
+import * as plotConfigs from '$lib/plotConfigs';
 
-const layout = { title: 'Hello Plotly', xaxis: { title: 'x' }, yaxis: { title: 'y' } };
-const data = [{ x: [0, 1, 2], y: [0, 1, 0], mode: 'lines', type: 'scatter' }];
-
-<Plotly {data} {layout} />;
+// Use factory functions that create data/layout on-demand
+<LazyPlot
+	dataFactory={plotConfigs.createSineCosineData}
+	layoutFactory={plotConfigs.createSineCosineLayout}
+	style="width: 100%; height: 500px;"
+/>;
 ```
 
-The snippet above shows how plots are lazy-loaded in this post—they only load when scrolled into view, keeping the page fast. The LazyPlotly component wraps svelte-plotly.js with intersection observer for optimal performance, all within SvelTeX so you can mix prose, LaTeX, and components effortlessly.
+The snippet above shows how plots are lazy-loaded in this post—they only load when scrolled into view, keeping the page fast. The LazyPlot component uses Intersection Observer to defer Plotly import and data computation until needed, preventing the page freeze that would occur if all plots loaded upfront. All within SvelTeX so you can mix prose, LaTeX, and components effortlessly.
 
 ## Interactive Features
 
