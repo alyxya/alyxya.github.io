@@ -59,7 +59,7 @@
 	onkeydown={(e) => e.key === 'Enter' && loadInteractivePlot()}
 >
 	{#if !isInteractive}
-		<img src={imagePath} alt={imageAlt} class="w-full h-full object-contain rounded-lg" {style} />
+		<img src={imagePath} alt={imageAlt} class="w-full h-full object-cover rounded-lg" />
 
 		<div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-colors rounded-lg">
 			{#if isLoading}
