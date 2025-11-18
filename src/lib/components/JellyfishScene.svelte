@@ -703,7 +703,7 @@
 		});
 
 		// Activate a few to start - some on screen, some from bottom
-		const initialCount = 3 + Math.floor(Math.random() * 2);
+		const initialCount = 5 + Math.floor(Math.random() * 2);
 		for (let i = 0; i < initialCount; i++) {
 			jellyfish[i].randomize();
 
