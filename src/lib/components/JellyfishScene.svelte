@@ -116,9 +116,9 @@
 				this.drift = (Math.random() - 0.5) * 10;
 				this.glow = 0.25 + Math.random() * 0.25;
 
-				// 5% chance of being shiny (if not already set)
+				// 1% chance of being shiny (if not already set)
 				if (!makeShiny) {
-					this.isShiny = Math.random() < 0.05;
+					this.isShiny = Math.random() < 0.01;
 				}
 			}
 
