@@ -20,6 +20,8 @@
 	let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 	let konamiProgress = 0;
 	let partyMode = false;
+	let normalJellyfishClicks = 0;
+	let shinyJellyfishClicks = 0;
 
 	type Sparkle = {
 		x: number;
@@ -79,35 +81,57 @@
 		velocityY = 0;
 		active = false;
 		isShiny = false;
+		isGiant = false;
 
 		constructor() {
 			this.randomize();
 		}
 
-		randomize() {
+		randomize(makeGiant = false, makeShiny = false) {
 			const safeHeight = Math.max(height, 1);
 			const safeWidth = Math.max(width, 1);
-			this.baseRadius = 26 + Math.random() * 38;
-			this.x = Math.random() * safeWidth;
-			this.anchorX = this.x;
-			this.y = safeHeight + Math.random() * safeHeight * 0.4;
-			this.riseSpeed = 16 + Math.random() * 22;
-			this.swayAmplitude = 10 + Math.random() * 22;
-			this.waveSpeed = 0.8 + Math.random() * 0.6;
-			this.drift = (Math.random() - 0.5) * 10;
-			this.glow = 0.25 + Math.random() * 0.25;
+
+			this.isGiant = makeGiant;
+			this.isShiny = makeShiny;
+
+			if (this.isGiant) {
+				// Giant jellyfish spans most of the screen width
+				this.baseRadius = Math.min(safeWidth, safeHeight) * 0.4;
+				this.x = safeWidth / 2;
+				this.anchorX = this.x;
+				this.y = safeHeight + this.baseRadius;
+				this.riseSpeed = 8; // Slower for dramatic effect
+				this.swayAmplitude = 5; // Less sway
+				this.waveSpeed = 0.5;
+				this.drift = 0; // No drift
+				this.glow = 0.8;
+			} else {
+				this.baseRadius = 26 + Math.random() * 38;
+				this.x = Math.random() * safeWidth;
+				this.anchorX = this.x;
+				this.y = safeHeight + Math.random() * safeHeight * 0.4;
+				this.riseSpeed = 16 + Math.random() * 22;
+				this.swayAmplitude = 10 + Math.random() * 22;
+				this.waveSpeed = 0.8 + Math.random() * 0.6;
+				this.drift = (Math.random() - 0.5) * 10;
+				this.glow = 0.25 + Math.random() * 0.25;
+
+				// 5% chance of being shiny (if not already set)
+				if (!makeShiny) {
+					this.isShiny = Math.random() < 0.05;
+				}
+			}
+
+			if (this.isShiny && !this.isGiant) {
+				this.glow = 0.6 + Math.random() * 0.3; // Shiny jellyfish glow more
+			}
+
 			this.pulseOffset = Math.random() * Math.PI * 2;
 			this.time = Math.random() * 6;
 			this.fade = 0;
 			this.velocityX = 0;
 			this.velocityY = 0;
 			this.active = true;
-
-			// 5% chance of being shiny
-			this.isShiny = Math.random() < 0.05;
-			if (this.isShiny) {
-				this.glow = 0.6 + Math.random() * 0.3; // Shiny jellyfish glow more
-			}
 
 			const tentacleCount = 10 + Math.floor(Math.random() * 6);
 			this.tentacles = [];
@@ -748,20 +772,43 @@
 			mouseX = e.clientX - rect.left;
 			mouseY = e.clientY - rect.top;
 
-			// Check if clicked on a shiny jellyfish
-			let clickedShiny = false;
+			// Check if clicked on any jellyfish
+			let clickedJelly = false;
 			for (const jelly of jellyfish) {
-				if (!jelly.active || !jelly.isShiny) continue;
+				if (!jelly.active || jelly.isGiant) continue;
 
 				const dist = Math.sqrt(Math.pow(jelly.x - mouseX, 2) + Math.pow(jelly.y - mouseY, 2));
 				if (dist < jelly.baseRadius * 1.2) {
-					spawnSparkles(jelly.x, jelly.y);
-					clickedShiny = true;
+					if (jelly.isShiny) {
+						spawnSparkles(jelly.x, jelly.y);
+						shinyJellyfishClicks++;
+
+						// Spawn giant shiny jellyfish at 100 clicks
+						if (shinyJellyfishClicks === 100) {
+							const inactive = jellyfish.find(j => !j.active);
+							if (inactive) {
+								inactive.randomize(true, true);
+							}
+							shinyJellyfishClicks = 0;
+						}
+					} else {
+						normalJellyfishClicks++;
+
+						// Spawn giant normal jellyfish at 100 clicks
+						if (normalJellyfishClicks === 100) {
+							const inactive = jellyfish.find(j => !j.active);
+							if (inactive) {
+								inactive.randomize(true, false);
+							}
+							normalJellyfishClicks = 0;
+						}
+					}
+					clickedJelly = true;
 					break;
 				}
 			}
 
-			if (!clickedShiny) {
+			if (!clickedJelly) {
 				isMouseDown = true;
 				bubbleSpawnTimer = 0;
 			}
@@ -778,20 +825,43 @@
 			mouseX = touch.clientX - rect.left;
 			mouseY = touch.clientY - rect.top;
 
-			// Check if tapped on a shiny jellyfish
-			let tappedShiny = false;
+			// Check if tapped on any jellyfish
+			let tappedJelly = false;
 			for (const jelly of jellyfish) {
-				if (!jelly.active || !jelly.isShiny) continue;
+				if (!jelly.active || jelly.isGiant) continue;
 
 				const dist = Math.sqrt(Math.pow(jelly.x - mouseX, 2) + Math.pow(jelly.y - mouseY, 2));
 				if (dist < jelly.baseRadius * 1.2) {
-					spawnSparkles(jelly.x, jelly.y);
-					tappedShiny = true;
+					if (jelly.isShiny) {
+						spawnSparkles(jelly.x, jelly.y);
+						shinyJellyfishClicks++;
+
+						// Spawn giant shiny jellyfish at 100 taps
+						if (shinyJellyfishClicks === 100) {
+							const inactive = jellyfish.find(j => !j.active);
+							if (inactive) {
+								inactive.randomize(true, true);
+							}
+							shinyJellyfishClicks = 0;
+						}
+					} else {
+						normalJellyfishClicks++;
+
+						// Spawn giant normal jellyfish at 100 taps
+						if (normalJellyfishClicks === 100) {
+							const inactive = jellyfish.find(j => !j.active);
+							if (inactive) {
+								inactive.randomize(true, false);
+							}
+							normalJellyfishClicks = 0;
+						}
+					}
+					tappedJelly = true;
 					break;
 				}
 			}
 
-			if (!tappedShiny) {
+			if (!tappedJelly) {
 				isMouseDown = true;
 				bubbleSpawnTimer = 0;
 			}
