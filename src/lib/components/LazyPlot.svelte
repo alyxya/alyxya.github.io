@@ -5,14 +5,12 @@
 		dataFactory,
 		layoutFactory,
 		config = { responsive: true, displaylogo: false },
-		style = 'width: 100%; height: 400px;',
 		imagePath,
 		imageAlt = 'Plot preview'
 	}: {
 		dataFactory: () => any;
 		layoutFactory: () => any;
 		config?: any;
-		style?: string;
 		imagePath: string;
 		imageAlt?: string;
 	} = $props();
@@ -50,16 +48,9 @@
 	}
 </script>
 
-<div
-	{style}
-	class="relative group cursor-pointer"
-	role="button"
-	tabindex="0"
-	onclick={loadInteractivePlot}
-	onkeydown={(e) => e.key === 'Enter' && loadInteractivePlot()}
->
+<div class="relative group cursor-pointer w-full" role="button" tabindex="0" onclick={loadInteractivePlot} onkeydown={(e) => e.key === 'Enter' && loadInteractivePlot()}>
 	{#if !isInteractive}
-		<img src={imagePath} alt={imageAlt} class="w-full h-full object-cover rounded-lg" />
+		<img src={imagePath} alt={imageAlt} class="w-full h-auto rounded-lg" />
 
 		<div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-colors rounded-lg">
 			{#if isLoading}
@@ -85,6 +76,6 @@
 			{/if}
 		</div>
 	{:else}
-		<div bind:this={plotContainer} class="transition-opacity duration-500" {style}></div>
+		<div bind:this={plotContainer} class="w-full transition-opacity duration-500"></div>
 	{/if}
 </div>
