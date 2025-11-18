@@ -245,6 +245,43 @@
 			ctx.fillRect(this.x - radius * 1.3, bellTop - radius * 0.4, radius * 2.6, radius * 1.2);
 			ctx.restore();
 
+			// Back tentacles (darker, behind the bell)
+			ctx.save();
+			ctx.lineWidth = 1.2;
+			ctx.lineCap = 'round';
+			ctx.strokeStyle = `rgba(100, 150, 200, ${0.18 + this.glow * 0.15})`;
+			ctx.shadowColor = `rgba(80, 140, 180, ${0.15 + this.glow * 0.3})`;
+			ctx.shadowBlur = 10;
+			const rimBase = this.y + radius * 0.28;
+			const depth = radius * 0.2;
+
+			for (const tentacle of this.tentacles) {
+				ctx.beginPath();
+				const rimAngle = (tentacle.relative - 0.5) * Math.PI * 0.85;
+				const startX = this.x + Math.sin(rimAngle) * radius * 0.85;
+				const startY = rimBase - Math.cos(rimAngle) * depth * 1.2; // Higher up on back side
+				ctx.moveTo(startX, startY);
+				const segments = 18;
+
+				for (let i = 1; i <= segments; i += 1) {
+					const progress = i / segments;
+					const waveStrength = Math.pow(progress, 1.4);
+					const wave =
+						Math.sin(this.time * tentacle.speed + tentacle.phase + progress * Math.PI * 2 + Math.PI * 0.3) *
+						tentacle.amplitude *
+						waveStrength *
+						(1 - progress * 0.45);
+					const easing = progress * progress;
+					const px = startX + wave;
+					const py = startY + tentacle.length * easing * 0.95; // Slightly shorter
+					ctx.lineTo(px, py);
+				}
+
+				ctx.stroke();
+			}
+
+			ctx.restore();
+
 			// Underside shading
 			ctx.save();
 			const undersideGradient = ctx.createRadialGradient(
@@ -263,15 +300,13 @@
 			ctx.fill();
 			ctx.restore();
 
-			// Tentacles
+			// Front tentacles (brighter, in front of the bell)
 			ctx.save();
 			ctx.lineWidth = 1.4;
 			ctx.lineCap = 'round';
 			ctx.strokeStyle = `rgba(174, 220, 255, ${0.32 + this.glow * 0.25})`;
 			ctx.shadowColor = `rgba(120, 210, 255, ${0.2 + this.glow * 0.5})`;
 			ctx.shadowBlur = 14;
-			const rimBase = this.y + radius * 0.28;
-			const depth = radius * 0.2;
 
 			for (const tentacle of this.tentacles) {
 				ctx.beginPath();
