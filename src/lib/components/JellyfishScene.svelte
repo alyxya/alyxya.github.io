@@ -17,6 +17,9 @@
 	let bubbleSpawnTimer = 0;
 	let jellyfishSpawnTimer = 0;
 	let sparkles: Sparkle[] = [];
+	let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+	let konamiProgress = 0;
+	let partyMode = false;
 
 	type Sparkle = {
 		x: number;
@@ -182,6 +185,38 @@
 			if (this.fade <= 0) return;
 			ctx.save();
 			ctx.globalAlpha *= Math.min(1, Math.max(0, this.fade));
+
+			// Party mode: draw pulsing aura
+			if (partyMode) {
+				const pulseIntensity = 0.5 + Math.sin(this.time * 3 + this.pulseOffset) * 0.5;
+				const auraRadius = this.baseRadius * (2 + pulseIntensity * 1.5);
+				const auraGradient = ctx.createRadialGradient(
+					this.x,
+					this.y,
+					this.baseRadius * 0.5,
+					this.x,
+					this.y,
+					auraRadius
+				);
+
+				if (this.isShiny) {
+					auraGradient.addColorStop(0, `rgba(255, 220, 100, ${0.4 * pulseIntensity})`);
+					auraGradient.addColorStop(0.5, `rgba(255, 200, 80, ${0.2 * pulseIntensity})`);
+					auraGradient.addColorStop(1, 'rgba(255, 180, 50, 0)');
+				} else {
+					auraGradient.addColorStop(0, `rgba(120, 200, 255, ${0.4 * pulseIntensity})`);
+					auraGradient.addColorStop(0.5, `rgba(80, 160, 255, ${0.2 * pulseIntensity})`);
+					auraGradient.addColorStop(1, 'rgba(40, 120, 255, 0)');
+				}
+
+				ctx.save();
+				ctx.globalCompositeOperation = 'screen';
+				ctx.fillStyle = auraGradient;
+				ctx.beginPath();
+				ctx.arc(this.x, this.y, auraRadius, 0, Math.PI * 2);
+				ctx.fill();
+				ctx.restore();
+			}
 			const radius = this.baseRadius * (1 + Math.sin(this.time * 2 + this.pulseOffset) * 0.08);
 			const bellTop = this.y - radius * 0.62;
 			const gradient = ctx.createRadialGradient(
@@ -682,6 +717,20 @@
 		const onWindowResize = () => handleResize();
 		window.addEventListener('resize', onWindowResize);
 
+		const onKeyDown = (e: KeyboardEvent) => {
+			if (konamiProgress < konamiCode.length && e.key === konamiCode[konamiProgress]) {
+				konamiProgress++;
+				if (konamiProgress === konamiCode.length) {
+					partyMode = !partyMode;
+					konamiProgress = 0;
+				}
+			} else {
+				konamiProgress = 0;
+			}
+		};
+
+		window.addEventListener('keydown', onKeyDown);
+
 		const onMouseMove = (e: MouseEvent) => {
 			const rect = canvas.getBoundingClientRect();
 			mouseX = e.clientX - rect.left;
@@ -775,6 +824,7 @@
 			if (animationFrame) cancelAnimationFrame(animationFrame);
 			resizeObserver.disconnect();
 			window.removeEventListener('resize', onWindowResize);
+			window.removeEventListener('keydown', onKeyDown);
 			canvas.removeEventListener('mousemove', onMouseMove);
 			canvas.removeEventListener('mouseleave', onMouseLeave);
 			canvas.removeEventListener('mousedown', onMouseDown);
