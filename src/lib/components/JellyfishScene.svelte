@@ -17,7 +17,18 @@
 	let bubbleSpawnTimer = 0;
 	let jellyfishSpawnTimer = 0;
 	let sparkles: Sparkle[] = [];
-	let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+	let konamiCode = [
+		'ArrowUp',
+		'ArrowUp',
+		'ArrowDown',
+		'ArrowDown',
+		'ArrowLeft',
+		'ArrowRight',
+		'ArrowLeft',
+		'ArrowRight',
+		'b',
+		'a'
+	];
 	let konamiProgress = 0;
 	let partyMode = false;
 	let normalJellyfishClicks = 0;
@@ -72,53 +83,53 @@
 	function getTimeOfDayPalette(): ColorPalette {
 		const hour = new Date().getHours();
 
-		// Dawn (5-7): Soft purples, pinks, and oranges
+		// Dawn (5-7): Soft violet and rose-tinted blues
 		if (hour >= 5 && hour < 7) {
 			return {
-				background: ['rgba(25, 15, 45, 0.8)', 'rgba(45, 25, 60, 0.85)', 'rgba(15, 8, 30, 0.95)'],
-				waves: '120, 80, 180'
+				background: ['rgba(15, 25, 50, 0.8)', 'rgba(25, 35, 65, 0.85)', 'rgba(10, 18, 40, 0.95)'],
+				waves: '140, 120, 180'
 			};
 		}
-		// Morning (7-11): Bright blues and teals
+		// Morning (7-11): Clear blue water with green tints
 		else if (hour >= 7 && hour < 11) {
 			return {
-				background: ['rgba(10, 35, 60, 0.8)', 'rgba(15, 50, 80, 0.85)', 'rgba(5, 20, 40, 0.95)'],
-				waves: '100, 200, 255'
+				background: ['rgba(8, 40, 65, 0.8)', 'rgba(12, 55, 85, 0.85)', 'rgba(5, 28, 50, 0.95)'],
+				waves: '95, 180, 210'
 			};
 		}
-		// Midday (11-15): Light turquoise
+		// Midday (11-15): Bright tropical blue-green
 		else if (hour >= 11 && hour < 15) {
 			return {
-				background: ['rgba(15, 45, 70, 0.8)', 'rgba(20, 60, 90, 0.85)', 'rgba(10, 30, 50, 0.95)'],
-				waves: '120, 220, 255'
+				background: ['rgba(12, 50, 80, 0.8)', 'rgba(18, 70, 105, 0.85)', 'rgba(8, 38, 65, 0.95)'],
+				waves: '110, 200, 230'
 			};
 		}
-		// Afternoon (15-17): Warmer blues with hints of gold
+		// Afternoon (15-17): Warm golden-hour blue
 		else if (hour >= 15 && hour < 17) {
 			return {
-				background: ['rgba(20, 30, 55, 0.8)', 'rgba(25, 45, 75, 0.85)', 'rgba(10, 20, 40, 0.95)'],
-				waves: '140, 180, 230'
+				background: ['rgba(18, 42, 70, 0.8)', 'rgba(28, 58, 90, 0.85)', 'rgba(12, 30, 55, 0.95)'],
+				waves: '145, 165, 200'
 			};
 		}
-		// Dusk (17-19): Deep oranges, purples, and reds
+		// Dusk (17-19): Deep violet and indigo sunset
 		else if (hour >= 17 && hour < 19) {
 			return {
-				background: ['rgba(35, 20, 45, 0.8)', 'rgba(50, 30, 60, 0.85)', 'rgba(20, 10, 30, 0.95)'],
-				waves: '160, 100, 200'
+				background: ['rgba(25, 22, 50, 0.8)', 'rgba(38, 32, 68, 0.85)', 'rgba(18, 15, 38, 0.95)'],
+				waves: '160, 115, 190'
 			};
 		}
-		// Evening (19-21): Deep blues and purples
+		// Evening (19-21): Dark blue twilight
 		else if (hour >= 19 && hour < 21) {
 			return {
-				background: ['rgba(5, 15, 40, 0.8)', 'rgba(8, 25, 55, 0.85)', 'rgba(3, 10, 25, 0.95)'],
-				waves: '80, 120, 200'
+				background: ['rgba(8, 22, 48, 0.8)', 'rgba(10, 32, 62, 0.85)', 'rgba(5, 16, 35, 0.95)'],
+				waves: '85, 130, 190'
 			};
 		}
-		// Night (21-5): Dark blues and blacks (default)
+		// Night (21-5): Very dark blue-black
 		else {
 			return {
-				background: ['rgba(3, 19, 41, 0.8)', 'rgba(5, 32, 63, 0.85)', 'rgba(2, 11, 26, 0.95)'],
-				waves: '80, 178, 255'
+				background: ['rgba(1, 8, 18, 0.9)', 'rgba(2, 15, 30, 0.92)', 'rgba(1, 5, 12, 0.98)'],
+				waves: '40, 80, 140'
 			};
 		}
 	}
@@ -426,7 +437,9 @@
 					const progress = i / segments;
 					const waveStrength = Math.pow(progress, 1.4);
 					const wave =
-						Math.sin(this.time * tentacle.speed + tentacle.phase + progress * Math.PI * 2 + Math.PI * 0.3) *
+						Math.sin(
+							this.time * tentacle.speed + tentacle.phase + progress * Math.PI * 2 + Math.PI * 0.3
+						) *
 						tentacle.amplitude *
 						waveStrength *
 						(1 - progress * 0.45);
@@ -527,7 +540,7 @@
 		const bandCount = 4;
 
 		for (let i = 0; i < bandCount; i += 1) {
-			const startY = (i / bandCount) * height * 0.6 + (backgroundPhase * 60) % (height * 0.3);
+			const startY = (i / bandCount) * height * 0.6 + ((backgroundPhase * 60) % (height * 0.3));
 			ctx.beginPath();
 			ctx.moveTo(0, startY);
 
@@ -721,7 +734,7 @@
 		jellyfishSpawnTimer += seconds;
 		if (jellyfishSpawnTimer > 4) {
 			// Find an inactive jellyfish to reuse
-			const inactive = jellyfish.find(j => !j.active);
+			const inactive = jellyfish.find((j) => !j.active);
 			if (inactive) {
 				inactive.randomize();
 			}
@@ -850,7 +863,7 @@
 
 						// Spawn giant shiny jellyfish at 100 clicks
 						if (shinyJellyfishClicks === 100) {
-							const inactive = jellyfish.find(j => !j.active);
+							const inactive = jellyfish.find((j) => !j.active);
 							if (inactive) {
 								inactive.randomize(true, true);
 							}
@@ -861,7 +874,7 @@
 
 						// Spawn giant normal jellyfish at 100 clicks
 						if (normalJellyfishClicks === 100) {
-							const inactive = jellyfish.find(j => !j.active);
+							const inactive = jellyfish.find((j) => !j.active);
 							if (inactive) {
 								inactive.randomize(true, false);
 							}
@@ -903,7 +916,7 @@
 
 						// Spawn giant shiny jellyfish at 100 taps
 						if (shinyJellyfishClicks === 100) {
-							const inactive = jellyfish.find(j => !j.active);
+							const inactive = jellyfish.find((j) => !j.active);
 							if (inactive) {
 								inactive.randomize(true, true);
 							}
@@ -914,7 +927,7 @@
 
 						// Spawn giant normal jellyfish at 100 taps
 						if (normalJellyfishClicks === 100) {
-							const inactive = jellyfish.find(j => !j.active);
+							const inactive = jellyfish.find((j) => !j.active);
 							if (inactive) {
 								inactive.randomize(true, false);
 							}
@@ -1001,14 +1014,19 @@
 	.surface-glow {
 		position: absolute;
 		inset: 0;
-		background: radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
+		background: radial-gradient(
+			circle at 50% -20%,
+			rgba(255, 255, 255, 0.35),
+			rgba(255, 255, 255, 0)
+		);
 		mix-blend-mode: screen;
 	}
 
 	.light-rays {
 		position: absolute;
 		inset: 0;
-		background-image: repeating-linear-gradient(
+		background-image:
+			repeating-linear-gradient(
 				120deg,
 				transparent 0,
 				transparent 70px,
