@@ -496,10 +496,17 @@
 			return jelly;
 		});
 
-		// Activate a few to start
+		// Activate a few to start - some on screen, some from bottom
 		const initialCount = 3 + Math.floor(Math.random() * 2);
 		for (let i = 0; i < initialCount; i++) {
 			jellyfish[i].randomize();
+
+			// Make some start already visible on screen
+			if (i < initialCount - 1) {
+				const safeHeight = Math.max(height, 1);
+				jellyfish[i].y = safeHeight * (0.3 + Math.random() * 0.5);
+				jellyfish[i].fade = 0.7 + Math.random() * 0.3;
+			}
 		}
 
 		particles = Array.from({ length: 60 }, () => createParticle());
