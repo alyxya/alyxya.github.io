@@ -152,8 +152,8 @@
 			if (this.anchorX < -80) this.anchorX = width + 80;
 			if (this.anchorX > width + 80) this.anchorX = -80;
 
-			// Check if off screen and deactivate
-			if (this.y < -this.baseRadius * 2) {
+			// Check if fully faded and well off screen, then deactivate
+			if (this.y < fadeOutEnd - sceneHeight * 0.1) {
 				this.active = false;
 			}
 		}
