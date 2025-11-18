@@ -16,6 +16,18 @@
 	let isMouseDown = false;
 	let bubbleSpawnTimer = 0;
 	let jellyfishSpawnTimer = 0;
+	let sparkles: Sparkle[] = [];
+
+	type Sparkle = {
+		x: number;
+		y: number;
+		size: number;
+		angle: number;
+		speed: number;
+		opacity: number;
+		life: number;
+		maxLife: number;
+	};
 
 	type Particle = {
 		x: number;
@@ -452,6 +464,23 @@
 		}
 	}
 
+	function spawnSparkles(x: number, y: number) {
+		const count = 20 + Math.floor(Math.random() * 15);
+		for (let i = 0; i < count; i++) {
+			const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+			sparkles.push({
+				x,
+				y,
+				size: 2 + Math.random() * 4,
+				angle,
+				speed: 50 + Math.random() * 100,
+				opacity: 0.8 + Math.random() * 0.2,
+				life: 0,
+				maxLife: 0.8 + Math.random() * 0.6
+			});
+		}
+	}
+
 	function drawBubbles(delta: number) {
 		if (!ctx) return;
 		const seconds = delta / 1000;
@@ -506,6 +535,54 @@
 		}
 	}
 
+	function drawSparkles(delta: number) {
+		if (!ctx) return;
+		const seconds = delta / 1000;
+
+		for (let i = sparkles.length - 1; i >= 0; i--) {
+			const sparkle = sparkles[i];
+			sparkle.life += seconds;
+
+			if (sparkle.life >= sparkle.maxLife) {
+				sparkles.splice(i, 1);
+				continue;
+			}
+
+			// Move sparkle outward from origin
+			sparkle.x += Math.cos(sparkle.angle) * sparkle.speed * seconds;
+			sparkle.y += Math.sin(sparkle.angle) * sparkle.speed * seconds;
+
+			// Fade out over lifetime
+			const lifeFactor = 1 - sparkle.life / sparkle.maxLife;
+			const currentOpacity = sparkle.opacity * lifeFactor;
+
+			ctx.save();
+			ctx.globalAlpha = currentOpacity;
+			ctx.globalCompositeOperation = 'lighter';
+
+			// Draw star-shaped sparkle
+			ctx.fillStyle = 'rgba(255, 240, 150, 1)';
+			ctx.shadowColor = 'rgba(255, 220, 100, 0.8)';
+			ctx.shadowBlur = 8;
+
+			// Four-pointed star
+			ctx.beginPath();
+			const size = sparkle.size;
+			ctx.moveTo(sparkle.x, sparkle.y - size);
+			ctx.lineTo(sparkle.x + size * 0.3, sparkle.y - size * 0.3);
+			ctx.lineTo(sparkle.x + size, sparkle.y);
+			ctx.lineTo(sparkle.x + size * 0.3, sparkle.y + size * 0.3);
+			ctx.lineTo(sparkle.x, sparkle.y + size);
+			ctx.lineTo(sparkle.x - size * 0.3, sparkle.y + size * 0.3);
+			ctx.lineTo(sparkle.x - size, sparkle.y);
+			ctx.lineTo(sparkle.x - size * 0.3, sparkle.y - size * 0.3);
+			ctx.closePath();
+			ctx.fill();
+
+			ctx.restore();
+		}
+	}
+
 	function drawScene(delta: number) {
 		if (!ctx) return;
 		ctx.clearRect(0, 0, width, height);
@@ -535,6 +612,7 @@
 		drawBackground();
 		drawParticles(delta);
 		drawBubbles(delta);
+		drawSparkles(delta);
 
 		// Update and draw active jellyfish
 		for (const jelly of jellyfish) {
@@ -620,8 +698,24 @@
 			const rect = canvas.getBoundingClientRect();
 			mouseX = e.clientX - rect.left;
 			mouseY = e.clientY - rect.top;
-			isMouseDown = true;
-			bubbleSpawnTimer = 0;
+
+			// Check if clicked on a shiny jellyfish
+			let clickedShiny = false;
+			for (const jelly of jellyfish) {
+				if (!jelly.active || !jelly.isShiny) continue;
+
+				const dist = Math.sqrt(Math.pow(jelly.x - mouseX, 2) + Math.pow(jelly.y - mouseY, 2));
+				if (dist < jelly.baseRadius * 1.2) {
+					spawnSparkles(jelly.x, jelly.y);
+					clickedShiny = true;
+					break;
+				}
+			}
+
+			if (!clickedShiny) {
+				isMouseDown = true;
+				bubbleSpawnTimer = 0;
+			}
 		};
 
 		const onMouseUp = () => {
@@ -634,8 +728,24 @@
 			const touch = e.touches[0];
 			mouseX = touch.clientX - rect.left;
 			mouseY = touch.clientY - rect.top;
-			isMouseDown = true;
-			bubbleSpawnTimer = 0;
+
+			// Check if tapped on a shiny jellyfish
+			let tappedShiny = false;
+			for (const jelly of jellyfish) {
+				if (!jelly.active || !jelly.isShiny) continue;
+
+				const dist = Math.sqrt(Math.pow(jelly.x - mouseX, 2) + Math.pow(jelly.y - mouseY, 2));
+				if (dist < jelly.baseRadius * 1.2) {
+					spawnSparkles(jelly.x, jelly.y);
+					tappedShiny = true;
+					break;
+				}
+			}
+
+			if (!tappedShiny) {
+				isMouseDown = true;
+				bubbleSpawnTimer = 0;
+			}
 		};
 
 		const onTouchMove = (e: TouchEvent) => {
