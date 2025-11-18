@@ -111,7 +111,7 @@
 
 			// Mouse avoidance behavior
 			const distToMouse = Math.sqrt(Math.pow(this.x - mouseX, 2) + Math.pow(this.y - mouseY, 2));
-			const avoidRadius = 150;
+			const avoidRadius = 250;
 
 			if (distToMouse < avoidRadius) {
 				const avoidStrength = (1 - distToMouse / avoidRadius) * 80;
