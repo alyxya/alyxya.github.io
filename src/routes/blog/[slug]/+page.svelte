@@ -23,6 +23,7 @@
 
 <article class="mx-auto max-w-3xl px-4 py-12">
 	<div class="glass-card p-8">
+		<!-- Render metadata immediately - no await needed -->
 		<header class="mb-8">
 			<h1 class="mb-4 text-4xl font-bold text-ocean-900">{data.metadata.title}</h1>
 
@@ -47,8 +48,13 @@
 			{/if}
 		</header>
 
+		<!-- Load post content asynchronously without blocking initial render -->
 		{#await postPromise}
-			<div class="text-ocean-600">Loading post...</div>
+			<div class="animate-pulse space-y-4">
+				<div class="h-4 bg-ocean-200 rounded w-3/4"></div>
+				<div class="h-4 bg-ocean-200 rounded"></div>
+				<div class="h-4 bg-ocean-200 rounded w-5/6"></div>
+			</div>
 		{:then postModule}
 			<div class="prose prose-lg max-w-none prose-ocean">
 				<postModule.default />

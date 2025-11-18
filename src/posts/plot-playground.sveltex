@@ -8,223 +8,16 @@ tags: ["plots", "interactive", "plotly"]
 <script lang="ts">
 	'use runes';
 
-	import Plotly from 'svelte-plotly.js';
+	import LazyPlot from '$lib/components/LazyPlot.svelte';
+	import Plotly from '$lib/components/LazyPlotly.svelte';
+	import * as plotConfigs from '$lib/plotConfigs';
 
-	// 2D Line Plot - Sine and Cosine
-	const sineCosineData = [
-		{
-			x: Array.from({ length: 100 }, (_, i) => (i * 2 * Math.PI) / 100),
-			y: Array.from({ length: 100 }, (_, i) => Math.sin((i * 2 * Math.PI) / 100)),
-			type: 'scatter',
-			mode: 'lines',
-			name: 'sin(x)',
-			line: { color: '#3b82f6', width: 2 }
-		},
-		{
-			x: Array.from({ length: 100 }, (_, i) => (i * 2 * Math.PI) / 100),
-			y: Array.from({ length: 100 }, (_, i) => Math.cos((i * 2 * Math.PI) / 100)),
-			type: 'scatter',
-			mode: 'lines',
-			name: 'cos(x)',
-			line: { color: '#ef4444', width: 2 }
-		}
-	];
+	// Only keep reactive state for interactive plot
+	let selectedSignal = $state<keyof typeof plotConfigs.signalFamilies>('sine');
 
-	const oceanPlotConfig = {
-		paper_bgcolor: 'rgba(255,255,255,0.4)',
-		plot_bgcolor: 'rgba(255,255,255,0.25)',
-		font: { color: 'oklch(35% 0.1 235)' }
-	};
-
-	const ocean3DPlotConfig = {
-		paper_bgcolor: 'rgba(255,255,255,0.4)',
-		font: { color: 'oklch(35% 0.1 235)' }
-	};
-
-	const sineCosineLayout = {
-		title: 'Trigonometric Functions',
-		xaxis: { title: 'x (radians)' },
-		yaxis: { title: 'y' },
-		hovermode: 'closest',
-		autosize: true,
-		height: 500,
-		...oceanPlotConfig
-	};
-
-	const scatterData = [
-		{
-			x: [0, 1, 2, 3, 4],
-			y: [0, 1, 4, 9, 16],
-			type: 'scatter',
-			mode: 'lines+markers',
-			name: 'Quadratic growth',
-			line: { color: '#2563eb' },
-			marker: { size: 8 }
-		},
-		{
-			x: [0, 1, 2, 3, 4],
-			y: [0, 0.6, 1, 0.6, 0],
-			type: 'scatter',
-			mode: 'lines',
-			name: 'Smoothing kernel',
-			line: { color: '#16a34a', dash: 'dash' }
-		}
-	];
-
-	const scatterLayout = {
-		title: '2D Scatter + Line Plot',
-		xaxis: { title: 't' },
-		yaxis: { title: 'f(t)' },
-		margin: { l: 50, r: 20, b: 50, t: 50 },
-		...oceanPlotConfig
-	};
-
-	// Interactive Heatmap
-	const heatmapZ = [];
-	for (let i = 0; i < 20; i++) {
-		const row = [];
-		for (let j = 0; j < 20; j++) {
-			row.push(Math.sin(i / 3) * Math.cos(j / 3));
-		}
-		heatmapZ.push(row);
-	}
-
-	const heatmapData = [
-		{
-			z: heatmapZ,
-			type: 'heatmap',
-			colorscale: 'RdBu',
-			hoverongaps: false
-		}
-	];
-
-	const heatmapLayout = {
-		title: 'Interactive Heatmap',
-		xaxis: { title: 'Column Index' },
-		yaxis: { title: 'Row Index' },
-		autosize: true,
-		height: 500,
-		...oceanPlotConfig
-	};
-
-	const size = 30;
-	const xValues = Array.from({ length: size }, (_, i) => -3 + (6 * i) / (size - 1));
-	const yValues = Array.from({ length: size }, (_, i) => -3 + (6 * i) / (size - 1));
-	const surfaceZ = xValues.map((x) =>
-		yValues.map((y) => Math.sin(Math.sqrt(x ** 2 + y ** 2)))
-	);
-
-	const surfaceData = [
-		{
-			type: 'surface',
-			x: xValues,
-			y: yValues,
-			z: surfaceZ,
-			colorscale: 'Viridis',
-			showscale: false
-		}
-	];
-
-	const surfaceLayout = {
-		title: '3D Surface: sin(r)',
-		scene: {
-			xaxis: { title: 'x', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
-			yaxis: { title: 'y', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
-			zaxis: { title: 'z', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
-			bgcolor: 'rgba(0,0,0,0)'
-		},
-		margin: { l: 0, r: 0, b: 0, t: 50 },
-		...ocean3DPlotConfig
-	};
-
-	// 3D Scatter Plot
-	const scatter3DData = [
-		{
-			x: Array.from({ length: 100 }, () => Math.random() * 10 - 5),
-			y: Array.from({ length: 100 }, () => Math.random() * 10 - 5),
-			z: Array.from({ length: 100 }, () => Math.random() * 10 - 5),
-			type: 'scatter3d',
-			mode: 'markers',
-			marker: {
-				size: 5,
-				color: Array.from({ length: 100 }, () => Math.random()),
-				colorscale: 'Portland',
-				showscale: true
-			}
-		}
-	];
-
-	const scatter3DLayout = {
-		title: '3D Scatter Plot',
-		scene: {
-			xaxis: { title: 'X Axis', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
-			yaxis: { title: 'Y Axis', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
-			zaxis: { title: 'Z Axis', backgroundcolor: 'rgba(0,0,0,0)', gridcolor: 'rgba(100,100,100,0.3)', zerolinecolor: 'rgba(100,100,100,0.5)' },
-			bgcolor: 'rgba(0,0,0,0)'
-		},
-		autosize: true,
-		height: 600,
-		...ocean3DPlotConfig
-	};
-
-	// Contour Plot
-	const contourData = [
-		{
-			z: surfaceZ,
-			type: 'contour',
-			colorscale: 'Electric',
-			contours: {
-				showlabels: true
-			}
-		}
-	];
-
-	const contourLayout = {
-		title: 'Contour Plot',
-		xaxis: { title: 'X' },
-		yaxis: { title: 'Y' },
-		autosize: true,
-		height: 500,
-		...oceanPlotConfig
-	};
-
-	const t = Array.from({ length: 400 }, (_, i) => i / 40);
-	const signalFamilies = {
-		sine: {
-			label: 'Modulated Sine',
-			fn: (x) => Math.sin(2 * Math.PI * 0.25 * x) * Math.exp(-0.02 * x)
-		},
-		saw: {
-			label: 'Sawtooth Sweep',
-			fn: (x) => (2 / Math.PI) * Math.atan(Math.tan(Math.PI * 0.1 * x))
-		},
-		beats: {
-			label: 'Beat Pattern',
-			fn: (x) => Math.sin(0.2 * x) + 0.5 * Math.sin(0.22 * x + Math.PI / 6)
-		}
-	} as const;
-
-	let selectedSignal = $state<keyof typeof signalFamilies>('sine');
-
-	const interactiveData = $derived([
-		{
-			x: t,
-			y: t.map(signalFamilies[selectedSignal].fn),
-			type: 'scatter',
-			mode: 'lines',
-			line: { color: '#db2777', width: 3 }
-		}
-	]);
-
-	const interactiveLayout = $derived({
-		title: `Interactive ${signalFamilies[selectedSignal].label}`,
-		xaxis: { title: 'Time (s)' },
-		yaxis: { title: 'Amplitude' },
-		margin: { l: 50, r: 20, b: 50, t: 50 },
-		...oceanPlotConfig
-	});
-
-	const config = { responsive: true, displaylogo: false };
+	// Factory functions that create data/layout only when plot is visible
+	const createInteractiveData = () => plotConfigs.createInteractiveData(selectedSignal);
+	const createInteractiveLayout = () => plotConfigs.createInteractiveLayout(selectedSignal);
 </script>
 
 # Plot Playground
@@ -257,7 +50,7 @@ $$
 \cos(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!} x^{2n} = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots
 $$
 
-<Plotly data={sineCosineData} layout={sineCosineLayout} {config} style="width: 100%; height: 500px;" />
+<LazyPlot dataFactory={plotConfigs.createSineCosineData} layoutFactory={plotConfigs.createSineCosineLayout} style="width: 100%; height: 500px;" />
 
 ### Code Example: Generating Sine Wave
 
@@ -288,32 +81,32 @@ $$
 r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2}\sqrt{\sum_{i=1}^{n}(y_i - \bar{y})^2}}
 $$
 
-<Plotly data={scatterData} layout={scatterLayout} {config} style="width: 100%; height: 360px;" />
+<LazyPlot dataFactory={plotConfigs.createScatterData} layoutFactory={plotConfigs.createScatterLayout} style="width: 100%; height: 360px;" />
 
 ## Interactive Heatmap
 
 Heatmaps visualize data through variations in coloring. They're particularly useful for understanding patterns in matrix data:
 
-<Plotly data={heatmapData} layout={heatmapLayout} {config} style="width: 100%; height: 500px;" />
+<LazyPlot dataFactory={plotConfigs.createHeatmapData} layoutFactory={plotConfigs.createHeatmapLayout} style="width: 100%; height: 500px;" />
 
 ## 3D Surface
 
 Sampling $z = \sin(\sqrt{x^2 + y^2})$ on a grid produces rich interference patterns. The
 Plotly surface plot provides lighting, zoom, and rotation out of the box.
 
-<Plotly data={surfaceData} layout={surfaceLayout} {config} style="width: 100%; height: 420px;" />
+<LazyPlot dataFactory={plotConfigs.createSurfaceData} layoutFactory={plotConfigs.createSurfaceLayout} style="width: 100%; height: 420px;" />
 
 ## 3D Scatter Plot
 
 Three-dimensional scatter plots help visualize relationships between three variables simultaneously:
 
-<Plotly data={scatter3DData} layout={scatter3DLayout} {config} style="width: 100%; height: 600px;" />
+<LazyPlot dataFactory={plotConfigs.createScatter3DData} layoutFactory={plotConfigs.createScatter3DLayout} style="width: 100%; height: 600px;" />
 
 ## Contour Plot
 
 Contour plots show the level curves of a function, similar to topographic maps:
 
-<Plotly data={contourData} layout={contourLayout} {config} style="width: 100%; height: 500px;" />
+<LazyPlot dataFactory={plotConfigs.createContourData} layoutFactory={plotConfigs.createContourLayout} style="width: 100%; height: 500px;" />
 
 ## Interactive Signal Lab
 
@@ -327,19 +120,21 @@ reacts thanks to normal Svelte reactivity embedded right in this SvelTeX post.
 		bind:value={selectedSignal}
 		class="rounded border border-gray-300 px-3 py-2 text-base"
 	>
-		{#each Object.entries(signalFamilies) as [value, meta]}
+		{#each Object.entries(plotConfigs.signalFamilies) as [value, meta]}
 			<option value={value}>{meta.label}</option>
 		{/each}
 	</select>
-	<p class="text-sm text-gray-600">Currently viewing: {signalFamilies[selectedSignal].label}</p>
+	<p class="text-sm text-gray-600">Currently viewing: {plotConfigs.signalFamilies[selectedSignal].label}</p>
 </div>
 
-<Plotly data={interactiveData} layout={interactiveLayout} {config} style="width: 100%; height: 360px;" />
+{#key selectedSignal}
+	<Plotly data={createInteractiveData()} layout={createInteractiveLayout()} style="width: 100%; height: 360px;" />
+{/key}
 
 ## Code Block Reference
 
 ```ts
-import Plotly from 'svelte-plotly.js';
+import Plotly from '$lib/components/LazyPlotly.svelte';
 
 const layout = { title: 'Hello Plotly', xaxis: { title: 'x' }, yaxis: { title: 'y' } };
 const data = [{ x: [0, 1, 2], y: [0, 1, 0], mode: 'lines', type: 'scatter' }];
@@ -347,8 +142,7 @@ const data = [{ x: [0, 1, 2], y: [0, 1, 0], mode: 'lines', type: 'scatter' }];
 <Plotly {data} {layout} />;
 ```
 
-The snippet above is exactly what powers every figure in this post—just wrapped in SvelTeX
-so you can mix prose, LaTeX, and components effortlessly.
+The snippet above shows how plots are lazy-loaded in this post—they only load when scrolled into view, keeping the page fast. The LazyPlotly component wraps svelte-plotly.js with intersection observer for optimal performance, all within SvelTeX so you can mix prose, LaTeX, and components effortlessly.
 
 ## Interactive Features
 
