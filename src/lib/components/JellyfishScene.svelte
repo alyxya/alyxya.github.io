@@ -340,7 +340,7 @@
 
 			// Back tentacles (darker, behind the bell)
 			ctx.save();
-			ctx.lineWidth = 1.2;
+			ctx.lineWidth = this.isGiant ? 4 : 1.2;
 			ctx.lineCap = 'round';
 			if (this.isShiny) {
 				ctx.strokeStyle = `rgba(180, 150, 80, ${0.25 + this.glow * 0.2})`;
@@ -401,7 +401,7 @@
 
 			// Front tentacles (brighter, in front of the bell)
 			ctx.save();
-			ctx.lineWidth = 1.4;
+			ctx.lineWidth = this.isGiant ? 5 : 1.4;
 			ctx.lineCap = 'round';
 			if (this.isShiny) {
 				ctx.strokeStyle = `rgba(255, 230, 150, ${0.5 + this.glow * 0.3})`;
