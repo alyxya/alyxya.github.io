@@ -100,7 +100,7 @@
 				this.x = safeWidth / 2;
 				this.anchorX = this.x;
 				this.y = safeHeight + this.baseRadius;
-				this.riseSpeed = 8; // Slower for dramatic effect
+				this.riseSpeed = 40; // Twice as fast as normal (16-38 → ~40)
 				this.swayAmplitude = 5; // Less sway
 				this.waveSpeed = 0.5;
 				this.drift = 0; // No drift
