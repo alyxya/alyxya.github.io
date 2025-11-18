@@ -10,6 +10,11 @@
 	let jellyfish: Jellyfish[] = [];
 	let particles: Particle[] = [];
 	let backgroundPhase = 0;
+	let mouseX = -1000;
+	let mouseY = -1000;
+	let bubbles: Bubble[] = [];
+	let isMouseDown = false;
+	let bubbleSpawnTimer = 0;
 
 	type Particle = {
 		x: number;
@@ -18,6 +23,17 @@
 		speed: number;
 		drift: number;
 		opacity: number;
+	};
+
+	type Bubble = {
+		x: number;
+		y: number;
+		size: number;
+		speed: number;
+		wobble: number;
+		wobbleSpeed: number;
+		opacity: number;
+		life: number;
 	};
 
 	type Tentacle = {
@@ -44,6 +60,8 @@
 		anchorX = 0;
 		tentacles: Tentacle[] = [];
 		fade = 1;
+		velocityX = 0;
+		velocityY = 0;
 
 		constructor(index: number) {
 			this.index = index;
@@ -85,8 +103,27 @@
 			const seconds = delta / 1000;
 			this.time += seconds;
 			const sceneHeight = Math.max(height, 1);
+
+			// Mouse avoidance behavior
+			const distToMouse = Math.sqrt(Math.pow(this.x - mouseX, 2) + Math.pow(this.y - mouseY, 2));
+			const avoidRadius = 150;
+
+			if (distToMouse < avoidRadius) {
+				const avoidStrength = (1 - distToMouse / avoidRadius) * 80;
+				const angle = Math.atan2(this.y - mouseY, this.x - mouseX);
+				this.velocityX += Math.cos(angle) * avoidStrength * seconds;
+				this.velocityY += Math.sin(angle) * avoidStrength * seconds;
+			}
+
+			// Apply velocity with damping
+			this.velocityX *= 0.92;
+			this.velocityY *= 0.92;
+
 			this.y -= this.riseSpeed * seconds;
+			this.y += this.velocityY * seconds;
 			this.anchorX += this.drift * seconds;
+			this.anchorX += this.velocityX * seconds;
+
 			const sway = Math.sin((this.time + this.pulseOffset) * this.waveSpeed) * this.swayAmplitude;
 			this.x = this.anchorX + sway;
 
@@ -325,13 +362,93 @@
 		}
 	}
 
+	function spawnBubbles(x: number, y: number, count: number = 8) {
+		for (let i = 0; i < count; i++) {
+			bubbles.push({
+				x: x + (Math.random() - 0.5) * 20,
+				y: y + (Math.random() - 0.5) * 20,
+				size: 2 + Math.random() * 6,
+				speed: 30 + Math.random() * 50,
+				wobble: Math.random() * Math.PI * 2,
+				wobbleSpeed: 2 + Math.random() * 3,
+				opacity: 0.3 + Math.random() * 0.4,
+				life: 0
+			});
+		}
+	}
+
+	function drawBubbles(delta: number) {
+		if (!ctx) return;
+		const seconds = delta / 1000;
+
+		for (let i = bubbles.length - 1; i >= 0; i--) {
+			const bubble = bubbles[i];
+			bubble.life += seconds;
+			bubble.wobble += bubble.wobbleSpeed * seconds;
+			bubble.y -= bubble.speed * seconds;
+			bubble.x += Math.sin(bubble.wobble) * 15 * seconds;
+
+			// Fade out over lifetime
+			const fadeStart = 2;
+			if (bubble.life > fadeStart) {
+				bubble.opacity *= 0.95;
+			}
+
+			// Remove if off screen or too faded
+			if (bubble.y < -10 || bubble.opacity < 0.01) {
+				bubbles.splice(i, 1);
+				continue;
+			}
+
+			// Draw bubble with shine
+			ctx.save();
+			ctx.globalAlpha = bubble.opacity;
+
+			// Main bubble
+			ctx.beginPath();
+			ctx.arc(bubble.x, bubble.y, bubble.size, 0, Math.PI * 2);
+			ctx.strokeStyle = 'rgba(180, 220, 255, 0.6)';
+			ctx.lineWidth = 1.2;
+			ctx.stroke();
+
+			// Shine highlight
+			const highlightX = bubble.x - bubble.size * 0.3;
+			const highlightY = bubble.y - bubble.size * 0.3;
+			const gradient = ctx.createRadialGradient(
+				highlightX,
+				highlightY,
+				0,
+				highlightX,
+				highlightY,
+				bubble.size * 0.6
+			);
+			gradient.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
+			gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+			ctx.fillStyle = gradient;
+			ctx.fill();
+
+			ctx.restore();
+		}
+	}
+
 	function drawScene(delta: number) {
 		if (!ctx) return;
 		ctx.clearRect(0, 0, width, height);
-		backgroundPhase += delta / 1000;
+		const seconds = delta / 1000;
+		backgroundPhase += seconds;
+
+		// Spawn bubbles while mouse is down
+		if (isMouseDown && mouseX > 0 && mouseY > 0) {
+			bubbleSpawnTimer += seconds;
+			if (bubbleSpawnTimer > 0.08) {
+				spawnBubbles(mouseX, mouseY, 2 + Math.floor(Math.random() * 3));
+				bubbleSpawnTimer = 0;
+			}
+		}
 
 		drawBackground();
 		drawParticles(delta);
+		drawBubbles(delta);
 
 		for (const jelly of jellyfish) {
 			jelly.update(delta);
@@ -379,10 +496,75 @@
 		const onWindowResize = () => handleResize();
 		window.addEventListener('resize', onWindowResize);
 
+		const onMouseMove = (e: MouseEvent) => {
+			const rect = canvas.getBoundingClientRect();
+			mouseX = e.clientX - rect.left;
+			mouseY = e.clientY - rect.top;
+		};
+
+		const onMouseLeave = () => {
+			mouseX = -1000;
+			mouseY = -1000;
+			isMouseDown = false;
+		};
+
+		const onMouseDown = (e: MouseEvent) => {
+			const rect = canvas.getBoundingClientRect();
+			mouseX = e.clientX - rect.left;
+			mouseY = e.clientY - rect.top;
+			isMouseDown = true;
+			bubbleSpawnTimer = 0;
+		};
+
+		const onMouseUp = () => {
+			isMouseDown = false;
+		};
+
+		const onTouchStart = (e: TouchEvent) => {
+			e.preventDefault();
+			const rect = canvas.getBoundingClientRect();
+			const touch = e.touches[0];
+			mouseX = touch.clientX - rect.left;
+			mouseY = touch.clientY - rect.top;
+			isMouseDown = true;
+			bubbleSpawnTimer = 0;
+		};
+
+		const onTouchMove = (e: TouchEvent) => {
+			e.preventDefault();
+			const rect = canvas.getBoundingClientRect();
+			const touch = e.touches[0];
+			mouseX = touch.clientX - rect.left;
+			mouseY = touch.clientY - rect.top;
+		};
+
+		const onTouchEnd = () => {
+			isMouseDown = false;
+			mouseX = -1000;
+			mouseY = -1000;
+		};
+
+		canvas.addEventListener('mousemove', onMouseMove);
+		canvas.addEventListener('mouseleave', onMouseLeave);
+		canvas.addEventListener('mousedown', onMouseDown);
+		canvas.addEventListener('mouseup', onMouseUp);
+		canvas.addEventListener('touchstart', onTouchStart, { passive: false });
+		canvas.addEventListener('touchmove', onTouchMove, { passive: false });
+		canvas.addEventListener('touchend', onTouchEnd);
+		canvas.addEventListener('touchcancel', onTouchEnd);
+
 		return () => {
 			if (animationFrame) cancelAnimationFrame(animationFrame);
 			resizeObserver.disconnect();
 			window.removeEventListener('resize', onWindowResize);
+			canvas.removeEventListener('mousemove', onMouseMove);
+			canvas.removeEventListener('mouseleave', onMouseLeave);
+			canvas.removeEventListener('mousedown', onMouseDown);
+			canvas.removeEventListener('mouseup', onMouseUp);
+			canvas.removeEventListener('touchstart', onTouchStart);
+			canvas.removeEventListener('touchmove', onTouchMove);
+			canvas.removeEventListener('touchend', onTouchEnd);
+			canvas.removeEventListener('touchcancel', onTouchEnd);
 		};
 	});
 
@@ -409,6 +591,8 @@
 		height: 100%;
 		display: block;
 		filter: saturate(1.15);
+		pointer-events: auto;
+		cursor: pointer;
 	}
 
 	.surface-glow {
