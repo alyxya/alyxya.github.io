@@ -631,7 +631,6 @@
 		display: block;
 		filter: saturate(1.15);
 		pointer-events: auto;
-		cursor: pointer;
 	}
 
 	.surface-glow {
