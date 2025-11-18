@@ -70,6 +70,7 @@
 
 		try {
 			// Import Plotly dynamically - use dist version for smaller bundle
+			// @ts-ignore - plotly.js-dist doesn't have type definitions
 			const PlotlyModule = await import('plotly.js-dist');
 			const Plotly = PlotlyModule.default || PlotlyModule;
 
