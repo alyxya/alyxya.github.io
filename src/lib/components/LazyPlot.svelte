@@ -6,13 +6,15 @@
 		layoutFactory,
 		config = { responsive: true, displaylogo: false },
 		imagePath,
-		imageAlt = 'Plot preview'
+		imageAlt = 'Plot preview',
+		aspectRatio = '670/500'
 	}: {
 		dataFactory: () => any;
 		layoutFactory: () => any;
 		config?: any;
 		imagePath: string;
 		imageAlt?: string;
+		aspectRatio?: string;
 	} = $props();
 
 	let plotContainer: HTMLElement | undefined = $state(undefined);
@@ -48,9 +50,9 @@
 	}
 </script>
 
-<div class="relative group cursor-pointer w-full" role="button" tabindex="0" onclick={loadInteractivePlot} onkeydown={(e) => e.key === 'Enter' && loadInteractivePlot()}>
+<div class="relative group cursor-pointer w-full" style="aspect-ratio: {aspectRatio};" role="button" tabindex="0" onclick={loadInteractivePlot} onkeydown={(e) => e.key === 'Enter' && loadInteractivePlot()}>
 	{#if !isInteractive}
-		<img src={imagePath} alt={imageAlt} class="w-full h-auto rounded-lg" />
+		<img src={imagePath} alt={imageAlt} class="absolute inset-0 w-full h-full object-cover rounded-lg" />
 
 		<div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-colors rounded-lg">
 			{#if isLoading}
@@ -76,6 +78,6 @@
 			{/if}
 		</div>
 	{:else}
-		<div bind:this={plotContainer} class="w-full transition-opacity duration-500"></div>
+		<div bind:this={plotContainer} class="absolute inset-0 w-full h-full transition-opacity duration-500"></div>
 	{/if}
 </div>

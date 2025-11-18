@@ -45,7 +45,7 @@ $$
 \cos(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!} x^{2n} = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots
 $$
 
-<LazyPlot dataFactory={plotConfigs.createSineCosineData} layoutFactory={plotConfigs.createSineCosineLayout} imagePath="/images/plots/sine-cosine.png" imageAlt="Sine and Cosine waves" />
+<LazyPlot dataFactory={plotConfigs.createSineCosineData} layoutFactory={plotConfigs.createSineCosineLayout} imagePath="/images/plots/sine-cosine.png" imageAlt="Sine and Cosine waves" aspectRatio="670/500" />
 
 ### Code Example: Generating Sine Wave
 
@@ -76,32 +76,32 @@ $$
 r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2}\sqrt{\sum_{i=1}^{n}(y_i - \bar{y})^2}}
 $$
 
-<LazyPlot dataFactory={plotConfigs.createScatterData} layoutFactory={plotConfigs.createScatterLayout} imagePath="/images/plots/scatter-2d.png" imageAlt="2D Scatter plot" />
+<LazyPlot dataFactory={plotConfigs.createScatterData} layoutFactory={plotConfigs.createScatterLayout} imagePath="/images/plots/scatter-2d.png" imageAlt="2D Scatter plot" aspectRatio="670/360" />
 
 ## Interactive Heatmap
 
 Heatmaps visualize data through variations in coloring. They're particularly useful for understanding patterns in matrix data:
 
-<LazyPlot dataFactory={plotConfigs.createHeatmapData} layoutFactory={plotConfigs.createHeatmapLayout} imagePath="/images/plots/heatmap.png" imageAlt="Interactive Heatmap" />
+<LazyPlot dataFactory={plotConfigs.createHeatmapData} layoutFactory={plotConfigs.createHeatmapLayout} imagePath="/images/plots/heatmap.png" imageAlt="Interactive Heatmap" aspectRatio="670/500" />
 
 ## 3D Surface
 
 Sampling $z = \sin(\sqrt{x^2 + y^2})$ on a grid produces rich interference patterns. The
 Plotly surface plot provides lighting, zoom, and rotation out of the box.
 
-<LazyPlot dataFactory={plotConfigs.createSurfaceData} layoutFactory={plotConfigs.createSurfaceLayout} imagePath="/images/plots/surface-3d.png" imageAlt="3D Surface plot" />
+<LazyPlot dataFactory={plotConfigs.createSurfaceData} layoutFactory={plotConfigs.createSurfaceLayout} imagePath="/images/plots/surface-3d.png" imageAlt="3D Surface plot" aspectRatio="670/420" />
 
 ## 3D Scatter Plot
 
 Three-dimensional scatter plots help visualize relationships between three variables simultaneously:
 
-<LazyPlot dataFactory={plotConfigs.createScatter3DData} layoutFactory={plotConfigs.createScatter3DLayout} imagePath="/images/plots/scatter-3d.png" imageAlt="3D Scatter plot" />
+<LazyPlot dataFactory={plotConfigs.createScatter3DData} layoutFactory={plotConfigs.createScatter3DLayout} imagePath="/images/plots/scatter-3d.png" imageAlt="3D Scatter plot" aspectRatio="670/600" />
 
 ## Contour Plot
 
 Contour plots show the level curves of a function, similar to topographic maps:
 
-<LazyPlot dataFactory={plotConfigs.createContourData} layoutFactory={plotConfigs.createContourLayout} imagePath="/images/plots/contour.png" imageAlt="Contour plot" />
+<LazyPlot dataFactory={plotConfigs.createContourData} layoutFactory={plotConfigs.createContourLayout} imagePath="/images/plots/contour.png" imageAlt="Contour plot" aspectRatio="670/500" />
 
 ## Interactive Signal Lab
 
@@ -128,6 +128,7 @@ reacts thanks to normal Svelte reactivity embedded right in this SvelTeX post.
 		layoutFactory={() => plotConfigs.createInteractiveLayout(selectedSignal)}
 		imagePath={`/images/plots/signal-${selectedSignal}.png`}
 		imageAlt={`${plotConfigs.signalFamilies[selectedSignal].label} waveform`}
+		aspectRatio="670/360"
 	/>
 {/key}
 
