@@ -1,23 +1,16 @@
-// Separate plot configurations to enable code splitting
-// This file can be lazily imported along with Plotly
+// Plot configurations and data factory functions for all visualizations
 
-export const oceanPlotConfig = {
+const oceanPlotConfig = {
 	paper_bgcolor: 'rgba(255,255,255,0.4)',
 	plot_bgcolor: 'rgba(255,255,255,0.25)',
 	font: { color: 'oklch(35% 0.1 235)' }
 };
 
-export const ocean3DPlotConfig = {
+const ocean3DPlotConfig = {
 	paper_bgcolor: 'rgba(255,255,255,0.4)',
 	font: { color: 'oklch(35% 0.1 235)' }
 };
 
-export const plotlyConfig = {
-	responsive: true,
-	displaylogo: false
-};
-
-// Factory functions for plot data to defer computation
 export function createSineCosineData() {
 	return [
 		{

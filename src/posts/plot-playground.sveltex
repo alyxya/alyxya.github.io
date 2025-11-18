@@ -146,7 +146,7 @@ import * as plotConfigs from '$lib/plotConfigs';
 />;
 ```
 
-The snippet above shows how plots are lazy-loaded in this post—they only load when scrolled into view, keeping the page fast. The LazyPlot component uses Intersection Observer to defer Plotly import and data computation until needed, preventing the page freeze that would occur if all plots loaded upfront. All within SvelTeX so you can mix prose, LaTeX, and components effortlessly.
+The snippet above shows the click-to-load approach used in this post. Static plot images load instantly, keeping the page fast and responsive. Click any plot to load the full interactive Plotly visualization on demand. This prevents heavy WebGL rendering from blocking the page while still providing rich interactivity when you want it. All within SvelTeX so you can mix prose, LaTeX, and components effortlessly.
 
 ## Interactive Features
 
