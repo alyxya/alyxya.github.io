@@ -63,8 +63,5 @@
 			<p class="text-red-600">Unable to render this post: {error.message}</p>
 		{/await}
 
-		<div class="mt-12 border-t border-ocean-200 pt-8">
-			<a href="/blog" class="text-ocean-600 hover:text-ocean-800">← Back to all posts</a>
-		</div>
 	</div>
 </article>
