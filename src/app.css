@@ -27,8 +27,8 @@
 
 /* Ocean gradient background */
 html {
-	/* Solid background colors for overscroll areas */
-	background: oklch(92% 0.04 215); /* Matches top of gradient */
+	/* Solid color for overscroll areas - matches bottom of gradient */
+	background-color: oklch(82% 0.08 205);
 }
 
 body {
