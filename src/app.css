@@ -44,11 +44,19 @@ body {
 
 /* Custom text selection color */
 ::selection {
+	background: transparent;
+}
+
+::-moz-selection {
+	background: transparent;
+}
+
+.glass-card ::selection {
 	background: oklch(65% 0.1 220 / 0.4);
 	color: oklch(25% 0.08 240);
 }
 
-::-moz-selection {
+.glass-card ::-moz-selection {
 	background: oklch(65% 0.1 220 / 0.4);
 	color: oklch(25% 0.08 240);
 }
@@ -154,4 +162,5 @@ body {
 	border: 1px solid rgba(255, 255, 255, 0.8);
 	border-radius: 1rem;
 	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+	overflow: hidden;
 }
