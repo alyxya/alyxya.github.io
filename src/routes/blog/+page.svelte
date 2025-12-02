@@ -14,8 +14,8 @@
 	<div class="space-y-6">
 		{#each data.posts as post (post.slug)}
 			<a href="/blog/{post.slug}" class="group block">
-				<article class="glass-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-					<h2 class="mb-2 text-2xl font-semibold text-ocean-900 transition-colors group-hover:text-ocean-600">
+				<article class="glass-card p-6">
+					<h2 class="mb-2 text-2xl font-semibold text-ocean-900 group-hover:text-ocean-600">
 						{post.title}
 					</h2>
 
@@ -36,7 +36,7 @@
 					{#if post.tags && post.tags.length > 0}
 						<div class="flex flex-wrap gap-2">
 							{#each post.tags as tag (tag)}
-								<span class="rounded-full bg-ocean-100 px-3 py-1 text-sm text-ocean-700 ring-1 ring-ocean-200 transition-all hover:bg-ocean-200 hover:ring-ocean-300">
+								<span class="rounded-full bg-ocean-100 px-3 py-1 text-sm text-ocean-700 ring-1 ring-ocean-200 hover:bg-ocean-200 hover:ring-ocean-300">
 									{tag}
 								</span>
 							{/each}

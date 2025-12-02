@@ -71,25 +71,6 @@ body {
 	background: oklch(55% 0.15 225);
 }
 
-/* Ripple effect for links */
-@keyframes ripple {
-	0% {
-		box-shadow: 0 0 0 0 oklch(65% 0.12 220 / 0.5);
-	}
-	100% {
-		box-shadow: 0 0 0 20px oklch(65% 0.12 220 / 0);
-	}
-}
-
-.ocean-link-hover {
-	border-radius: 0.5rem;
-	overflow: visible;
-}
-
-.ocean-link-hover:hover {
-	animation: ripple 1.5s ease-out infinite;
-}
-
 /* Ocean-themed prose styling */
 .prose-ocean {
 	--tw-prose-body: oklch(37.3% 0.034 259.733);
@@ -107,10 +88,6 @@ body {
 	--tw-prose-pre-bg: oklch(30% 0.08 235);
 	--tw-prose-th-borders: oklch(75% 0.06 212);
 	--tw-prose-td-borders: oklch(85% 0.05 215);
-}
-
-.prose-ocean :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-	transition: color 0.2s ease;
 }
 
 .prose-ocean :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)):hover {

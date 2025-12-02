@@ -50,7 +50,7 @@
 
 		<!-- Load post content asynchronously without blocking initial render -->
 		{#await postPromise}
-			<div class="animate-pulse space-y-4">
+			<div class="space-y-4">
 				<div class="h-4 bg-ocean-200 rounded w-3/4"></div>
 				<div class="h-4 bg-ocean-200 rounded"></div>
 				<div class="h-4 bg-ocean-200 rounded w-5/6"></div>
@@ -64,7 +64,7 @@
 		{/await}
 
 		<div class="mt-12 border-t border-ocean-200 pt-8">
-			<a href="/blog" class="ocean-link-hover text-ocean-600 transition-colors hover:text-ocean-800">← Back to all posts</a>
+			<a href="/blog" class="text-ocean-600 hover:text-ocean-800">← Back to all posts</a>
 		</div>
 	</div>
 </article>
