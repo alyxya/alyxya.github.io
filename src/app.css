@@ -40,6 +40,7 @@ body {
 	);
 	background-attachment: fixed;
 	min-height: 100vh;
+	overflow-y: scroll;
 }
 
 /* Custom text selection color */
@@ -59,24 +60,6 @@ body {
 .glass-card ::-moz-selection {
 	background: oklch(65% 0.1 220 / 0.4);
 	color: oklch(25% 0.08 240);
-}
-
-/* Custom scrollbar with ocean theme */
-::-webkit-scrollbar {
-	width: 12px;
-}
-
-::-webkit-scrollbar-track {
-	background: oklch(90% 0.03 210);
-}
-
-::-webkit-scrollbar-thumb {
-	background: oklch(60% 0.12 220);
-	border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background: oklch(55% 0.15 225);
 }
 
 /* Ocean-themed prose styling */
