@@ -146,18 +146,6 @@ body {
 	color: inherit !important;
 }
 
-/* Plotly plot area soft styling */
-.js-plotly-plot .main-svg {
-	border-radius: 0.75rem;
-	overflow: hidden;
-	filter: drop-shadow(0 4px 12px oklch(50% 0.1 220 / 0.25));
-}
-
-.js-plotly-plot .bg {
-	rx: 12;
-	ry: 12;
-}
-
 /* Glass morphism cards */
 .glass-card {
 	background: rgba(255, 255, 255, 0.6);
