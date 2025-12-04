@@ -85,6 +85,11 @@ body {
 	color: oklch(60% 0.12 220);
 }
 
+/* Scale down SVG math to match text size better */
+.prose-ocean mjx-container {
+	font-size: 0.85em;
+}
+
 /* Allow horizontal scroll for overflowing math equations on mobile */
 .prose-ocean mjx-container[display="true"] {
 	overflow-x: auto;
