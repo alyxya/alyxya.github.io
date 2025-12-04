@@ -11,15 +11,14 @@ export default await sveltex({
 		}
 	},
 	math: {
+		outputFormat: 'svg',
 		mathjax: {
-			// Configure MathJax for better performance
-			chtml: {
+			svg: {
 				displayAlign: 'left',
 				displayIndent: '0'
 			},
-			// Disable features for faster rendering
 			options: {
-				enableMenu: false // Disable context menu for faster load
+				enableMenu: false
 			}
 		}
 	}

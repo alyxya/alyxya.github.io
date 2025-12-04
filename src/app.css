@@ -86,9 +86,19 @@ body {
 }
 
 /* Allow horizontal scroll for overflowing math equations on mobile */
-.prose-ocean mjx-container {
+.prose-ocean mjx-container[display="true"] {
 	overflow-x: auto;
 	max-width: 100%;
+}
+
+/* Ensure inline math stays inline with SVG output */
+.prose-ocean mjx-container:not([display="true"]) {
+	display: inline;
+}
+
+.prose-ocean mjx-container:not([display="true"]) svg {
+	display: inline;
+	vertical-align: middle;
 }
 
 /* Inline code styling */
