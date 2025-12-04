@@ -1,4 +1,4 @@
-# alyxya.dev blog
+# alyxya.com blog
 
 Minimal SvelteKit blog that renders posts written in Markdown/LaTeX via
 [SvelTeX](https://sveltex.dev) with Tailwind CSS styling.
