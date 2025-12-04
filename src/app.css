@@ -85,6 +85,12 @@ body {
 	color: oklch(60% 0.12 220);
 }
 
+/* Allow horizontal scroll for overflowing math equations on mobile */
+.prose-ocean mjx-container {
+	overflow-x: auto;
+	max-width: 100%;
+}
+
 /* Inline code styling */
 .prose-ocean :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)):not(:where(pre *)) {
 	background-color: oklch(90% 0.03 210) !important;
