@@ -107,8 +107,14 @@ const captureWrapper = async (wrapper) => {
 	const info = await wrapper.evaluate((element) => ({
 		imagePath: element.dataset.imagePath || '',
 		aspectRatio: element.dataset.aspectRatio || '',
-		isLazy: element.dataset.lazy === 'true'
+		isLazy: element.dataset.lazy === 'true',
+		isInteractive: element.dataset.interactive !== 'false'
 	}));
+
+	if (!info.isInteractive) {
+		console.warn('Skipping static image without Plotly.');
+		return;
+	}
 
 	const outputPath = outputPathFromTarget(info.imagePath);
 	if (!outputPath) {
@@ -154,15 +160,17 @@ try {
 	const metadata = await page.$$eval('.lazy-plot', (plots) =>
 		plots.map((plot, index) => {
 			const target = plot.dataset.imagePath || '';
+			const isInteractive = plot.dataset.interactive !== 'false';
 			return {
 				index,
 				target,
-			isSignal: target.includes('/images/posts/plot-playground/signal-') || target.includes('signal-')
+				isInteractive,
+				isSignal: target.includes('/images/posts/plot-playground/signal-') || target.includes('signal-')
 			};
 		})
 	);
 	const wrappers = await page.$$('.lazy-plot');
-	const regularPlots = metadata.filter((plot) => plot.target && !plot.isSignal);
+	const regularPlots = metadata.filter((plot) => plot.target && plot.isInteractive && !plot.isSignal);
 
 	for (const plot of regularPlots) {
 		const wrapper = wrappers[plot.index];
@@ -181,6 +189,7 @@ try {
 				const plots = Array.from(document.querySelectorAll('.lazy-plot'));
 				return (
 					plots.find((plot) => {
+						if (plot.dataset.interactive === 'false') return false;
 						const target = plot.dataset.imagePath || '';
 						return target.includes(`signal-${targetValue}`);
 					}) || null

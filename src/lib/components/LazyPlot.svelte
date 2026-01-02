@@ -9,14 +9,15 @@
 		imageAlt = 'Plot preview',
 		aspectRatio = '670/500'
 	}: {
-		dataFactory: () => any;
-		layoutFactory: () => any;
+		dataFactory?: () => any;
+		layoutFactory?: () => any;
 		config?: any;
 		imagePath: string;
 		imageAlt?: string;
 		aspectRatio?: string;
 	} = $props();
 
+	const resolvedInteractive = Boolean(dataFactory && layoutFactory);
 	let plotContainer: HTMLElement | undefined = $state(undefined);
 	let wrapperElement: HTMLElement | undefined = $state(undefined);
 	let isLoading = $state(false);
@@ -27,7 +28,7 @@
 	let baseLayout: any | undefined;
 	let lastPlotSize = { width: 0, height: 0 };
 	const defaultMargins = { l: 80, r: 80, t: 100, b: 80, pad: 0 };
-	let isLazy = $state(true);
+	let isLazy = $state(resolvedInteractive);
 
 	function parseAspectRatio(value: string) {
 		const [width, height] = value.split('/').map((part) => Number(part.trim()));
@@ -135,6 +136,7 @@
 	});
 
 	async function loadInteractivePlot() {
+		if (!resolvedInteractive) return;
 		if (isLoading || isPlotReady) return;
 
 		isLoading = true;
@@ -153,6 +155,10 @@
 			plotlyModule = await import('plotly.js-dist');
 			if (typeof window !== 'undefined') {
 				(window as { Plotly?: any }).Plotly ??= plotlyModule;
+			}
+			if (!dataFactory || !layoutFactory) {
+				console.error('LazyPlot requires dataFactory and layoutFactory when interactive.');
+				return;
 			}
 			const data = dataFactory();
 			baseLayout = layoutFactory();
@@ -195,18 +201,21 @@
 	data-image-path={imagePath}
 	data-aspect-ratio={aspectRatio}
 	data-lazy={isLazy ? 'true' : 'false'}
+	data-interactive={resolvedInteractive ? 'true' : 'false'}
 	onclick={isLazy ? loadInteractivePlot : undefined}
 	onkeydown={(e) => isLazy && e.key === 'Enter' && loadInteractivePlot()}
 >
-	<!-- Image: shown until plot is ready -->
-	{#if isLazy && !isPlotReady}
+	<!-- Image: shown for static plots or until interactive plot is ready -->
+	{#if !resolvedInteractive || (isLazy && !isPlotReady)}
 		<img
 			src={imagePath}
 			alt={imageAlt}
 			class="absolute inset-0 w-full h-full object-contain bg-white/40"
 			onerror={() => {
-				isLazy = false;
-				loadInteractivePlot();
+				if (resolvedInteractive) {
+					isLazy = false;
+					loadInteractivePlot();
+				}
 			}}
 		/>
 	{/if}

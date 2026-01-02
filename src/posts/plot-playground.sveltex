@@ -79,6 +79,12 @@ $$
 
 <LazyPlot dataFactory={plotConfigs.createScatterData} layoutFactory={plotConfigs.createScatterLayout} imagePath="/images/posts/plot-playground/scatter-2d.png" imageAlt="2D Scatter plot" aspectRatio="670/360" />
 
+## Static Plot Card
+
+Sometimes you just want the framed plot styling without loading Plotly at all. Omit the data and layout factories to keep the image-only presentation.
+
+<LazyPlot imagePath="/images/posts/plot-playground/scatter-2d.png" imageAlt="2D Scatter plot (static image)" aspectRatio="670/360" />
+
 ## Interactive Heatmap
 
 Heatmaps visualize data through variations in coloring. They're particularly useful for understanding patterns in matrix data:
