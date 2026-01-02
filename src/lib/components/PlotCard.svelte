@@ -157,7 +157,7 @@
 				(window as { Plotly?: any }).Plotly ??= plotlyModule;
 			}
 			if (!dataFactory || !layoutFactory) {
-				console.error('LazyPlot requires dataFactory and layoutFactory when interactive.');
+				console.error('PlotCard requires dataFactory and layoutFactory when interactive.');
 				return;
 			}
 			const data = dataFactory();
@@ -193,7 +193,7 @@
 
 <div
 	bind:this={wrapperElement}
-	class="not-prose lazy-plot relative group w-full rounded-xl overflow-hidden border border-ocean-200/50 shadow-lg"
+	class="not-prose plot-card relative group w-full rounded-xl overflow-hidden border border-ocean-200/50 shadow-lg"
 	class:cursor-pointer={isLazy && !isPlotReady}
 	style="aspect-ratio: {aspectRatio};"
 	role={isLazy ? 'button' : undefined}

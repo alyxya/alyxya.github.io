@@ -155,9 +155,9 @@ const captureWrapper = async (wrapper) => {
 
 try {
 	await page.goto(targetUrl, { waitUntil: 'networkidle' });
-	await page.waitForSelector('.lazy-plot');
+	await page.waitForSelector('.plot-card');
 
-	const metadata = await page.$$eval('.lazy-plot', (plots) =>
+	const metadata = await page.$$eval('.plot-card', (plots) =>
 		plots.map((plot, index) => {
 			const target = plot.dataset.imagePath || '';
 			const isInteractive = plot.dataset.interactive !== 'false';
@@ -169,7 +169,7 @@ try {
 			};
 		})
 	);
-	const wrappers = await page.$$('.lazy-plot');
+	const wrappers = await page.$$('.plot-card');
 	const regularPlots = metadata.filter((plot) => plot.target && plot.isInteractive && !plot.isSignal);
 
 	for (const plot of regularPlots) {
@@ -186,7 +186,7 @@ try {
 			await page.selectOption('#signalSelect', value);
 			await page.waitForTimeout(150);
 			const handle = await page.evaluateHandle((targetValue) => {
-				const plots = Array.from(document.querySelectorAll('.lazy-plot'));
+				const plots = Array.from(document.querySelectorAll('.plot-card'));
 				return (
 					plots.find((plot) => {
 						if (plot.dataset.interactive === 'false') return false;
