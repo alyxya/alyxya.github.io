@@ -6,15 +6,28 @@ tags: ["intro", "math"]
 draft: true
 ---
 
+<script lang="ts">
+	import FramedImage from '$lib/components/FramedImage.svelte';
+</script>
+
 # Welcome!
 
 This is a sample blog post written in **markdown** with support for LaTeX math rendering.
 
 ## Embedded Image
 
-Here's a simple image embed using standard Markdown syntax:
+Here's a plain Markdown image embed:
 
 ![Moon jellyfish drifting in blue light](/images/posts/welcome/moonjelly.png)
+
+And here's the same image with the framed component styling:
+
+<FramedImage
+	src="/images/posts/welcome/moonjelly.png"
+	alt="Moon jellyfish drifting in blue light"
+	aspectRatio="1/1"
+	caption="Moon jellyfish in soft blue light."
+/>
 
 ## Inline Math
 
