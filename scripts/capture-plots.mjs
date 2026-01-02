@@ -144,7 +144,7 @@ try {
 			return {
 				index,
 				target,
-				isSignal: target.includes('/images/plots/signal-') || target.includes('signal-')
+			isSignal: target.includes('/images/posts/plot-playground/signal-') || target.includes('signal-')
 			};
 		})
 	);
