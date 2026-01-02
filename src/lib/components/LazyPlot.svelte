@@ -17,7 +17,7 @@
 		aspectRatio?: string;
 	} = $props();
 
-	const resolvedInteractive = Boolean(dataFactory && layoutFactory);
+	const isInteractive = Boolean(dataFactory && layoutFactory);
 	let plotContainer: HTMLElement | undefined = $state(undefined);
 	let wrapperElement: HTMLElement | undefined = $state(undefined);
 	let isLoading = $state(false);
@@ -28,7 +28,7 @@
 	let baseLayout: any | undefined;
 	let lastPlotSize = { width: 0, height: 0 };
 	const defaultMargins = { l: 80, r: 80, t: 100, b: 80, pad: 0 };
-	let isLazy = $state(resolvedInteractive);
+	let isLazy = $state(isInteractive);
 
 	function parseAspectRatio(value: string) {
 		const [width, height] = value.split('/').map((part) => Number(part.trim()));
@@ -136,7 +136,7 @@
 	});
 
 	async function loadInteractivePlot() {
-		if (!resolvedInteractive) return;
+		if (!isInteractive) return;
 		if (isLoading || isPlotReady) return;
 
 		isLoading = true;
@@ -201,18 +201,18 @@
 	data-image-path={imagePath}
 	data-aspect-ratio={aspectRatio}
 	data-lazy={isLazy ? 'true' : 'false'}
-	data-interactive={resolvedInteractive ? 'true' : 'false'}
+	data-interactive={isInteractive ? 'true' : 'false'}
 	onclick={isLazy ? loadInteractivePlot : undefined}
 	onkeydown={(e) => isLazy && e.key === 'Enter' && loadInteractivePlot()}
 >
 	<!-- Image: shown for static plots or until interactive plot is ready -->
-	{#if !resolvedInteractive || (isLazy && !isPlotReady)}
+	{#if !isInteractive || (isLazy && !isPlotReady)}
 		<img
 			src={imagePath}
 			alt={imageAlt}
 			class="absolute inset-0 w-full h-full object-contain bg-white/40"
 			onerror={() => {
-				if (resolvedInteractive) {
+				if (isInteractive) {
 					isLazy = false;
 					loadInteractivePlot();
 				}
