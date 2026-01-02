@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tick } from 'svelte';
+	import { onDestroy, tick } from 'svelte';
 
 	let {
 		dataFactory,
@@ -22,6 +22,116 @@
 	let isLoading = $state(false);
 	let isPlotReady = $state(false);
 	let hasClicked = $state(false);
+	let resizeObserver: ResizeObserver | undefined;
+	let plotlyModule: any | undefined;
+	let baseLayout: any | undefined;
+	let lastPlotSize = { width: 0, height: 0 };
+	const defaultMargins = { l: 80, r: 80, t: 100, b: 80, pad: 0 };
+
+	function parseAspectRatio(value: string) {
+		const [width, height] = value.split('/').map((part) => Number(part.trim()));
+		if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+			return undefined;
+		}
+		return { width, height, ratio: height / width };
+	}
+
+	function getPlotSize() {
+		if (!wrapperElement) return undefined;
+		const rect = wrapperElement.getBoundingClientRect();
+		const measuredWidth = Math.round(rect.width);
+		const measuredHeight = Math.round(rect.height);
+		let width = measuredWidth;
+		let height = measuredHeight;
+		if ((!width || !height) && aspectRatio) {
+			const parsed = parseAspectRatio(aspectRatio);
+			if (parsed?.ratio && width && !height) {
+				height = Math.round(width * parsed.ratio);
+			} else if (parsed?.ratio && height && !width) {
+				width = Math.round(height / parsed.ratio);
+			}
+		}
+		if (!width || !height) return undefined;
+		return { width, height, isMeasured: measuredWidth > 0 && measuredHeight > 0 };
+	}
+
+	async function waitForPlotSize() {
+		for (let attempt = 0; attempt < 3; attempt++) {
+			const size = getPlotSize();
+			if (size) return size;
+			await tick();
+			await new Promise((resolve) => requestAnimationFrame(resolve));
+		}
+		return getPlotSize();
+	}
+
+	function scaleNumber(value: number | undefined, scale: number) {
+		if (typeof value !== 'number') return value;
+		return value * scale;
+	}
+
+	function scaleFont(font: any, scale: number, defaultSize?: number) {
+		if (!font && defaultSize === undefined) return font;
+		const baseSize = typeof font?.size === 'number' ? font.size : defaultSize;
+		if (baseSize === undefined) return font;
+		return { ...(font ?? {}), size: scaleNumber(baseSize, scale) };
+	}
+
+	function scaleTitle(title: any, scale: number) {
+		if (!title) return title;
+		const baseSize =
+			typeof title === 'object' && typeof title.font?.size === 'number' ? title.font.size : 16;
+		const font = scaleFont(typeof title === 'object' ? title.font : undefined, scale, baseSize);
+		if (typeof title === 'string') return { text: title, font };
+		return { ...title, font };
+	}
+
+	function buildSizedLayout(layout: any, size?: { width: number; height: number }) {
+		if (!size) return layout;
+		return { ...layout, width: size.width, height: size.height, autosize: false };
+	}
+
+	function applyScaledLayout(layout: any, size?: { width: number; height: number }) {
+		if (!size) return {};
+		const parsed = aspectRatio ? parseAspectRatio(aspectRatio) : undefined;
+		const scale = parsed ? size.width / parsed.width : 1;
+		const marginBase = { ...defaultMargins, ...(layout?.margin ?? {}) };
+		const margin = {
+			l: scaleNumber(marginBase.l, scale),
+			r: scaleNumber(marginBase.r, scale),
+			t: scaleNumber(marginBase.t, scale),
+			b: scaleNumber(marginBase.b, scale),
+			pad: scaleNumber(marginBase.pad, scale)
+		};
+		const font = scaleFont(layout?.font, scale, 12);
+		const updates: Record<string, any> = {
+			width: size.width,
+			height: size.height,
+			autosize: false,
+			margin,
+			font
+		};
+		if (layout?.title !== undefined) {
+			updates.title = scaleTitle(layout.title, scale);
+		}
+		return updates;
+	}
+
+	function resizePlot() {
+		if (!plotlyModule || !plotContainer || !baseLayout) return;
+		const size = getPlotSize();
+		if (!size) return;
+		if (size.width === lastPlotSize.width && size.height === lastPlotSize.height) return;
+		lastPlotSize = { width: size.width, height: size.height };
+		const scaledLayout = applyScaledLayout(baseLayout, size);
+		if (Object.keys(scaledLayout).length > 0) {
+			plotlyModule.relayout(plotContainer, scaledLayout);
+		}
+	}
+
+	onDestroy(() => {
+		resizeObserver?.disconnect();
+	});
 
 	async function loadInteractivePlot() {
 		if (isLoading || isPlotReady) return;
@@ -39,29 +149,27 @@
 
 		try {
 			// @ts-ignore - plotly.js-dist doesn't have type definitions
-			const Plotly = await import('plotly.js-dist');
+			plotlyModule = await import('plotly.js-dist');
 			const data = dataFactory();
-			const layout = layoutFactory();
+			baseLayout = layoutFactory();
 
 			// Get container dimensions for proper sizing
-			const rect = wrapperElement.getBoundingClientRect();
-			const responsiveLayout = {
-				...layout,
-				width: rect.width,
-				height: rect.height,
-				autosize: false
-			};
+			const size = await waitForPlotSize();
+			const responsiveLayout = buildSizedLayout(baseLayout, size);
 
-			await Plotly.newPlot(plotContainer, data, responsiveLayout, config);
-
-			// Handle window resize
-			const resizeHandler = () => {
-				if (wrapperElement && plotContainer) {
-					const newRect = wrapperElement.getBoundingClientRect();
-					Plotly.relayout(plotContainer, { width: newRect.width, height: newRect.height });
+			await plotlyModule.newPlot(plotContainer, data, responsiveLayout, config);
+			if (size) {
+				const scaledLayout = applyScaledLayout(baseLayout, size);
+				if (Object.keys(scaledLayout).length > 0) {
+					plotlyModule.relayout(plotContainer, scaledLayout);
 				}
-			};
-			window.addEventListener('resize', resizeHandler);
+			}
+
+			if (resizeObserver) resizeObserver.disconnect();
+			if (wrapperElement && plotContainer) {
+				resizeObserver = new ResizeObserver(() => resizePlot());
+				resizeObserver.observe(wrapperElement);
+			}
 
 			isPlotReady = true;
 		} catch (error) {
