@@ -10,6 +10,12 @@ draft: true
 
 This is a sample blog post written in **markdown** with support for LaTeX math rendering.
 
+## Embedded Image
+
+Here's a simple image embed using standard Markdown syntax:
+
+![Moon jellyfish drifting in blue light](/images/posts/welcome/moonjelly.png)
+
 ## Inline Math
 
 You can write inline equations like $E = mc^2$ or $a^2 + b^2 = c^2$ directly in your text.
@@ -74,7 +80,7 @@ This blog supports:
 - ✅ Markdown formatting
 - ✅ LaTeX math rendering with MathJax
 - ✅ Code syntax highlighting
-- ✅ Images (coming soon)
+- ✅ Images
 - ✅ Interactive Svelte components (when needed)
 
 Stay tuned for more technical posts!
