@@ -27,6 +27,7 @@
 	let baseLayout: any | undefined;
 	let lastPlotSize = { width: 0, height: 0 };
 	const defaultMargins = { l: 80, r: 80, t: 100, b: 80, pad: 0 };
+	let isLazy = $state(true);
 
 	function parseAspectRatio(value: string) {
 		const [width, height] = value.split('/').map((part) => Number(part.trim()));
@@ -150,6 +151,9 @@
 		try {
 			// @ts-ignore - plotly.js-dist doesn't have type definitions
 			plotlyModule = await import('plotly.js-dist');
+			if (typeof window !== 'undefined') {
+				(window as { Plotly?: any }).Plotly ??= plotlyModule;
+			}
 			const data = dataFactory();
 			baseLayout = layoutFactory();
 
@@ -184,24 +188,31 @@
 <div
 	bind:this={wrapperElement}
 	class="not-prose lazy-plot relative group w-full rounded-xl overflow-hidden border border-ocean-200/50 shadow-lg"
-	class:cursor-pointer={!isPlotReady}
+	class:cursor-pointer={isLazy && !isPlotReady}
 	style="aspect-ratio: {aspectRatio};"
-	role="button"
-	tabindex="0"
-	onclick={loadInteractivePlot}
-	onkeydown={(e) => e.key === 'Enter' && loadInteractivePlot()}
+	role={isLazy ? 'button' : undefined}
+	tabindex={isLazy ? 0 : undefined}
+	data-image-path={imagePath}
+	data-aspect-ratio={aspectRatio}
+	data-lazy={isLazy ? 'true' : 'false'}
+	onclick={isLazy ? loadInteractivePlot : undefined}
+	onkeydown={(e) => isLazy && e.key === 'Enter' && loadInteractivePlot()}
 >
 	<!-- Image: shown until plot is ready -->
-	{#if !isPlotReady}
+	{#if isLazy && !isPlotReady}
 		<img
 			src={imagePath}
 			alt={imageAlt}
 			class="absolute inset-0 w-full h-full object-contain bg-white/40"
+			onerror={() => {
+				isLazy = false;
+				loadInteractivePlot();
+			}}
 		/>
 	{/if}
 
 	<!-- Hover overlay: only when not clicked -->
-	{#if !hasClicked}
+	{#if isLazy && !hasClicked}
 		<div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 rounded-xl">
 			<div class="bg-white/90 backdrop-blur-sm px-6 py-3 rounded-lg shadow-lg opacity-0 group-hover:opacity-100">
 				<div class="flex items-center gap-2 text-ocean-700 font-medium">
