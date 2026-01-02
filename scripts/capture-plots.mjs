@@ -8,13 +8,26 @@ const getArg = (name) => {
 	return index === -1 ? undefined : args[index + 1];
 };
 
+const postSlug = getArg('--post') || getArg('--slug') || process.env.PLOT_CAPTURE_POST;
+const baseUrl = getArg('--base-url') || process.env.PLOT_CAPTURE_BASE_URL || 'http://localhost:5173/blog';
+const explicitUrl = getArg('--url') || process.env.PLOT_CAPTURE_URL;
 const targetUrl =
-	getArg('--url') || process.env.PLOT_CAPTURE_URL || 'http://localhost:5173/blog/plot-playground';
+	explicitUrl ||
+	(postSlug
+		? `${baseUrl.replace(/\/$/, '')}/${postSlug.replace(/^\/+/, '')}`
+		: undefined);
 const outputRoot = getArg('--output') || process.env.PLOT_CAPTURE_OUTPUT || path.join(process.cwd(), 'static');
 const viewportWidth = Number(getArg('--width') || process.env.PLOT_CAPTURE_WIDTH || 1200);
 const viewportHeight = Number(getArg('--height') || process.env.PLOT_CAPTURE_HEIGHT || 1600);
 const captureScaleInput = Number(getArg('--scale') || process.env.PLOT_CAPTURE_SCALE || 1);
 const captureScale = Number.isFinite(captureScaleInput) && captureScaleInput > 0 ? captureScaleInput : 1;
+
+if (!targetUrl) {
+	console.error('Missing required --post (or --url/PLOT_CAPTURE_URL).');
+	console.error('Example: npm run capture:plots -- --post plot-playground');
+	console.error('Optional: --base-url http://localhost:5173/blog');
+	process.exit(1);
+}
 
 let chromium;
 try {
