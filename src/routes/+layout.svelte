@@ -7,8 +7,9 @@
 
 {#if page.url.pathname !== '/'}
 	<header class="sticky top-0 z-50 backdrop-blur bg-white/60 border-b border-ocean-200">
-		<nav class="mx-auto max-w-3xl px-4 py-2">
+		<nav class="mx-auto max-w-3xl px-4 py-2 flex gap-6">
 			<a href="/blog" class="font-semibold text-ocean-900 hover:text-ocean-700">Blog</a>
+			<a href="/about" class="font-semibold text-ocean-900 hover:text-ocean-700">About</a>
 		</nav>
 	</header>
 {/if}
