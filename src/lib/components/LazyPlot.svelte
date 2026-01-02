@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tick } from 'svelte';
+	import { onDestroy, tick } from 'svelte';
 
 	let {
 		dataFactory,
@@ -22,6 +22,63 @@
 	let isLoading = $state(false);
 	let isPlotReady = $state(false);
 	let hasClicked = $state(false);
+	let resizeObserver: ResizeObserver | undefined;
+	let plotlyModule: any | undefined;
+	let lastPlotSize = { width: 0, height: 0 };
+
+	function parseAspectRatio(value: string) {
+		const [width, height] = value.split('/').map((part) => Number(part.trim()));
+		if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+			return undefined;
+		}
+		return height / width;
+	}
+
+	function getPlotSize() {
+		if (!wrapperElement) return undefined;
+		const rect = wrapperElement.getBoundingClientRect();
+		const measuredWidth = Math.round(rect.width);
+		const measuredHeight = Math.round(rect.height);
+		let width = measuredWidth;
+		let height = measuredHeight;
+		if ((!width || !height) && aspectRatio) {
+			const ratio = parseAspectRatio(aspectRatio);
+			if (ratio && width && !height) {
+				height = Math.round(width * ratio);
+			} else if (ratio && height && !width) {
+				width = Math.round(height / ratio);
+			}
+		}
+		if (!width || !height) return undefined;
+		return { width, height, isMeasured: measuredWidth > 0 && measuredHeight > 0 };
+	}
+
+	async function waitForPlotSize() {
+		for (let attempt = 0; attempt < 3; attempt++) {
+			const size = getPlotSize();
+			if (size) return size;
+			await tick();
+			await new Promise((resolve) => requestAnimationFrame(resolve));
+		}
+		return getPlotSize();
+	}
+
+	function resizePlot() {
+		if (!plotlyModule || !plotContainer) return;
+		const size = getPlotSize();
+		if (!size) return;
+		if (size.width === lastPlotSize.width && size.height === lastPlotSize.height) return;
+		lastPlotSize = { width: size.width, height: size.height };
+		if (size.isMeasured && plotlyModule.Plots?.resize) {
+			plotlyModule.Plots.resize(plotContainer);
+		} else {
+			plotlyModule.relayout(plotContainer, { width: size.width, height: size.height });
+		}
+	}
+
+	onDestroy(() => {
+		resizeObserver?.disconnect();
+	});
 
 	async function loadInteractivePlot() {
 		if (isLoading || isPlotReady) return;
@@ -39,29 +96,29 @@
 
 		try {
 			// @ts-ignore - plotly.js-dist doesn't have type definitions
-			const Plotly = await import('plotly.js-dist');
+			plotlyModule = await import('plotly.js-dist');
 			const data = dataFactory();
 			const layout = layoutFactory();
 
 			// Get container dimensions for proper sizing
-			const rect = wrapperElement.getBoundingClientRect();
-			const responsiveLayout = {
-				...layout,
-				width: rect.width,
-				height: rect.height,
-				autosize: false
-			};
+			const size = await waitForPlotSize();
+			const responsiveLayout = size
+				? {
+						...layout,
+						width: size.width,
+						height: size.height,
+						autosize: false
+					}
+				: layout;
 
-			await Plotly.newPlot(plotContainer, data, responsiveLayout, config);
+			await plotlyModule.newPlot(plotContainer, data, responsiveLayout, config);
 
-			// Handle window resize
-			const resizeHandler = () => {
-				if (wrapperElement && plotContainer) {
-					const newRect = wrapperElement.getBoundingClientRect();
-					Plotly.relayout(plotContainer, { width: newRect.width, height: newRect.height });
-				}
-			};
-			window.addEventListener('resize', resizeHandler);
+			if (resizeObserver) resizeObserver.disconnect();
+			if (wrapperElement && plotContainer) {
+				resizeObserver = new ResizeObserver(() => resizePlot());
+				resizeObserver.observe(wrapperElement);
+				resizePlot();
+			}
 
 			isPlotReady = true;
 		} catch (error) {
