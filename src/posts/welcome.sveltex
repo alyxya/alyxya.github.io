@@ -6,9 +6,14 @@ tags: ["intro", "math"]
 draft: true
 ---
 
+<script lang="ts">
+	import Annotation from '$lib/components/Annotation.svelte';
+</script>
+
 # Welcome!
 
-This is a sample blog post written in **markdown** with support for LaTeX math rendering.
+This is a sample blog post written in **markdown** with support for LaTeX math rendering
+<Annotation label="1">SvelTeX compiles markdown and Svelte in a single file.</Annotation>.
 
 ## Embedded Image
 

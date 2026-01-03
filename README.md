@@ -36,6 +36,9 @@ npm run preview      # serve the production build locally
   the filename.
 - The blog index at `/blog` loads metadata on the server (`+page.server.ts`),
   sorts by date, and never ships markdown to the client.
+- For inline citations/footnotes, import `Annotation` from
+  `$lib/components/Annotation.svelte` and use
+  `<Annotation label="1">Note text</Annotation>` (or pass `note="..."`).
 
 ## SvelTeX wiring
 
