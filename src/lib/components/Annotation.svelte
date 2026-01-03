@@ -52,6 +52,8 @@
 	}
 </script>
 
+<svelte:window on:click={handleWindowClick} on:keydown={handleWindowKeydown} />
+
 <span bind:this={root} class="annotation relative inline-flex" style="vertical-align: super;">
 	<button
 		type="button"
@@ -89,5 +91,4 @@
 		{/if}
 	</span>
 
-	<svelte:window on:click={handleWindowClick} on:keydown={handleWindowKeydown} />
 </span>
