@@ -12,7 +12,7 @@ draft: true
 
 # Welcome!
 
-This is a sample blog post written in **markdown** with support for LaTeX math <Annotation note="SvelTeX compiles markdown and Svelte in a single file.">rendering</Annotation>.
+This is a sample blog post written in **markdown** with support for LaTeX math <Annotation>rendering<span slot="note">SvelTeX compiles markdown and Svelte in a single file. See the <a href="https://sveltex.dev" target="_blank" rel="noreferrer">docs</a>.</span></Annotation>.
 
 ## Embedded Image
 
