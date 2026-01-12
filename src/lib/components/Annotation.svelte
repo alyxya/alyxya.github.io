@@ -89,8 +89,7 @@
 >
 	<button
 		type="button"
-		class="annotation-trigger inline rounded-sm px-0.5 -mx-0.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ocean-400/60"
-		class:bg-ocean-100/70={isHovered || isPinned}
+		class={`annotation-trigger inline rounded-sm px-0.5 -mx-0.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ocean-400/60 ${isHovered || isPinned ? 'bg-ocean-100/70' : ''}`}
 		aria-label={ariaLabel}
 		aria-pressed={isPinned}
 		aria-expanded={isHovered || isPinned}
@@ -99,18 +98,13 @@
 		on:click={togglePinned}
 	>
 		<span
-			class="annotation-anchor border-b border-dotted border-ocean-300/80 pb-[0.08em] transition-colors"
-			class:border-ocean-500/80={isHovered || isPinned}
-			class:text-ocean-950={isHovered || isPinned}
+			class={`annotation-anchor border-b border-dotted border-ocean-300/80 pb-[0.08em] transition-colors ${isHovered || isPinned ? 'border-ocean-500/80 text-ocean-950' : ''}`}
 		>
 			<slot />
 		</span>
 		<span class="annotation-mark ml-0.5 inline-flex h-2.5 w-2.5 items-center justify-center relative -top-1">
 			<span
-				class="absolute inset-0 rotate-45 rounded-[3px] border border-ocean-400/80 bg-ocean-100/80 shadow-sm transition-transform duration-200"
-				class:scale-110={isHovered || isPinned}
-				class:border-ocean-500/90={isHovered || isPinned}
-				class:bg-ocean-200/90={isHovered || isPinned}
+				class={`absolute inset-0 rotate-45 rounded-[3px] border border-ocean-400/80 bg-ocean-100/80 shadow-sm transition-transform duration-200 ${isHovered || isPinned ? 'scale-110 border-ocean-500/90 bg-ocean-200/90' : ''}`}
 			></span>
 			<span
 				class="relative h-1 w-1 rounded-full bg-ocean-600 transition-colors"
