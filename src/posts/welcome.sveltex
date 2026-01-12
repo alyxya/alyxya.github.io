@@ -14,17 +14,29 @@ draft: true
 
 This is a sample blog post written in **markdown** with support for LaTeX math <Annotation>rendering<span slot="note">SvelTeX compiles markdown and Svelte in a single file. See the <a href="https://sveltex.dev" target="_blank" rel="noreferrer">docs</a>.</span></Annotation>.
 
-## Embedded Image
+<nav class="not-prose mt-6 mb-8 rounded-xl border border-ocean-200/70 bg-white/70 px-4 py-3 text-sm text-ocean-700 shadow-sm backdrop-blur" aria-label="On this page">
+	<div class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ocean-500">On this page</div>
+	<div class="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+		<a href="#embedded-image" class="hover:text-ocean-900">Embedded image</a>
+		<a href="#inline-math" class="hover:text-ocean-900">Inline math</a>
+		<a href="#display-math" class="hover:text-ocean-900">Display math</a>
+		<a href="#matrix-example" class="hover:text-ocean-900">Matrix example</a>
+		<a href="#code-examples" class="hover:text-ocean-900">Code examples</a>
+		<a href="#whats-next" class="hover:text-ocean-900">What's next</a>
+	</div>
+</nav>
+
+## <a id="embedded-image"></a>Embedded Image
 
 Here's a plain Markdown image embed:
 
 ![Moon jellyfish drifting in blue light](/images/posts/welcome/moonjelly.png)
 
-## Inline Math
+## <a id="inline-math"></a>Inline Math
 
 You can write inline equations like $E = mc^2$ or $a^2 + b^2 = c^2$ directly in your text.
 
-## Display Math
+## <a id="display-math"></a>Display Math
 
 For larger equations, use display math:
 
@@ -38,7 +50,7 @@ $$
 x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
 $$
 
-## Matrix Example
+## <a id="matrix-example"></a>Matrix Example
 
 You can even write matrices:
 
@@ -58,7 +70,7 @@ cx + dy
 \end{bmatrix}
 $$
 
-## Code Examples
+## <a id="code-examples"></a>Code Examples
 
 Here's an example of inline code: you can use `const result = fibonacci(10)` or call `Math.sqrt(16)` directly in your text.
 
@@ -77,7 +89,7 @@ function fibonacci(n) {
 
 Notice how inline `code` has a light background, while code blocks have a dark ocean-themed background.
 
-## What's Next?
+## <a id="whats-next"></a>What's Next?
 
 This blog supports:
 

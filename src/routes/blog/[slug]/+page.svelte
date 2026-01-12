@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount, tick } from 'svelte';
 	import type { ComponentType, SvelteComponent } from 'svelte';
 
 	type PostModule = {
@@ -12,6 +13,74 @@
 
 	// Load the specific post component asynchronously
 	const postPromise = posts[path]?.() || Promise.reject(new Error('Post not found'));
+
+	function getHeaderOffset() {
+		if (typeof document === 'undefined') return 0;
+		const header = document.querySelector('header');
+		return header instanceof HTMLElement ? header.getBoundingClientRect().height : 0;
+	}
+
+	function setAnchorOffsetVar() {
+		if (typeof document === 'undefined') return 0;
+		const offset = getHeaderOffset() + 12;
+		document.documentElement.style.setProperty('--anchor-offset', `${offset}px`);
+		return offset;
+	}
+
+	function scrollToHash(behavior: ScrollBehavior = 'auto') {
+		if (typeof window === 'undefined') return;
+		const hash = window.location.hash;
+		if (!hash) return;
+		const id = decodeURIComponent(hash.slice(1));
+		const target = document.getElementById(id);
+		if (!target) return;
+		const offset = setAnchorOffsetVar();
+		const top = target.getBoundingClientRect().top + window.scrollY - offset;
+		window.scrollTo({ top: Math.max(top, 0), behavior });
+	}
+
+	function waitForPostImages() {
+		if (typeof document === 'undefined') return Promise.resolve();
+		const container = document.querySelector('[data-post-content]');
+		if (!(container instanceof HTMLElement)) return Promise.resolve();
+		const images = Array.from(container.querySelectorAll('img'));
+		if (images.length === 0) return Promise.resolve();
+		const waits = images.map((image) => {
+			if (!(image instanceof HTMLImageElement) || image.complete) {
+				return Promise.resolve();
+			}
+			return new Promise<void>((resolve) => {
+				image.addEventListener('load', () => resolve(), { once: true });
+				image.addEventListener('error', () => resolve(), { once: true });
+			});
+		});
+		const timeout = new Promise<void>((resolve) => {
+			window.setTimeout(resolve, 1500);
+		});
+		return Promise.race([Promise.all(waits).then(() => undefined), timeout]);
+	}
+
+	onMount(() => {
+		const handleHashChange = () => {
+			const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			scrollToHash(prefersReducedMotion ? 'auto' : 'smooth');
+		};
+
+		window.addEventListener('hashchange', handleHashChange);
+
+		postPromise
+			.then(async () => {
+				await tick();
+				scrollToHash('auto');
+				await waitForPostImages();
+				scrollToHash('auto');
+			})
+			.catch(() => {});
+
+		return () => {
+			window.removeEventListener('hashchange', handleHashChange);
+		};
+	});
 </script>
 
 <svelte:head>
@@ -56,7 +125,7 @@
 				<div class="h-4 bg-ocean-200 rounded w-5/6"></div>
 			</div>
 		{:then postModule}
-			<div class="prose prose-lg max-w-none prose-ocean">
+			<div class="prose prose-lg max-w-none prose-ocean" data-post-content>
 				<postModule.default />
 			</div>
 		{:catch error}

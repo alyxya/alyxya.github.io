@@ -85,6 +85,10 @@ body {
 	color: oklch(60% 0.12 220);
 }
 
+.prose-ocean :where(h2, h3, h4, h5, h6) {
+	scroll-margin-top: var(--anchor-offset, 5rem);
+}
+
 /* Scale down SVG math to match text size better */
 .prose-ocean mjx-container {
 	font-size: 0.85em;
