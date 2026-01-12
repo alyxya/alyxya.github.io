@@ -5,6 +5,15 @@ export default await sveltex({
 	codeBackend: 'shiki',
 	mathBackend: 'mathjax'
 }, {
+	markdown: {
+		components: [
+			{
+				name: 'Annotation',
+				type: 'phrasing',
+				importPath: '$lib/components/Annotation.svelte'
+			}
+		]
+	},
 	code: {
 		shiki: {
 			theme: 'nord'
