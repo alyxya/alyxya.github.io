@@ -2,7 +2,7 @@
 title: "Information Theory Analysis of Sorting"
 date: "2025-06-24"
 updated: "2026-01-15"
-description: "I’ve learned that the best comparison-based sorting algorithms have O(n log n) average time complexity without really understanding why that’s a fundamental limit, so I looked into this and found a simple explanation."
+description: "Why comparison sorts are limited to O(n log n): an information theory view."
 tags: ["algorithms", "information-theory", "sorting"]
 draft: false
 ---
