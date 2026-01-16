@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { formatDate } from '$lib/date';
 	import { onMount, tick } from 'svelte';
 	import type { ComponentType, SvelteComponent } from 'svelte';
 
@@ -99,22 +100,14 @@
 			<div class="mb-4 space-y-1 text-ocean-600">
 				<div>
 					<time datetime={data.metadata.date}>
-						{new Date(data.metadata.date).toLocaleDateString('en-US', {
-							year: 'numeric',
-							month: 'long',
-							day: 'numeric'
-						})}
+						{formatDate(data.metadata.date)}
 					</time>
 				</div>
 				{#if data.metadata.updated}
 					<div class="text-sm text-ocean-500">
 						Last edited
 						<time datetime={data.metadata.updated}>
-							{new Date(data.metadata.updated).toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric'
-							})}
+							{formatDate(data.metadata.updated)}
 						</time>
 					</div>
 				{/if}

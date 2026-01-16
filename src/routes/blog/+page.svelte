@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { formatDate } from '$lib/date';
 	let { data } = $props();
 </script>
 
@@ -21,11 +22,7 @@
 
 					<div class="mb-3 text-sm text-ocean-500">
 						<time datetime={post.date}>
-							{new Date(post.date).toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric'
-							})}
+							{formatDate(post.date)}
 						</time>
 					</div>
 
