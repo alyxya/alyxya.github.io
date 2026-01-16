@@ -96,14 +96,28 @@
 		<header class="mb-8">
 			<h1 class="mb-4 text-4xl font-bold text-ocean-900">{data.metadata.title}</h1>
 
-			<div class="mb-4 text-ocean-600">
-				<time datetime={data.metadata.date}>
-					{new Date(data.metadata.date).toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric'
-					})}
-				</time>
+			<div class="mb-4 space-y-1 text-ocean-600">
+				<div>
+					<time datetime={data.metadata.date}>
+						{new Date(data.metadata.date).toLocaleDateString('en-US', {
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric'
+						})}
+					</time>
+				</div>
+				{#if data.metadata.updated}
+					<div class="text-sm text-ocean-500">
+						Last edited
+						<time datetime={data.metadata.updated}>
+							{new Date(data.metadata.updated).toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric'
+							})}
+						</time>
+					</div>
+				{/if}
 			</div>
 
 			{#if data.metadata.tags && data.metadata.tags.length > 0}
