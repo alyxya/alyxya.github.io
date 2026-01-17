@@ -97,9 +97,9 @@ b4 00 00 00 00 00 00 00  # Size in memory (180 bytes)
 00 10 00 00 00 00 00 00  # Alignment (4096 bytes)
 ```
 
-The 64 byte ELF header, 56 byte program header, 46 bytes of instructions, and 14 string bytes combine to form a 180 byte ELF executable.
+The 64-byte ELF header, 56-byte program header, 46 bytes of instructions, and 14 string bytes combine to form a 180-byte ELF executable.
 
-Going through some of the notable values in the headers, the 0x400000 starting address in the program header makes the address of the first instruction 64+56=120 (0x78) bytes after that address, hence the 0x400078 entry point address. The program header table offset 0x40=64 is the number of bytes in the file before the program header. There are no section headers and sections used.
+Going through some of the notable values in the headers, the 0x400000 starting address in the program header makes the address of the first instruction 64 + 56 = 120 (0x78) bytes after that address, hence the 0x400078 entry point address. The program header table offset 0x40 = 64 is the number of bytes in the file before the program header. There are no section headers and sections used.
 
 ---
 
