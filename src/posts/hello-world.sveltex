@@ -15,9 +15,9 @@ To begin, it must contain the desired string to be printed, so it must contain t
 48 65 6c 6c 6f 2c 20 57 6f 72 6c 64 21 0a
 ```
 
-corresponding to the 13 characters in “Hello, World!” plus a newline character.
+corresponding to the 13 characters in "Hello, World!" plus a newline character somewhere in the binary.
 
-There must also be instructions for the write syscall to print this string and an exit syscall to exit the program. Looking at [this linux syscall reference](https://syscalls64.paolostivanin.com), in order to invoke the write syscall, the rax register should be set to 0x01 to denote the write syscall number, the rdi register should be set to 1 to correspond to the stdout file descriptor, the rsi register should be a pointer to the hello world string, and the rdx register should be set to 14 to represent the number of bytes to write. This syscall corresponds to the bytes:
+There must also be assembly instructions for the program, notably the write syscall to print the string and an exit syscall to exit the program. Looking at [this linux syscall reference](https://syscalls64.paolostivanin.com), in order to invoke the write syscall, the rax register should be set to 0x01 to denote the write syscall number, the rdi register should be set to 1 to correspond to the stdout file descriptor, the rsi register should be a pointer to the hello world string, and the rdx register should be set to 14 to represent the number of bytes to write. This syscall corresponds to the bytes:
 
 ```
 48 c7 c0 01 00 00 00  # mov rax, 1
@@ -103,7 +103,7 @@ Going through some of the notable values in the headers, the 0x400000 starting a
 
 ---
 
-And I tested that it works!
+Putting this all together, I tested that it works!
 
 ```
 $ xxd helloworld
@@ -124,6 +124,6 @@ $ ./helloworld
 Hello, World!
 ```
 
-[Link to repo with the script for generating this ELF executable.](https://github.com/alyxya/hello-world)
+[Code](https://github.com/alyxya/hello-world)
 
 Originally published on Substack: [https://alyxya.substack.com/p/hello-world](https://alyxya.substack.com/p/hello-world).
