@@ -7,7 +7,7 @@ tags: ["low-level", "elf", "assembly"]
 draft: false
 ---
 
-Today I learned how to create a simple hello world program, where the goal is to create an ELF executable that prints the string “Hello, World!”.
+Today I learned how to manually create a simple hello world program, where the goal is to create an ELF executable that prints the string "Hello, World!". ELF (Executable and Linkable Format) is the standard binary format that languages like C, C++, Rust, and Go compile to on Linux and other Unix-like operating systems.
 
 To begin, it must contain the desired string to be printed, so it must contain the 14 bytes
 
