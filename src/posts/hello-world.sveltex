@@ -7,17 +7,17 @@ tags: ["low-level", "elf", "assembly"]
 draft: false
 ---
 
-Today I learned how to manually create a simple hello world program, where the goal is to create an ELF executable that prints the string "Hello, World!". ELF (Executable and Linkable Format) is the standard binary format for executables that languages like C, C++, Rust, and Go compile to on Linux. Windows and macOS use different file types.
+Today I learned how to manually create a simple ELF executable that prints the string "Hello, World!". [ELF](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) (Executable and Linkable Format) is the standard binary format for executables that languages like C, C++, Rust, and Go compile to on Linux. Windows and macOS use different file types.
 
-To begin, it must contain the desired string to be printed, so it must contain the 14 bytes
+To begin, the executable must contain the desired string to be printed, so it must contain the 14 bytes
 
 ```
 48 65 6c 6c 6f 2c 20 57 6f 72 6c 64 21 0a
 ```
 
-corresponding to the 13 characters in "Hello, World!" plus a newline character somewhere in the binary.
+corresponding to the 13 characters in "Hello, World!" plus a newline character.
 
-There must also be assembly instructions for the program, notably the write syscall to print the string and an exit syscall to exit the program. Looking at [this linux syscall reference](https://syscalls64.paolostivanin.com), in order to invoke the write syscall, the rax register should be set to 0x01 to denote the write syscall number, the rdi register should be set to 1 to correspond to the stdout file descriptor, the rsi register should be a pointer to the hello world string, and the rdx register should be set to 14 to represent the number of bytes to write. This syscall corresponds to the bytes:
+There must also be assembly instructions for the program, notably the write syscall to print the string and an exit syscall to exit the program. Looking at [this Linux syscall reference](https://syscalls64.paolostivanin.com), in order to invoke the write syscall, the rax register should be set to 0x01 to denote the write syscall number, the rdi register should be set to 1 to correspond to the stdout file descriptor, the rsi register should be a pointer to the hello world string, and the rdx register should be set to 14 to represent the number of bytes to write. This syscall corresponds to the bytes:
 
 ```
 48 c7 c0 01 00 00 00  # mov rax, 1
@@ -37,7 +37,7 @@ In order to invoke the exit syscall, the rax register should be set to 0x3c to d
 0f 05                 # syscall
 ```
 
-By placing the hello world string to be right after the instruction bytes in memory, the lea instruction for the write syscall can be resolved by setting the rsi register to some offset of the rip register, which is a pointer to the next instruction. The offset in this case is the number of instruction bytes after the lea instruction, and counting this number gives 25. This resolves the lea instruction to be:
+By placing the hello world string right after the instruction bytes in memory, the lea instruction for the write syscall can be resolved by setting the rsi register to some offset of the rip register, which is a pointer to the next instruction. The offset in this case is the number of instruction bytes after the lea instruction, and counting this number gives 25. This resolves the lea instruction to be:
 
 ```
 48 8d 35 19 00 00 00  # lea rsi, [rip+25]
@@ -99,7 +99,7 @@ b4 00 00 00 00 00 00 00  # Size in memory (180 bytes)
 
 The 64-byte ELF header, 56-byte program header, 46 bytes of instructions, and 14 string bytes combine to form a 180-byte ELF executable.
 
-Going through some of the notable values in the headers, the 0x400000 starting address in the program header makes the address of the first instruction 64 + 56 = 120 (0x78) bytes after that address, hence the 0x400078 entry point address. The program header table offset 0x40 = 64 is the number of bytes in the file before the program header. There are no section headers and sections used.
+Going through some of the notable values in the headers, the 0x400000 starting address in the program header makes the address of the first instruction 64 + 56 = 120 (0x78) bytes after that address, hence the 0x400078 entry point address. The program header table offset 0x40 = 64 is the number of bytes in the file before the program header. No section headers or sections are used.
 
 ---
 
