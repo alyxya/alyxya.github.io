@@ -6,7 +6,7 @@ type PostModule = {
 };
 
 export const load: PageServerLoad = async () => {
-	const postModules = import.meta.glob('/src/posts/*.sveltex');
+	const postModules = import.meta.glob('/src/posts/**/*.sveltex');
 
 	const posts = await Promise.all(
 		Object.entries(postModules).map(async ([path, resolver]) => {

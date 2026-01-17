@@ -8,25 +8,31 @@ type PostModule = {
 	metadata: BlogPostMetadata;
 };
 
-const listPostSlugs = () =>
-	Object.keys(import.meta.glob('/src/posts/*.sveltex')).map(
-		(path) => path.split('/').pop()?.replace('.sveltex', '') || ''
-	);
+const postModules = import.meta.glob<PostModule>('/src/posts/**/*.sveltex');
 
-export const entries: EntryGenerator = async () => listPostSlugs().map((slug) => ({ slug }));
+const slugFromPath = (path: string) => path.split('/').pop()?.replace('.sveltex', '') || '';
+
+const listPostSlugs = () => Object.keys(postModules).map(slugFromPath);
+
+const findPostEntry = (slug: string) =>
+	Object.entries(postModules).find(([path]) => path.endsWith(`/${slug}.sveltex`));
+
+export const entries: EntryGenerator = async () =>
+	Array.from(new Set(listPostSlugs())).map((slug) => ({ slug }));
 
 export const load: PageServerLoad = async ({ params }) => {
-	const posts = import.meta.glob<PostModule>('/src/posts/*.sveltex');
-	const resolver = posts[`/src/posts/${params.slug}.sveltex`];
+	const postEntry = findPostEntry(params.slug);
 
-	if (!resolver) {
+	if (!postEntry) {
 		throw error(404, `Post not found: ${params.slug}`);
 	}
 
+	const [postPath, resolver] = postEntry;
 	const post = await resolver();
 
 	return {
 		slug: params.slug,
-		metadata: post.metadata
+		metadata: post.metadata,
+		postPath
 	};
 };

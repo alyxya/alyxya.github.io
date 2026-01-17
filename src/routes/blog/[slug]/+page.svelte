@@ -7,13 +7,13 @@
 		default: ComponentType<SvelteComponent>;
 	};
 
-	const posts = import.meta.glob<PostModule>('/src/posts/*.sveltex');
+	const posts = import.meta.glob<PostModule>('/src/posts/**/*.sveltex');
 
 	let { data } = $props();
-	const path = `/src/posts/${data.slug}.sveltex`;
+	const postPath = data.postPath ?? `/src/posts/${data.slug}.sveltex`;
 
 	// Load the specific post component asynchronously
-	const postPromise = posts[path]?.() || Promise.reject(new Error('Post not found'));
+	const postPromise = posts[postPath]?.() || Promise.reject(new Error('Post not found'));
 
 	function getHeaderOffset() {
 		if (typeof document === 'undefined') return 0;

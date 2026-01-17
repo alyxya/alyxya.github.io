@@ -2,7 +2,7 @@
 title: "Hello, World!"
 date: "2025-05-16"
 updated: "2026-01-15"
-description: "Building a tiny x86-64 ELF that prints \"Hello, World!\"."
+description: "Building a tiny x86-64 ELF that prints 'Hello, World!'."
 tags: ["low-level", "elf", "assembly"]
 draft: false
 ---
