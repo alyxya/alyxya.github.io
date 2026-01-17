@@ -7,7 +7,7 @@ tags: ["low-level", "elf", "assembly"]
 draft: false
 ---
 
-Today I learned how to manually create a simple hello world program, where the goal is to create an ELF executable that prints the string "Hello, World!". ELF (Executable and Linkable Format) is the standard binary format that languages like C, C++, Rust, and Go compile to on Linux and other Unix-like operating systems.
+Today I learned how to manually create a simple hello world program, where the goal is to create an ELF executable that prints the string "Hello, World!". ELF (Executable and Linkable Format) is the standard binary format for executables that languages like C, C++, Rust, and Go compile to on Linux. Windows and macOS use different file types.
 
 To begin, it must contain the desired string to be printed, so it must contain the 14 bytes
 
@@ -62,7 +62,7 @@ Combining everything so far gives the bytes:
 48 65 6c 6c 6f 2c 20 57 6f 72 6c 64 21 0a
 ```
 
-ELF files must also have headers, so there’ll need to be an ELF header and a program header, which should be placed before the instruction and string bytes. [This wikipedia page](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) explains the fields in the headers.
+ELF files must also have headers, so there’ll need to be an ELF header and a program header, which should be placed before the instruction and string bytes. [This wikipedia page](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) explains the fields in the headers, but I figured ChatGPT could explain things more simply.
 
 ```
 # ELF header
@@ -124,6 +124,6 @@ $ ./helloworld
 Hello, World!
 ```
 
-[Code](https://github.com/alyxya/hello-world)
+[GitHub](https://github.com/alyxya/hello-world)
 
 Originally published on Substack: [https://alyxya.substack.com/p/hello-world](https://alyxya.substack.com/p/hello-world).
