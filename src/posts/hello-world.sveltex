@@ -27,7 +27,7 @@ There must also be assembly instructions for the program, notably the write sysc
 0f 05                 # syscall
 ```
 
-[This reference](http://ref.x86asm.net/index.html) explains the format of various instructions, but I found it easier to use ChatGPT to determine the appropriate bytes for each instruction. The instruction for setting the rsi register depends on where the hello world string is located, which will be resolved later.
+[This reference](http://ref.x86asm.net/index.html) explains the format of various instructions. The instruction for setting the rsi register depends on where the hello world string is located, which will be resolved later.
 
 In order to invoke the exit syscall, the rax register should be set to 0x3c to denote the exit syscall number and the rdi register should be set to 0 for the exit code. This syscall corresponds to the bytes:
 
@@ -62,7 +62,7 @@ Combining everything so far gives the bytes:
 48 65 6c 6c 6f 2c 20 57 6f 72 6c 64 21 0a
 ```
 
-ELF files must also have headers, so there’ll need to be an ELF header and a program header, which should be placed before the instruction and string bytes. [This wikipedia page](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) explains the fields in the headers, but I figured ChatGPT could explain things more simply.
+ELF files must also have headers, so there’ll need to be an ELF header and a program header, which should be placed before the instruction and string bytes. [This Wikipedia page](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) explains the fields in the headers.
 
 ```
 # ELF header
