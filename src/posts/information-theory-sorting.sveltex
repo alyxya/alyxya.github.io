@@ -33,7 +33,7 @@ $$
 
 bits of information so approximately sorting an array under this constraint won't reduce the time complexity.
 
-What if instead of allowing for an offset error of a constant $k$, you allow an offset error of $pn$ for some constant $0 < p < 1$? Similar to the analysis above, a lower bound for the number of permutations of an array satisfying this constraint can be obtained by first partitioning the sorted array into roughly $\frac{1}{p}$ groups of $pn$ elements and taking arbitrary permutations within each group. It’s clear that this scheme generates approximately sorted arrays satisfying the constraint, and the number of these permutations is roughly $(pn)!^{1/p}$. This lower bound estimate means you need at most $\log_2\left( \frac{n!}{((pn)!)^{1/p}} \right)$ bits of information, and using Stirling's approximation this is roughly
+What if instead of allowing for an offset error of a constant $k$, you allow an offset error of $pn$ for some constant $0 < p < 1$? Similar to the analysis above, a lower bound for the number of permutations of an array satisfying this constraint can be obtained by first partitioning the sorted array into roughly $\frac{1}{p}$ groups of $pn$ elements and taking arbitrary permutations within each group. It’s clear that this scheme generates approximately sorted arrays satisfying the constraint, and the number of these permutations is roughly $(pn)!^{\frac{1}{p}}$. This lower bound estimate means you need at most $\log_2\left( \frac{n!}{((pn)!)^{\frac{1}{p}}} \right)$ bits of information, and using Stirling's approximation this is roughly
 
 $$
 (n \log_2{n} - n \log_2{e} + O(\log_2{n})) - \frac{1}{p}(pn \log_2{pn} - pn \log_2{e} + O(\log_2{pn}))
