@@ -94,8 +94,10 @@ body {
 	font-size: 0.85em;
 }
 
-/* Allow horizontal scroll for overflowing math equations on mobile */
+/* Center display math and allow horizontal scroll for overflowing equations on mobile */
 .prose-ocean mjx-container[display="true"] {
+	display: flex !important;
+	justify-content: center !important;
 	overflow-x: auto;
 	max-width: 100%;
 }

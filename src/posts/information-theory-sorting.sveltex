@@ -7,7 +7,7 @@ tags: ["algorithms", "information-theory", "sorting"]
 draft: false
 ---
 
-I’ve learned that the best comparison-based sorting algorithms have $O(n \log n)$ average time complexity without really understanding why that’s a fundamental limit, so I looked into this and found a simple explanation. For an array of size $n$, there are $n!$ different permutations, and every time you perform a comparison, you reduce the number of candidate permutations that could represent the sorted array by up to half, thus you need at least $\log_2(n!)$ comparisons. By Stirling’s approximation, 
+I've learned that the best comparison-based sorting algorithms have $O(n \log n)$ average time complexity without really understanding why that's a fundamental limit, so I looked into this and found a simple explanation. For an array of size $n$, there are $n!$ different permutations, and every time you perform a comparison, you reduce the number of candidate permutations that could represent the sorted array by up to half, thus you need at least $\log_2(n!)$ comparisons. By Stirling's approximation,
 
 $$
 \log_2{(n!)} = n \log_2{n} - n \log_2{e} + O(\log_2{n})
@@ -21,13 +21,7 @@ What about non-comparison-based sorting algorithms such as radix sort? You still
 
 You may be wondering then why is it that radix sort is known to be a linear time sorting algorithm, or what went wrong with my analysis? The key lies in the assumption that there are no duplicate values, which prevents $n$ from scaling beyond $b^d$, otherwise the Pigeonhole Principle guarantees there must be a duplicate value. When $n$ has an upper bound of $b^d$, then $\log n$ is bounded by $O(\log b^d) = O(d)$, so the $O(n \log n)$ time complexity for comparison based sorting algorithms is analogous to the $O(nd) = O(n)$ time complexity for radix sort.
 
-A better way of formulating the amount of information in radix sort is to reframe the sorted array as being the number of 0's, number of 1's, ..., number of $(b^d - 1)$'s in the array, and there are
-
-$$
-\log_2 \left(\binom{n+b^d-1}{n}\right)
-$$
-
-bits of information in that reformulation. This perspective handles total bits of information with consideration for duplicates in the array, and it’s easy to check that this is within $O(n)$ bits of information after waving off the large constant, verifying that radix sort is able to achieve linear time complexity when scaling $n$ with a fixed $b$ and $d$.
+A better way of formulating the amount of information in radix sort is to reframe the sorted array as being the number of 0's, number of 1's, ..., number of $(b^d - 1)$'s in the array, and there are $\log_2 \binom{n+b^d-1}{n}$ bits of information in that reformulation. This perspective handles total bits of information with consideration for duplicates in the array, and it’s easy to check that this is within $O(n)$ bits of information after waving off the large constant, verifying that radix sort is able to achieve linear time complexity when scaling $n$ with a fixed $b$ and $d$.
 
 ---
 
@@ -37,15 +31,9 @@ $$
 \log_2 \left(\frac{n!}{(2k+1)^n}\right) = O(n \log{n}) - O(n) = O(n \log{n})
 $$
 
-bits of information so approximately sorting an array under this constraint won’t reduce the time complexity.
+bits of information so approximately sorting an array under this constraint won't reduce the time complexity.
 
-What if instead of allowing for an offset error of a constant $k$, you allow an offset error of $pn$ for some constant $0 < p < 1$? Similar to the analysis above, a lower bound for the number of permutations of an array satisfying this constraint can be obtained by first partitioning the sorted array into roughly $1/p$ groups of $pn$ elements and taking arbitrary permutations within each group. It’s clear that this scheme generates approximately sorted arrays satisfying the constraint, and the number of these permutations is roughly $(pn)!^{1/p}$. This lower bound estimate means you need at most
-
-$$
-\log_2{\left( \frac{n!}{((pn)!)^{\frac{1}{p}}} \right)}
-$$
-
-bits of information, and using Stirling’s approximation this is roughly
+What if instead of allowing for an offset error of a constant $k$, you allow an offset error of $pn$ for some constant $0 < p < 1$? Similar to the analysis above, a lower bound for the number of permutations of an array satisfying this constraint can be obtained by first partitioning the sorted array into roughly $1/p$ groups of $pn$ elements and taking arbitrary permutations within each group. It’s clear that this scheme generates approximately sorted arrays satisfying the constraint, and the number of these permutations is roughly $(pn)!^{1/p}$. This lower bound estimate means you need at most $\log_2\left( \frac{n!}{((pn)!)^{1/p}} \right)$ bits of information, and using Stirling's approximation this is roughly
 
 $$
 (n \log_2{n} - n \log_2{e} + O(\log_2{n})) - \frac{1}{p}(pn \log_2{pn} - pn \log_2{e} + O(\log_2{pn}))
@@ -57,6 +45,6 @@ This only checks if it’s plausible to approximately sort an array in linear ti
 
 ---
 
-The takeaway from this analysis is that if you want to do faster than $O(n \log n)$ sorting, you may be able to take advantage of properties with your array such as a known distribution or duplicate values in it, otherwise consider approximate sorting if that suffices for your use case. Though if algorithmic performance is ever a relevant consideration, systems performance considerations likely matter just as much if not more.
+The takeaway from this analysis is that if you want to do faster than $O(n \log n)$ sorting, you may be able to take advantage of properties of your array such as a known distribution in it. Most real world sorting problems do have properties that allow for much better performance than standard algorithms. Though keep in mind that systems performance considerations likely matter just as much if not more than the algorithm.
 
 Originally published on Substack: [https://alyxya.substack.com/p/information-theory-analysis-of-sorting](https://alyxya.substack.com/p/information-theory-analysis-of-sorting).
