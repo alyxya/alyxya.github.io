@@ -1,0 +1,81 @@
+---
+title: "Dot Products"
+date: "2026-01-28"
+description: "TODO"
+tags: ["linear-algebra", "vectors"]
+draft: true
+---
+
+Dot products are amazing when you consider how simple they are to compute, yet they're very expressive with what they can represent.
+They're used all over the place in machine learning in the form of matrix multiplication, where a single matrix multiplication consists of an array of dot products.
+
+Let's start with the basics. Two common formulations of the dot product for vectors $x, y \in \mathbb{R}^n$ are:
+
+$$
+x \cdot y = \sum_{i=1}^n x_i y_i
+$$
+
+and
+
+$$
+x \cdot y = \lVert x \rVert \, \lVert y \rVert \cos(\theta),
+$$
+
+where $\theta$ is the angle between $x$ and $y$, and $\lVert x \rVert = \sqrt{\sum_{i=1}^n x_i^2}$.
+
+Proof: Look at the squared distance between the endpoints, $\lVert x - y \rVert^2$. Expanding in coordinates gives
+
+$$
+\lVert x - y \rVert^2
+= \sum_{i=1}^n (x_i - y_i)^2
+= \lVert x \rVert^2 + \lVert y \rVert^2 - 2 \sum_{i=1}^n x_i y_i.
+$$
+
+Geometrically, the law of cosines on the triangle formed by $x$ and $y$ gives
+
+$$
+\lVert x - y \rVert^2
+= \lVert x \rVert^2 + \lVert y \rVert^2 - 2 \lVert x \rVert \lVert y \rVert \cos(\theta).
+$$
+
+Equating the two expressions and canceling terms yields
+
+$$
+\sum_{i=1}^n x_i y_i = \lVert x \rVert \lVert y \rVert \cos(\theta),
+$$
+
+which proves the equivalence.
+
+---
+
+If we fix $\lVert x \rVert = \lVert y \rVert = 1$, we can think of a dot product as a computationally cheap way to determine how aligned two vectors are, with the computation being a mix of addition and multiplication.
+The more aligned they are, the smaller the angle between them, and the cosine of a smaller angle is closer to 1.
+If they are misaligned and pointing in orthogonal directions, the angle between them is roughly 90 degrees, so the cosine of that angle is close to 0.
+If they are aligned in opposite directions, the angle between them is roughly 180 degrees, so the cosine of that angle is close to -1.
+If you don't have $\lVert x \rVert = \lVert y \rVert = 1$, you could still use $\cos(\theta) = \frac{x \cdot y}{\lVert x \rVert \lVert y \rVert}$ to determine alignment.
+
+It's also useful in representing projections.
+If you had a vector $y$ that you wanted to decompose into how aligned it is with $x$ and the rest that's unrelated (orthogonal) to $x$, then you could use the dot product to determine the length of the projection of $y$ onto $x$, and then subtract that from $y$ to determine the unrelated/orthogonal component.
+
+$$
+\operatorname{proj}_x(y) = \frac{x \cdot y}{x \cdot x} \, x
+$$
+
+$$
+y_{\perp} = y - \operatorname{proj}_x(y)
+$$
+
+---
+
+Why should you care about this?
+There are a lot of possible interpretations and connections you can make with the different uses of dot products.
+* It connects the algebra and computation to the geometric interpretation of vectors.
+* It tells you how aligned two vectors are.
+* Matrix multiplication is just a lot of dot products, and it performs a change of basis by determining how aligned some vector is to a given set of basis vectors.
+* It connects the vectors in Cartesian coordinates to their hyperspherical coordinates where every dimension is an angle except for a single magnitude dimension.
+* It adds meaning to vectors in machine learning where each vector represents a combination of features, and dot products can extract specific features from it.
+* It gives intuition behind why the residual stream in LLMs is interpretable. For those who don't know, the residual stream is the primary state vector of a LLM.
+* The attention mechanism in LLMs can be interpreted as performing a lookup on extracted features and adding features to the residual stream based on matches in the lookup.
+* It's useful in Fourier analysis in comparing how aligned a signal vector is to some frequency vector.
+
+I'm sure there are plenty more connections and interpretations I'm still missing, but this should help motivate why dot products and linear algebra in general is so important.
