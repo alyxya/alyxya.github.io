@@ -46,15 +46,15 @@ $$
 
 which proves the equivalence.
 
-The dot product is also linear, which lets you interchange the order of vector arithmetic and the dot product, e.g. $a \cdot b + a \cdot c = a \cdot (b + c)$. This follows directly from the sum definition.
+The dot product is also linear, which lets you distribute the dot product over addition, e.g. $a \cdot b + a \cdot c = a \cdot (b + c)$. This follows directly from the sum definition.
 It is also commutative due to symmetry, so you have $a \cdot b = b \cdot a$.
 
 ---
 
 If we fix $\lVert x \rVert = \lVert y \rVert = 1$, we can think of a dot product as a computationally cheap way to determine how aligned two vectors are, with the computation being a mix of addition and multiplication.
 The more aligned they are, the smaller the angle between them, and the cosine of a smaller angle is closer to $1$.
-If they are misaligned and pointing in orthogonal directions, the angle between them is roughly $90^\circ$, so the cosine of that angle is close to $0$.
-If they are aligned in opposite directions, the angle between them is roughly $180^\circ$, so the cosine of that angle is close to $-1$.
+If they are misaligned and pointing in orthogonal directions, the angle between them is $90^\circ$, so the cosine of that angle is $0$.
+If they are aligned in opposite directions, the angle between them is $180^\circ$, so the cosine of that angle is $-1$.
 If $x$ and $y$ aren’t unit length, you could still use $\cos(\theta) = \frac{x \cdot y}{\lVert x \rVert \lVert y \rVert}$ to determine alignment.
 
 It's also useful in representing projections.
