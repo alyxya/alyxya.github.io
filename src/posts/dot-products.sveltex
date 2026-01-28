@@ -78,4 +78,4 @@ There are a lot of possible interpretations and connections you can make with th
 * The attention mechanism in LLMs can be interpreted as performing a lookup on extracted features and adding features to the residual stream based on matches in the lookup.
 * It's useful in Fourier analysis in comparing how aligned a signal vector is to some frequency vector.
 
-I'm sure there are plenty more connections and interpretations I'm still missing, but this should help motivate why the dot product and linear algebra in general is so important.
+I'm sure there are plenty more connections and interpretations I'm still missing, but this should help motivate why the dot product (and linear algebra in general) is so important.
