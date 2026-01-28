@@ -1,9 +1,9 @@
 ---
 title: "Dot Products"
 date: "2026-01-28"
-description: "TODO"
+description: "A simple operation with many connections."
 tags: ["linear-algebra", "vectors"]
-draft: true
+draft: false
 ---
 
 Dot products are amazing when you consider how simple they are to compute, yet they're very expressive with what they can represent.
@@ -52,7 +52,7 @@ If we fix $\lVert x \rVert = \lVert y \rVert = 1$, we can think of a dot product
 The more aligned they are, the smaller the angle between them, and the cosine of a smaller angle is closer to 1.
 If they are misaligned and pointing in orthogonal directions, the angle between them is roughly 90 degrees, so the cosine of that angle is close to 0.
 If they are aligned in opposite directions, the angle between them is roughly 180 degrees, so the cosine of that angle is close to -1.
-If you don't have $\lVert x \rVert = \lVert y \rVert = 1$, you could still use $\cos(\theta) = \frac{x \cdot y}{\lVert x \rVert \lVert y \rVert}$ to determine alignment.
+If $x$ and $y$ aren’t unit length, you could still use $\cos(\theta) = \frac{x \cdot y}{\lVert x \rVert \lVert y \rVert}$ to determine alignment.
 
 It's also useful in representing projections.
 If you had a vector $y$ that you wanted to decompose into how aligned it is with $x$ and the rest that's unrelated (orthogonal) to $x$, then you could use the dot product to determine the length of the projection of $y$ onto $x$, and then subtract that from $y$ to determine the unrelated/orthogonal component.
@@ -72,10 +72,10 @@ There are a lot of possible interpretations and connections you can make with th
 * It connects the algebra and computation to the geometric interpretation of vectors.
 * It tells you how aligned two vectors are.
 * Matrix multiplication is just a lot of dot products, and it performs a change of basis by determining how aligned some vector is to a given set of basis vectors.
-* It connects the vectors in Cartesian coordinates to their hyperspherical coordinates where every dimension is an angle except for a single magnitude dimension.
+* It connects the vectors in Cartesian coordinates to their hyperspherical coordinates where every coordinate is an angle except for a single magnitude coordinate.
 * It adds meaning to vectors in machine learning where each vector represents a combination of features, and dot products can extract specific features from it.
-* It gives intuition behind why the residual stream in LLMs is interpretable. For those who don't know, the residual stream is the primary state vector of a LLM.
+* It gives intuition behind why the residual stream in LLMs is interpretable. For those who don't know, the residual stream is the primary state vector of an LLM.
 * The attention mechanism in LLMs can be interpreted as performing a lookup on extracted features and adding features to the residual stream based on matches in the lookup.
 * It's useful in Fourier analysis in comparing how aligned a signal vector is to some frequency vector.
 
-I'm sure there are plenty more connections and interpretations I'm still missing, but this should help motivate why dot products and linear algebra in general is so important.
+I'm sure there are plenty more connections and interpretations I'm still missing, but this should help motivate why the dot product and linear algebra in general is so important.
