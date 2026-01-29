@@ -1,0 +1,24 @@
+---
+title: "Almost Orthogonal Vectors"
+date: "2026-01-28"
+description: ""
+tags: ["linear-algebra", "vectors"]
+draft: true
+---
+
+A neural network represents features as directions in its activation space.
+Ideally, each feature gets its own orthogonal direction.
+This way, features don't interfere with each other, since the dot product between any two orthogonal vectors is zero, and then you can always decompose any vector as the weighted sum of the feature basis vectors.
+But orthogonality is a strict constraint: in $n$ dimensions, you can have at most $n$ mutually orthogonal vectors.
+
+A really interesting phenomenon is the notion of [superposition](https://transformer-circuits.pub/2022/toy_model/index.html), where models represent more features than they have dimensions by allowing all features to be almost orthogonal to each other.
+This introduces a small amount of interference between features and there's no longer a unique feature decomposition for every vector, but models can express far more features as a result.
+I figured it would be worthwhile to try approximating just how many features can be represented this way in $n$ dimensions.
+
+More precisely: given $n$ dimensions and a small $\epsilon > 0$, what is the maximum number of unit vectors we can find such that every pair has dot product at most $\epsilon$ in absolute value? Recall that the [dot product between unit vectors equals the cosine of the angle between them](/blog/dot-products), and $\cos 90^\circ = 0$, so we're asking how many vectors can be *almost* orthogonal to each other.
+
+**Problem.** Given $n \in \mathbb{N}$ and $\epsilon > 0$, approximate the maximum size of a set $S \subset \mathbb{R}^n$ such that:
+1. $\|v\| = 1$ for all $v \in S$, and
+2. $|u \cdot v| \leq \epsilon$ for all distinct $u, v \in S$.
+
+Note that for $\epsilon = 0$ we recover ordinary orthogonality and $|S| \leq n$.
