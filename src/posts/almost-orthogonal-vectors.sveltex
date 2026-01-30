@@ -9,7 +9,7 @@ draft: true
 A neural network represents features as directions in its activation space.
 Ideally, each feature gets its own orthogonal direction.
 This way, features don't interfere with each other since the dot product between any two orthogonal vectors is zero, and if those feature directions span the space, you can decompose any vector as a weighted sum of them.
-But orthogonality means in $n$ dimensions, you can have at most $n$ mutually orthogonal feature vectors.
+But orthogonality means that in $n$ dimensions, you can have at most $n$ mutually orthogonal feature vectors.
 
 A really interesting phenomenon is the notion of [superposition](https://transformer-circuits.pub/2022/toy_model/index.html), where models represent more features than they have dimensions by allowing all features to be almost orthogonal to each other.
 This introduces a small amount of interference between features and there's no longer a unique feature decomposition for every vector, but models can express far more features as a result.
@@ -17,15 +17,16 @@ I figured it would be worthwhile to try approximating just how many features can
 
 ---
 
-More precisely: given $n \in \mathbb{N}$ and a small $\epsilon > 0$, what is the maximum size of a set $S \subset \mathbb{R}^n$ such that:
+More precisely, given $n \in \mathbb{N}$ and a small $\epsilon > 0$, what is the maximum size of a set $S \subset \mathbb{R}^n$ such that:
 1. $\|v\| = 1$ for all $v \in S$, and
 2. $|u \cdot v| \leq \epsilon$ for all distinct $u, v \in S$.
 
-Recall that the [dot product between unit vectors equals the cosine of the angle between them](/blog/dot-products), and $\cos 90^\circ = 0$, so condition 2 asks that every pair of vectors is *almost* orthogonal. For $\epsilon = 0$ we recover ordinary orthogonality and $|S| \leq n$. In practice we're interested in the regime $0 < \epsilon \ll 1$.
+Recall that the [dot product between unit vectors equals the cosine of the angle between them](/blog/dot-products), and $\cos 90^\circ = 0$, so condition 2 says that every pair of vectors is *almost* orthogonal. For $\epsilon = 0$ we recover ordinary orthogonality and $|S| \leq n$. In practice we're interested in the regime $0 < \epsilon \ll 1$.
 
-We'll show that $|S|$ can be exponential in $n$ using a probabilistic argument. The idea is to build $S$ greedily: pick vectors one at a time, and show that this process can continue for exponentially many steps because at each step there is guaranteed to be a nonzero set of directions that are still nearly orthogonal to all previously chosen vectors.
+We'll sketch a probabilistic lower bound that is exponential in $n$.
+The idea is to build $S$ greedily: pick vectors one at a time, and argue that at each step there remains a nonzero measure set of directions that are still nearly orthogonal to all previously chosen vectors.
 
-To sample a uniformly random direction in $\mathbb{R}^n$, draw each coordinate independently from the standard normal distribution $N(0, 1)$ and normalize the result. This works because the standard normal distribution is spherically symmetric, where the probability density is proportional to $e^{-\|x\|^2/2}$ and depends only on $\|x\|^2$, so all directions are equally likely.
+To sample a uniformly random direction in $\mathbb{R}^n$, draw each coordinate independently from the standard normal distribution $N(0, 1)$ and normalize the result. This works because the joint distribution is spherically symmetric: the probability density is proportional to $e^{-\|x\|^2/2}$, which depends only on $\|x\|^2$, so all directions are equally likely.
 
 Suppose we fix a unit vector $v$ and sample a random unit vector $w$. Without loss of generality, let $v = e_1 = (1, 0, \ldots, 0)$, so that $v \cdot w = w_1$, the first coordinate of $w$. If $g = (g_1, \ldots, g_n)$ is our unnormalized Gaussian vector, then
 
@@ -42,10 +43,10 @@ $$
 The standard Gaussian tail bound gives $P(|Z| > t) \leq 2e^{-t^2/2}$ for $Z \sim N(0,1)$, so
 
 $$
-P(|v \cdot w| > \epsilon) \lessapprox 2e^{-n\epsilon^2/2}.
+P(|v \cdot w| > \epsilon) \lesssim 2e^{-n\epsilon^2/2}.
 $$
 
-Now we build $S$ one vector at a time. Suppose we've already chosen $v_1, \ldots, v_{k-1}$, and we want to add a $k$-th vector. For each existing $v_i$, the "forbidden region" — where a random unit vector $w$ would have $|v_i \cdot w| > \epsilon$ — has probability at most $2e^{-n\epsilon^2/2}$.
+Now we build $S$ one vector at a time. Suppose we've already chosen $v_1, \ldots, v_{k-1}$, and we want to add a $k$-th vector. For each existing $v_i$, the "forbidden region", where a random unit vector $w$ would have $|v_i \cdot w| > \epsilon$, has probability at most $2e^{-n\epsilon^2/2}$.
 
 By the union bound, the probability that $w$ falls in *any* forbidden region is at most
 
@@ -65,7 +66,7 @@ $$
 |S| \geq \left\lceil \frac{1}{2} e^{n\epsilon^2/2} \right\rceil
 $$
 
-mutually $\epsilon$-almost-orthogonal unit vectors. This is exponential in $n$ for any fixed $\epsilon > 0$ despite being a very weak heuristic lower bound.
+mutually $\epsilon$-almost-orthogonal unit vectors. This is exponential in $n$ for any fixed $\epsilon > 0$ despite being a very weak lower bound.
 
 ---
 
