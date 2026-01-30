@@ -17,13 +17,11 @@ I figured it would be worthwhile to try approximating just how many features can
 
 ---
 
-More precisely: given $n$ dimensions and a small $\epsilon > 0$, what is the maximum number of unit vectors we can find such that every pair has dot product at most $\epsilon$ in absolute value? Recall that the [dot product between unit vectors equals the cosine of the angle between them](/blog/dot-products), and $\cos 90^\circ = 0$, so we're asking how many vectors can be *almost* orthogonal to each other.
-
-Formalizing the problem, given $n \in \mathbb{N}$ and $\epsilon > 0$, approximate the maximum size of a set $S \subset \mathbb{R}^n$ such that:
+More precisely: given $n \in \mathbb{N}$ and a small $\epsilon > 0$, what is the maximum size of a set $S \subset \mathbb{R}^n$ such that:
 1. $\|v\| = 1$ for all $v \in S$, and
 2. $|u \cdot v| \leq \epsilon$ for all distinct $u, v \in S$.
 
-Note that for $\epsilon = 0$ we recover ordinary orthogonality and $|S| \leq n$. In practice we're interested in the regime $0 < \epsilon \ll 1$.
+Recall that the [dot product between unit vectors equals the cosine of the angle between them](/blog/dot-products), and $\cos 90^\circ = 0$, so condition 2 asks that every pair of vectors is *almost* orthogonal. For $\epsilon = 0$ we recover ordinary orthogonality and $|S| \leq n$. In practice we're interested in the regime $0 < \epsilon \ll 1$.
 
 We'll show that $|S|$ can be exponential in $n$ using a probabilistic argument. The idea is to build $S$ greedily: pick vectors one at a time, and show that at each step a random vector is very likely to be almost orthogonal to all previously chosen vectors.
 
