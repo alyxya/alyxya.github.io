@@ -27,9 +27,9 @@ Note that for $\epsilon = 0$ we recover ordinary orthogonality and $|S| \leq n$.
 
 We'll show that $|S|$ can be exponential in $n$ using a probabilistic argument. The idea is to build $S$ greedily: pick vectors one at a time, and show that at each step a random vector is very likely to be almost orthogonal to all previously chosen vectors.
 
-**Random unit vectors.** To sample a uniformly random direction in $\mathbb{R}^n$, draw each coordinate independently from the standard normal distribution $N(0, 1)$ and normalize the result. This works because the standard normal distribution is spherically symmetric, where the probability density $\prod_i e^{-x_i^2/2}$ depends only on $\|x\|^2$, so all directions are equally likely.
+To sample a uniformly random direction in $\mathbb{R}^n$, draw each coordinate independently from the standard normal distribution $N(0, 1)$ and normalize the result. This works because the standard normal distribution is spherically symmetric, where the probability density $\prod_i e^{-x_i^2/2}$ depends only on $\|x\|^2$, so all directions are equally likely.
 
-**Projection onto a fixed vector.** Suppose we fix a unit vector $v$ and sample a random unit vector $w$. Without loss of generality, let $v = e_1 = (1, 0, \ldots, 0)$, so that $v \cdot w = w_1$, the first coordinate of $w$. If $g = (g_1, \ldots, g_n)$ is our unnormalized Gaussian vector, then
+Suppose we fix a unit vector $v$ and sample a random unit vector $w$. Without loss of generality, let $v = e_1 = (1, 0, \ldots, 0)$, so that $v \cdot w = w_1$, the first coordinate of $w$. If $g = (g_1, \ldots, g_n)$ is our unnormalized Gaussian vector, then
 
 $$
 v \cdot w = \frac{g_1}{\|g\|} = \frac{g_1}{\sqrt{g_1^2 + \cdots + g_n^2}}.
@@ -47,7 +47,7 @@ $$
 P(|v \cdot w| > \epsilon) \lessapprox 2e^{-n\epsilon^2/2}.
 $$
 
-**The greedy argument.** Now we build $S$ one vector at a time. Suppose we've already chosen $v_1, \ldots, v_{k-1}$, and we want to add a $k$-th vector. For each existing $v_i$, the "forbidden region" — where a random unit vector $w$ would have $|v_i \cdot w| > \epsilon$ — has probability at most $2e^{-n\epsilon^2/2}$.
+Now we build $S$ one vector at a time. Suppose we've already chosen $v_1, \ldots, v_{k-1}$, and we want to add a $k$-th vector. For each existing $v_i$, the "forbidden region" — where a random unit vector $w$ would have $|v_i \cdot w| > \epsilon$ — has probability at most $2e^{-n\epsilon^2/2}$.
 
 By the union bound, the probability that $w$ falls in *any* forbidden region is at most
 
