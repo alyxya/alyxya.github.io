@@ -8,7 +8,7 @@ draft: true
 
 A neural network represents features as directions in its activation space.
 Ideally, each feature gets its own orthogonal direction.
-This way, features don't interfere with each other, since the dot product between any two orthogonal vectors is zero, and then you can always decompose any vector as the weighted sum of the feature basis vectors.
+This way, features don't interfere with each other since the dot product between any two orthogonal vectors is zero, and if those feature directions span the space, you can decompose any vector as a weighted sum of them.
 But orthogonality means in $n$ dimensions, you can have at most $n$ mutually orthogonal feature vectors.
 
 A really interesting phenomenon is the notion of [superposition](https://transformer-circuits.pub/2022/toy_model/index.html), where models represent more features than they have dimensions by allowing all features to be almost orthogonal to each other.
@@ -23,11 +23,11 @@ Formalizing the problem, given $n \in \mathbb{N}$ and $\epsilon > 0$, approximat
 1. $\|v\| = 1$ for all $v \in S$, and
 2. $|u \cdot v| \leq \epsilon$ for all distinct $u, v \in S$.
 
-Note that for $\epsilon = 0$ we recover ordinary orthogonality and $|S| \leq n$.
+Note that for $\epsilon = 0$ we recover ordinary orthogonality and $|S| \leq n$. In practice we're interested in the regime $0 < \epsilon \ll 1$.
 
 We'll show that $|S|$ can be exponential in $n$ using a probabilistic argument. The idea is to build $S$ greedily: pick vectors one at a time, and show that at each step a random vector is very likely to be almost orthogonal to all previously chosen vectors.
 
-To sample a uniformly random direction in $\mathbb{R}^n$, draw each coordinate independently from the standard normal distribution $N(0, 1)$ and normalize the result. This works because the standard normal distribution is spherically symmetric, where the probability density $\prod_i e^{-x_i^2/2}$ depends only on $\|x\|^2$, so all directions are equally likely.
+To sample a uniformly random direction in $\mathbb{R}^n$, draw each coordinate independently from the standard normal distribution $N(0, 1)$ and normalize the result. This works because the standard normal distribution is spherically symmetric, where the probability density is proportional to $e^{-\|x\|^2/2}$ and depends only on $\|x\|^2$, so all directions are equally likely.
 
 Suppose we fix a unit vector $v$ and sample a random unit vector $w$. Without loss of generality, let $v = e_1 = (1, 0, \ldots, 0)$, so that $v \cdot w = w_1$, the first coordinate of $w$. If $g = (g_1, \ldots, g_n)$ is our unnormalized Gaussian vector, then
 
