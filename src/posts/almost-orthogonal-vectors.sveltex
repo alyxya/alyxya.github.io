@@ -67,7 +67,7 @@ $$
 |S| \geq \left\lceil \frac{1}{2} e^{n\epsilon^2/2} \right\rceil
 $$
 
-mutually $\epsilon$-almost-orthogonal unit vectors. This is exponential in $n$ for any fixed $\epsilon > 0$ despite being a very weak lower bound.
+mutually $\epsilon$-almost-orthogonal unit vectors. This is exponential in $n$ for any fixed $\epsilon > 0$ despite being a very weak heuristic lower bound.
 
 ---
 
