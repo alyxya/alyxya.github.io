@@ -1,9 +1,9 @@
 ---
 title: "Almost Orthogonal Vectors"
 date: "2026-01-30"
-description: ""
+description: "Exponentially many nearly orthogonal vectors fit in n dimensions."
 tags: ["linear-algebra", "vectors"]
-draft: true
+draft: false
 ---
 
 A neural network represents features as directions in its activation space.
@@ -70,11 +70,11 @@ mutually $\epsilon$-almost-orthogonal unit vectors. This is exponential in $n$ f
 
 ---
 
-To verify this experimentally, I ran the greedy construction with $\epsilon = 0.1$: sample a random unit vector, add it to $S$ if it is $\epsilon$-almost-orthogonal to every existing vector, and stop once many random vectors in a row fail to satisfy this condition. Each dimension was tested over 5 independent trials.
+To verify this experimentally, I ran the greedy construction with $\epsilon = 0.1$: sample a random unit vector, add it to $S$ if it is $\epsilon$-almost-orthogonal to every existing vector, and stop once many random vectors in a row fail to satisfy this condition. Each dimension was tested over 5 independent trials. The code is [on GitHub](https://github.com/alyxya/almost-orthogonal-vectors-experiment).
 
 ![Set size vs. dimension](/images/posts/almost-orthogonal-vectors/almost-orthogonal.png)
 
 ![Set size vs. dimension (log scale)](/images/posts/almost-orthogonal-vectors/almost-orthogonal-log.png)
 
 The log-scale plot confirms the exponential growth with the points almost forming a straight line here.
-In practice, I expect machine learning models to pack almost orthogonal vectors much more tightly and many features won't be fully independent so there should be far more features.
+In practice, I expect machine learning models to pack almost orthogonal vectors much more tightly, and many features won't be fully independent, so there should be far more features.
