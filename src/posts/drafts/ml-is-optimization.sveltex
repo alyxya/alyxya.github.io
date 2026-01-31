@@ -6,3 +6,45 @@ tags: ["machine-learning", "optimization"]
 draft: true
 ---
 
+<!-- TODO: intro - ML feels like magic, but strip away the jargon and it's
+     just "find the input that makes a function as small as possible" -->
+
+## Minimizing a function
+
+<!-- TODO: start with f(x) = (x - 3)^2, plot it, show the minimum is obvious
+     visually. But what if we couldn't just solve f'(x) = 0 analytically? -->
+
+## Gradient descent
+
+<!-- TODO: introduce the update rule x_{n+1} = x_n - α f'(x_n) on the same
+     simple example. Walk through a few steps numerically.
+     Show what happens with different learning rates:
+     - too small: crawls toward the minimum
+     - too large: overshoots, oscillates or diverges
+     - just right: converges in a few steps
+     Include plots for each case. -->
+
+## More than one variable
+
+<!-- TODO: same idea but f(x, y), e.g. a quadratic bowl. Gradient is now a
+     vector, update rule is the same. Maybe a contour plot with the descent
+     path drawn on it. Key point: nothing conceptually changed, just more
+     parameters. "Now imagine a million parameters." -->
+
+## Nonconvex landscapes
+
+<!-- TODO: bumpy loss surfaces, local minima, saddle points. The core algorithm
+     doesn't change - you still walk downhill - but you might end up somewhere
+     that isn't the global minimum. Brief, don't need to solve this problem,
+     just acknowledge it. -->
+
+## So what is machine learning, then?
+
+<!-- TODO: concrete minimal example - e.g. linear regression or logistic
+     regression on a tiny dataset. Define the loss function, show that
+     "training" = "minimize this loss w.r.t. the weights." The weights are
+     just the x (or x, y, ...) from before. The loss function is just another
+     f to minimize. -->
+
+<!-- TODO: closing - the magic is in choosing what function to minimize and
+     how to parameterize it, not in the optimization itself. -->
