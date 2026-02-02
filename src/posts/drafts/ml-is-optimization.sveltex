@@ -6,13 +6,16 @@ tags: ["machine-learning", "optimization"]
 draft: true
 ---
 
-Instead of looking at machine learning models and techniques, I want to go through the first principles of what machine learning aims to do. Some problems seem intractable — like programmatically identifying the objects in an image. If you knew nothing about machine learning, it's hard to imagine where you'd even start.
+Instead of caring about all of the machine learning models and techniques, I want to go through the first principles of how you can derive the idea of machine learning.
+Some problems seem intractable in computer science, like programmatically identifying if an image shows a dog or not.
+If you knew nothing about machine learning, it's hard to imagine where you'd even start.
 
-On the other hand, there are far simpler problems in math that we do know how to solve. So it makes sense to start with one of those and gradually reframe it into the intractable problem we actually want to solve. A common math problem is minimizing or maximizing a function, so let's begin there with a simple quadratic polynomial.
+On the other hand, there are far simpler problems in math that we do know how to solve.
+So it makes sense to start with a simple problem we do know how to solve and gradually make it harder to turn it into the problem we want solved.
 
 ## Optimizing a Quadratic Polynomial
 
-Say you're running a business and want to maximize your revenue selling a product. You establish that if you price the product at p dollars, you can sell 100 - 2p units. Now you want to find the value of p that maximizes your revenue.
+Say you're running a business and want to maximize your revenue selling a product. You notice a relationship where if you price the product at $p$ dollars, you can sell $100 - 2p$ units. Now you want to find the value of $p$ that maximizes your revenue.
 
 <!-- TODO: revenue function R(p) = p(100 - 2p) = 100p - 2p^2 -->
 
@@ -20,7 +23,7 @@ There are multiple ways to maximize this. You could plot points and draw the cur
 
 <!-- TODO: completed square form showing R(p) = -2(p - 25)^2 + 1250 -->
 
-Since the squared term is always non-negative, the negated squared term is always non-positive — so the whole expression is at most 1250, achieved when p = 25. Or you could use calculus and set the derivative to 0 to find the critical points.
+Since the squared term is always non-negative, the negated squared term is always non-positive — so the whole expression is at most $1250$, achieved when $p = 25$. Or you could use calculus and set the derivative to $0$ to find the critical points.
 
 <!-- TODO: derivative R'(p) = 100 - 4p = 0, so p = 25 -->
 
