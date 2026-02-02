@@ -6,60 +6,54 @@ tags: ["machine-learning", "optimization"]
 draft: true
 ---
 
-<!-- TODO: intro - ML feels like magic, but strip away the jargon and it's
-     mostly "find the input that makes a function as small as possible."
-     Scope note: this post is about training/optimization, not the full ML
-     pipeline (data collection, model choice, evaluation). Keep it visual. -->
+Instead of looking at machine learning models and techniques, I want to go through the first principles of what machine learning aims to do. There are a lot of problems that were seemingly intractable like programmatically identifying the objects in an image. If you knew nothing about machine learning, it seems like an impossible problem to solve. On the other hand, there are far simpler problems in math that we do know how to solve, so naturally it makes sense to start off with a simple math problem we can solve and gradually reframe the problem to the intractable problem we wanted to solve. A common math problem we often want to solve is minimizing or maximizing a function, so let's start off with minimizing or maximizing a simple quadratic polynomial.
 
-## Minimizing a function
+## Optimizing a Quadratic Polynomial
 
-<!-- TODO: start with f(x) = (x - 3)^2, plot it, show the minimum is obvious
-     visually. But what if we couldn't just solve f'(x) = 0 analytically?
-     Seed the idea that in ML we call this f the "loss." -->
+An example of where this may come up is when running a business, where you want to maximize your revenue selling a product, and you establish a relationship where if you price the product at p dollars, then the number of units of the product you can sell is 100 - 2p. This leads you to wanting to identify the value of p that maximizes your revenue.
 
-## Gradient descent
+<!-- TODO: revenue function R(p) = p(100 - 2p) = 100p - 2p^2 -->
 
-<!-- TODO: introduce the update rule x_{n+1} = x_n - α f'(x_n) on the same
-     simple example. Walk through a few steps numerically.
-     Show what happens with different learning rates:
-     - too small: crawls toward the minimum
-     - too large: overshoots, oscillates or diverges
-     - just right: converges in a few steps
-     Include plots for each case.
-     Quick aside: some problems have closed-form solutions, but we use GD
-     because it generalizes and is easy to visualize. Mention other optimizers
-     exist without diving in. -->
+There are multiple ways to try to maximize this. You could perhaps plot points and draw what this curve looks like. You could also try completing the square to rewrite the function.
 
-## More than one variable
+<!-- TODO: completed square form showing R(p) = -2(p - 25)^2 + 1250 -->
 
-<!-- TODO: same idea but f(x, y), e.g. a quadratic bowl. Gradient is now a
-     vector, update rule is the same. Maybe a contour plot with the descent
-     path drawn on it. Key point: nothing conceptually changed, just more
-     parameters. "Now imagine a million parameters." Tie x, y to "weights." -->
+It's pretty clear this function is maximized at p = 25 since the quadratic term has a maximum value of 0 due to the negative coefficient. You could use calculus and set the derivative to 0 to find the critical points.
 
-## Nonconvex landscapes
+<!-- TODO: derivative R'(p) = 100 - 4p = 0, so p = 25 -->
 
-<!-- TODO: bumpy loss surfaces, local minima, saddle points, plateaus. The
-     core algorithm doesn't change - you still walk downhill - but where you
-     start can matter, and you might end up somewhere that isn't the global
-     minimum. Brief, just acknowledge it. -->
+These approaches work fine when you know what function you want to minimize or maximize, and the function is simple. It starts getting more complicated when you have more complex functions, the functions have multiple variables, and when you don't know what function you want to minimize or maximize. Much of machine learning boils down to these core ideas.
 
-## From data to a loss
+## Optimizing a Single Variable Function
 
-<!-- TODO: bridge section. Start with a tiny dataset and a model family
-     (e.g. lines with slope/intercept). Each parameter choice makes a
-     prediction plot. Define a simple error measure (sum of squared errors)
-     visually as vertical distances. This creates a loss surface in (m, b).
-     Keep equations minimal; emphasize pictures. -->
+<!-- TODO: generalize beyond quadratics to an arbitrary f(x) where analytic
+     solutions aren't available. Introduce gradient descent here:
+     x_{n+1} = x_n - α f'(x_n). Walk through steps numerically on a simple
+     example. Show different learning rates (too small, too large, just right).
+     This is the key bridge from "calculus we know" to "iterative methods ML
+     actually uses." -->
 
-## So what is machine learning, then?
+## Optimizing a Two Variable Function
 
-<!-- TODO: concrete minimal example - linear regression on a tiny dataset.
-     Show that "training" = "minimize this loss w.r.t. the weights." The
-     weights are just the x (or x, y, ...) from before. The loss is just
-     another f to minimize. Keep it visual: line fits, loss curve, and a
-     descent path on the (m, b) surface. -->
+<!-- TODO: extend to f(x, y). Gradient is now a vector, update rule is the
+     same. Contour plot with descent path. Key point: nothing conceptually
+     changed, just more parameters. "Now imagine a million parameters." -->
 
-<!-- TODO: closing - the magic is in choosing the model + loss (and data),
-     not in the optimization itself. Optimization is the engine, not the
-     whole car. -->
+## Creating a Simple Model
+
+This is where we stop going over introductory calculus concepts and shift the focus to machine learning.
+
+<!-- TODO: bridge from optimization to ML. Start with a tiny dataset and a
+     model (e.g. linear regression with slope/intercept). Define error as a
+     function of the model parameters — this is the "loss." Show that the loss
+     is just another function to minimize, exactly like the ones above.
+     The image classification example (function that takes an image and says
+     if it contains a dog or not) may be too big a jump here — consider
+     starting with something simpler and mentioning images as where this
+     scales to. -->
+
+## Creating a Slightly Better Model
+
+<!-- TODO: iterate on the simple model. Maybe go from a line to a curve, or
+     add a feature. Show that "better model" = "different function family to
+     optimize over." The optimization machinery stays the same. -->
