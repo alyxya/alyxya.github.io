@@ -6,23 +6,25 @@ tags: ["machine-learning", "optimization"]
 draft: true
 ---
 
-Instead of looking at machine learning models and techniques, I want to go through the first principles of what machine learning aims to do. There are a lot of problems that were seemingly intractable like programmatically identifying the objects in an image. If you knew nothing about machine learning, it seems like an impossible problem to solve. On the other hand, there are far simpler problems in math that we do know how to solve, so naturally it makes sense to start off with a simple math problem we can solve and gradually reframe the problem to the intractable problem we wanted to solve. A common math problem we often want to solve is minimizing or maximizing a function, so let's start off with minimizing or maximizing a simple quadratic polynomial.
+Instead of looking at machine learning models and techniques, I want to go through the first principles of what machine learning aims to do. Some problems seem intractable — like programmatically identifying the objects in an image. If you knew nothing about machine learning, it's hard to imagine where you'd even start.
+
+On the other hand, there are far simpler problems in math that we do know how to solve. So it makes sense to start with one of those and gradually reframe it into the intractable problem we actually want to solve. A common math problem is minimizing or maximizing a function, so let's begin there with a simple quadratic polynomial.
 
 ## Optimizing a Quadratic Polynomial
 
-An example of where this may come up is when running a business, where you want to maximize your revenue selling a product, and you establish a relationship where if you price the product at p dollars, then the number of units of the product you can sell is 100 - 2p. This leads you to wanting to identify the value of p that maximizes your revenue.
+Say you're running a business and want to maximize your revenue selling a product. You establish that if you price the product at p dollars, you can sell 100 - 2p units. Now you want to find the value of p that maximizes your revenue.
 
 <!-- TODO: revenue function R(p) = p(100 - 2p) = 100p - 2p^2 -->
 
-There are multiple ways to try to maximize this. You could perhaps plot points and draw what this curve looks like. You could also try completing the square to rewrite the function.
+There are multiple ways to maximize this. You could plot points and draw the curve. You could also complete the square to rewrite the function.
 
 <!-- TODO: completed square form showing R(p) = -2(p - 25)^2 + 1250 -->
 
-It's pretty clear this function is maximized at p = 25 since the quadratic term has a maximum value of 0 due to the negative coefficient. You could use calculus and set the derivative to 0 to find the critical points.
+Since the squared term is always non-negative, the negated squared term is always non-positive — so the whole expression is at most 1250, achieved when p = 25. Or you could use calculus and set the derivative to 0 to find the critical points.
 
 <!-- TODO: derivative R'(p) = 100 - 4p = 0, so p = 25 -->
 
-These approaches work fine when you know what function you want to minimize or maximize, and the function is simple. It starts getting more complicated when you have more complex functions, the functions have multiple variables, and when you don't know what function you want to minimize or maximize. Much of machine learning boils down to these core ideas.
+These approaches work fine when you know the function and it's simple enough to solve analytically. Things get harder when the function is more complex, has many variables, or when you don't even know the function upfront. Much of machine learning boils down to these core ideas.
 
 ## Optimizing a Single Variable Function
 
