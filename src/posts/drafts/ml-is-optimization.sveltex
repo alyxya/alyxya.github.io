@@ -31,7 +31,22 @@ An even more general purpose approach for when you can't solve for the derivativ
 This is called gradient ascent when maximizing a function and gradient descent when minimizing a function.
 This is useful for finding local maximums and minimums of a function, and in the case of a function being concave or convex, the local maximum or minimum are also the global maximum or minimum.
 
-<!-- TODO: give example of gradient ascent and show plot -->
+The update rule for gradient ascent is $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ is the learning rate — a small positive number that controls how big each step is. Since $R'(p) = -4p + 100$, let's start at $p_0 = 5$ with $\alpha = 0.1$ and see what happens:
+
+$$
+\begin{aligned}
+p_0 &= 5.00 & R'(p_0) &= 80.0 & R(p_0) &= 450 \\
+p_1 &= 5 + 0.1 \cdot 80 = 13.00 & R'(p_1) &= 48.0 & R(p_1) &= 962 \\
+p_2 &= 13 + 0.1 \cdot 48 = 17.80 & R'(p_2) &= 28.8 & R(p_2) &= 1146 \\
+p_3 &= 17.8 + 0.1 \cdot 28.8 = 20.68 & R'(p_3) &= 17.3 & R(p_3) &= 1213 \\
+p_4 &= 20.68 + 0.1 \cdot 17.3 = 22.41 & R'(p_4) &= 10.4 & R(p_4) &= 1237 \\
+p_5 &= 22.41 + 0.1 \cdot 10.4 = 23.44 & R'(p_5) &= 6.2 & R(p_5) &= 1245
+\end{aligned}
+$$
+
+Each step moves $p$ in the direction of increasing $R$, and the steps get smaller as the gradient shrinks near the peak. After just a few more iterations $p$ is essentially $25$ and $R(p)$ is essentially $1250$ — the same answer we got analytically.
+
+![Gradient ascent on R(p)](/images/posts/ml-is-optimization/gradient-ascent.png)
 
 These approaches work fine when you know the function and it's simple enough to solve analytically. Things get harder when the function is more complex, has many variables, or when you don't even know the function upfront. Much of machine learning boils down to these core ideas.
 
