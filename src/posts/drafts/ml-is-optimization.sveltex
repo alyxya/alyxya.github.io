@@ -22,7 +22,7 @@ Now you want to find the value of $p$ that maximizes your revenue $R(p) = p(100 
 ![R(p) = p(100 − 2p)](/images/posts/ml-is-optimization/revenue.png)
 
 There are multiple approaches you could use to maximize a simple quadratic polynomial.
-One way is to complete the square and rewrite $R(p)$ as $-2(p - 25)^2 + 1250$ which is maximized at $f(25) = 1250$ because the first term being a negative squared value is always nonpositive.
+One way is to complete the square and rewrite $R(p)$ as $-2(p - 25)^2 + 1250$ which is maximized at $R(25) = 1250$ because the first term being a negative squared value is always nonpositive.
 
 A more general purpose approach is to find the critical points, which you get when you set the derivative to $0$, and then find the critical point that maximizes the function.
 In this case, $R'(p) = -4p + 100 = 0 \implies p = 25$ is the only critical point.
@@ -31,7 +31,8 @@ An even more general purpose approach for when you can't solve for the derivativ
 This is called gradient ascent when maximizing a function and gradient descent when minimizing a function.
 This is useful for finding local maximums and minimums of a function, and in the case of a function being concave or convex, the local maximum or minimum are also the global maximum or minimum.
 
-The update rule for gradient ascent is $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ is the learning rate — a small positive number that controls how big each step is. Since $R'(p) = -4p + 100$, let's start at $p_0 = 5$ with $\alpha = 0.1$ and see what happens:
+The update rule for gradient ascent is $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ is the step size.
+Since $R'(p) = -4p + 100$, let's start at $p_0 = 5$ with $\alpha = 0.1$ and see what happens:
 
 $$
 \begin{aligned}
@@ -44,11 +45,12 @@ p_5 &= 22.41 + 0.1 \cdot 10.4 = 23.44 & R'(p_5) &= 6.2 & R(p_5) &= 1245
 \end{aligned}
 $$
 
-Each step moves $p$ in the direction of increasing $R$, and the steps get smaller as the gradient shrinks near the peak. After just a few more iterations $p$ is essentially $25$ and $R(p)$ is essentially $1250$ — the same answer we got analytically.
+Each step moves $p$ in the direction of increasing $R$, and the steps get smaller as the gradient shrinks near the peak.
+After just a few iterations $p$ is close to $25$ and $R(p)$ is almost $1250$.
 
 ![Gradient ascent on R(p)](/images/posts/ml-is-optimization/gradient-ascent.png)
 
-These approaches work fine when you know the function and it's simple enough to solve analytically. Things get harder when the function is more complex, has many variables, or when you don't even know the function upfront. Much of machine learning boils down to these core ideas.
+Now let's move on to a more complex function.
 
 ## Optimizing a Single Variable Function
 
