@@ -63,19 +63,23 @@ def plot_quadratic_sign_ascent():
     p = np.linspace(-5, 55, 500)
     ax.plot(p, R(p), "b-", linewidth=2)
 
-    # Sign-based ascent: p_{n+1} = p_n + s * sign(R'(p_n))
-    step_size = 5
+    # Sign-based ascent: p_{n+1} = p_n + alpha * sign(R'(p_n))
+    alpha = 0.1
     p_vals = [5.0]
-    for _ in range(4):
+    tol = 1e-6
+    max_steps = 500
+    for _ in range(max_steps):
         grad = R_prime(p_vals[-1])
-        if grad == 0:
+        if abs(grad) <= tol:
             break
-        p_new = p_vals[-1] + step_size * np.sign(grad)
+        p_new = p_vals[-1] + alpha * np.sign(grad)
         p_vals.append(p_new)
 
     # Plot points and arrows
+    last_idx = len(p_vals) - 1
     for i, p_i in enumerate(p_vals):
-        ax.plot(p_i, R(p_i), "ro", markersize=8)
+        marker_size = 7 if i in (0, last_idx) else 3
+        ax.plot(p_i, R(p_i), "ro", markersize=marker_size)
 
         # Draw arrow to next point
         if i < len(p_vals) - 1:
@@ -96,7 +100,7 @@ def plot_quadratic_sign_ascent():
         color="red",
     )
     ax.annotate(
-        f"p4 = {p_vals[-1]:.0f}",
+        f"p{last_idx} = {p_vals[-1]:.2f}",
         xy=(p_vals[-1], R(p_vals[-1])),
         xytext=(p_vals[-1] + 1, R(p_vals[-1]) + 50),
         fontsize=11,

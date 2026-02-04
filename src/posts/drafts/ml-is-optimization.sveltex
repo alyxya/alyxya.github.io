@@ -32,20 +32,22 @@ Recall the limit definition of the derivative: $R'(p) = \lim_{h \to 0} \frac{R(p
 Rearranging, this tells us that for a small step $h$, the function changes by approximately $R(p + h) - R(p) \approx h \cdot R'(p)$.
 So if $R'(p) > 0$, a positive step increases $R$, and if $R'(p) < 0$, a negative step increases $R$.
 
-The simplest approach is to just use the sign of the derivative: $p_{n+1} = p_n + s \cdot \text{sign}(R'(p_n))$, where $s$ is a fixed step size.
-Starting at $p_0 = 5$ with $s = 5$:
+The simplest approach is to just use the sign of the derivative: $p_{n+1} = p_n + \alpha \cdot \text{sign}(R'(p_n))$, where $\alpha$ is a fixed step size.
+Starting at $p_0 = 5$ with $\alpha = 0.1$:
 
 $$
 \begin{aligned}
-p_0 &= 5 & \text{sign}(R'(p_0)) &= +1 & R(p_0) &= 450 \\
-p_1 &= 5 + 5 \cdot (+1) = 10 & \text{sign}(R'(p_1)) &= +1 & R(p_1) &= 800 \\
-p_2 &= 10 + 5 \cdot (+1) = 15 & \text{sign}(R'(p_2)) &= +1 & R(p_2) &= 1050 \\
-p_3 &= 15 + 5 \cdot (+1) = 20 & \text{sign}(R'(p_3)) &= +1 & R(p_3) &= 1200 \\
-p_4 &= 20 + 5 \cdot (+1) = 25 & \text{sign}(R'(p_4)) &= 0 & R(p_4) &= 1250
+p_0 &= 5.00 & \text{sign}(R'(p_0)) &= +1 & R(p_0) &= 450.00 \\
+p_1 &= 5 + 0.1 \cdot (+1) = 5.10 & \text{sign}(R'(p_1)) &= +1 & R(p_1) &= 457.98 \\
+p_2 &= 5.10 + 0.1 \cdot (+1) = 5.20 & \text{sign}(R'(p_2)) &= +1 & R(p_2) &= 465.92 \\
+p_3 &= 5.20 + 0.1 \cdot (+1) = 5.30 & \text{sign}(R'(p_3)) &= +1 & R(p_3) &= 473.82 \\
+p_4 &= 5.30 + 0.1 \cdot (+1) = 5.40 & \text{sign}(R'(p_4)) &= +1 & R(p_4) &= 481.68 \\
+\vdots & & & & \vdots \\
+p_{200} &= 25.00 & \text{sign}(R'(p_{200})) &= 0 & R(p_{200}) &= 1250.00
 \end{aligned}
 $$
 
-Each step moves $p$ by a fixed amount in the direction of increasing $R$, and we stop when the derivative is zero (the sign is $0$).
+Each step moves $p$ by a fixed amount in the direction of increasing $R$. With $\alpha = 0.1$, it takes $200$ steps to reach $p = 25$, where the derivative hits zero.
 
 ![Sign-based ascent on R(p)](/images/posts/ml-is-optimization/quadratic-sign-ascent.png)
 
