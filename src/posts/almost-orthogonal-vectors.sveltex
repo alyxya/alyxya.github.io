@@ -21,7 +21,7 @@ More precisely, given $n \in \mathbb{N}$ and a small $\epsilon > 0$, what is the
 1. $\|v\| = 1$ for all $v \in S$, and
 2. $|u \cdot v| \leq \epsilon$ for all distinct $u, v \in S$.
 
-Recall that the [dot product between unit vectors equals the cosine of the angle between them](/blog/dot-products), and $\cos 90^\circ = 0$, so condition 2 says that every pair of vectors is *almost* orthogonal. For $\epsilon = 0$ we recover ordinary orthogonality and $|S| \leq n$. In practice we're interested in the regime $0 < \epsilon \ll 1$.
+Recall the two equivalent formulations of the [dot product](/blog/dot-products): algebraically, $u \cdot v = \sum_i u_i v_i$, and geometrically, $u \cdot v = \|u\|\|v\|\cos\theta$ where $\theta$ is the angle between $u$ and $v$. For unit vectors, this simplifies to $u \cdot v = \cos\theta$. Since $\cos 90^\circ = 0$, condition 2 says that every pair of vectors is *almost* orthogonal. For $\epsilon = 0$ we recover ordinary orthogonality and $|S| \leq n$. In practice we're interested in the regime $0 < \epsilon \ll 1$.
 
 We'll sketch a probabilistic lower bound that is exponential in $n$.
 The idea is to build $S$ greedily: pick vectors one at a time, and argue that at each step there remains a nonzero measure set of directions that are still nearly orthogonal to all previously chosen vectors.
