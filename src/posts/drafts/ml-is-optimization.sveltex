@@ -49,7 +49,7 @@ Each step moves $p$ by a fixed amount in the direction of increasing $R$, and we
 
 ![Sign-based ascent on R(p)](/images/posts/ml-is-optimization/quadratic-sign-ascent.png)
 
-This works, but the fixed step size is a limitation. If the step is too large, we might overshoot the maximum and oscillate around it. If it's too small, convergence is slow. We can do better by also using the *magnitude* of the derivative — taking larger steps when we're far from the peak (where the slope is steep) and smaller steps as we approach it (where the slope flattens).
+This works, but the fixed step size is a limitation. If the step is too large, we might overshoot the maximum and oscillate around it. If it's too small, convergence is slow. We can do better by also using the *magnitude* of the derivative, taking larger steps when we're far from the peak (where the slope is steep) and smaller steps as we approach it (where the slope flattens).
 
 This gives us gradient ascent with the update rule $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ is a step size.
 Starting at $p_0 = 5$ with $\alpha = 0.1$:
@@ -79,7 +79,7 @@ Consider $f(x) = x^4 - x^3 - x^2 + e^{-x^2}$. Setting the derivative to zero giv
 
 ![f(x) = x^4 - x^3 - x^2 + e^(-x^2)](/images/posts/ml-is-optimization/single-var-function.png)
 
-This function has two local minima — one near $x = -0.62$ and a deeper one near $x = 1.24$. Since we're minimizing instead of maximizing, the update rule becomes $x_{n+1} = x_n - \alpha f'(x_n)$ (note the minus sign). Starting from $x_0 = 2.0$ with $\alpha = 0.1$:
+This function has two local minima, one near $x = -0.62$ and a deeper one near $x = 1.24$. Since we're minimizing instead of maximizing, the update rule becomes $x_{n+1} = x_n - \alpha f'(x_n)$ (note the minus sign). Starting from $x_0 = 2.0$ with $\alpha = 0.1$:
 
 $$
 \begin{aligned}
@@ -95,7 +95,7 @@ After a few more steps, $x$ converges to the minimum at $x \approx 1.24$.
 
 ![Gradient descent from two starting points](/images/posts/ml-is-optimization/single-var-gradient-descent.png)
 
-The plot shows two different starting points. Starting from $x_0 = 2.0$ leads to the deeper minimum on the right, while starting from $x_0 = -1.2$ leads to the shallower minimum on the left. The starting point determines which minimum we find — gradient descent finds a local minimum, not necessarily the global one.
+The plot shows two different starting points. Starting from $x_0 = 2.0$ leads to the deeper minimum on the right, while starting from $x_0 = -1.2$ leads to the shallower minimum on the left. The starting point determines which minimum we find, since gradient descent finds a local minimum, not necessarily the global one.
 
 ## Optimizing a Two Variable Function
 
@@ -109,10 +109,10 @@ This is where we stop going over introductory calculus concepts and shift the fo
 
 <!-- TODO: bridge from optimization to ML. Start with a tiny dataset and a
      model (e.g. linear regression with slope/intercept). Define error as a
-     function of the model parameters — this is the "loss." Show that the loss
+     function of the model parameters (this is the "loss"). Show that the loss
      is just another function to minimize, exactly like the ones above.
      The image classification example (function that takes an image and says
-     if it contains a dog or not) may be too big a jump here — consider
+     if it contains a dog or not) may be too big a jump here. Consider
      starting with something simpler and mentioning images as where this
      scales to. -->
 
