@@ -56,8 +56,68 @@ def plot_quadratic_revenue():
     print("Generated quadratic-revenue.png")
 
 
+def plot_quadratic_sign_ascent():
+    """Plot 2a: Sign-based ascent on the quadratic."""
+    fig, ax = plt.subplots(figsize=(12, 8))
+
+    p = np.linspace(-5, 55, 500)
+    ax.plot(p, R(p), "b-", linewidth=2)
+
+    # Sign-based ascent: p_{n+1} = p_n + s * sign(R'(p_n))
+    step_size = 5
+    p_vals = [5.0]
+    for _ in range(4):
+        grad = R_prime(p_vals[-1])
+        if grad == 0:
+            break
+        p_new = p_vals[-1] + step_size * np.sign(grad)
+        p_vals.append(p_new)
+
+    # Plot points and arrows
+    for i, p_i in enumerate(p_vals):
+        ax.plot(p_i, R(p_i), "ro", markersize=8)
+
+        # Draw arrow to next point
+        if i < len(p_vals) - 1:
+            p_next = p_vals[i + 1]
+            ax.annotate(
+                "",
+                xy=(p_next, R(p_next)),
+                xytext=(p_i, R(p_i)),
+                arrowprops=dict(arrowstyle="->", color="red", lw=1.5),
+            )
+
+    # Label start and end
+    ax.annotate(
+        f"p0 = {p_vals[0]:.0f}",
+        xy=(p_vals[0], R(p_vals[0])),
+        xytext=(p_vals[0] + 1, R(p_vals[0]) - 120),
+        fontsize=11,
+        color="red",
+    )
+    ax.annotate(
+        f"p4 = {p_vals[-1]:.0f}",
+        xy=(p_vals[-1], R(p_vals[-1])),
+        xytext=(p_vals[-1] + 1, R(p_vals[-1]) + 50),
+        fontsize=11,
+        color="red",
+    )
+
+    ax.set_xlabel("p", fontsize=12)
+    ax.set_ylabel("R(p)", fontsize=12)
+    ax.set_title(r"Sign-Based Ascent on $R(p) = p(100 - 2p)$", fontsize=14)
+    ax.axhline(y=0, color="gray", linewidth=0.5)
+    ax.axvline(x=0, color="gray", linewidth=0.5)
+    ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plt.savefig(OUTPUT_DIR / "quadratic-sign-ascent.png", dpi=150, bbox_inches="tight")
+    plt.close()
+    print("Generated quadratic-sign-ascent.png")
+
+
 def plot_quadratic_gradient_ascent():
-    """Plot 2: Gradient ascent on the quadratic with tangent lines."""
+    """Plot 2b: Gradient ascent on the quadratic with tangent lines."""
     fig, ax = plt.subplots(figsize=(12, 8))
 
     p = np.linspace(-5, 55, 500)
@@ -193,6 +253,7 @@ def plot_single_var_gradient_descent():
 
 if __name__ == "__main__":
     plot_quadratic_revenue()
+    plot_quadratic_sign_ascent()
     plot_quadratic_gradient_ascent()
     plot_single_var_function()
     plot_single_var_gradient_descent()

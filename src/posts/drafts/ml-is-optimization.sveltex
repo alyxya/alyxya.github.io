@@ -27,12 +27,30 @@ One way is to complete the square and rewrite $R(p)$ as $-2(p - 25)^2 + 1250$ wh
 A more general purpose approach is to find the critical points, which you get when you set the derivative to $0$, and then find the critical point that maximizes the function.
 In this case, $R'(p) = -4p + 100 = 0 \implies p = 25$ is the only critical point.
 
-An even more general purpose approach for when you can't solve for the derivative being $0$ is to start at a random point and traverse along the gradient.
-This is called gradient ascent when maximizing a function and gradient descent when minimizing a function.
-This is useful for finding local maxima and minima of a function, and in the case of a function being concave/convex, any local maximum/minimum is also the global maximum/minimum.
+An even more general purpose approach for when you can't solve for the derivative being $0$ is to start at a random point and iteratively move in the direction that increases the function.
+The derivative tells us which direction is "uphill": if $R'(p) > 0$, then increasing $p$ increases $R$, and if $R'(p) < 0$, then decreasing $p$ increases $R$.
 
-The update rule for gradient ascent is $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ is the step size.
-Since $R'(p) = -4p + 100$, let's start at $p_0 = 5$ with $\alpha = 0.1$ and see what happens:
+The simplest approach is to just use the sign of the derivative: $p_{n+1} = p_n + s \cdot \text{sign}(R'(p_n))$, where $s$ is a fixed step size.
+Starting at $p_0 = 5$ with $s = 5$:
+
+$$
+\begin{aligned}
+p_0 &= 5 & \text{sign}(R'(p_0)) &= +1 & R(p_0) &= 450 \\
+p_1 &= 5 + 5 \cdot (+1) = 10 & \text{sign}(R'(p_1)) &= +1 & R(p_1) &= 800 \\
+p_2 &= 10 + 5 \cdot (+1) = 15 & \text{sign}(R'(p_2)) &= +1 & R(p_2) &= 1050 \\
+p_3 &= 15 + 5 \cdot (+1) = 20 & \text{sign}(R'(p_3)) &= +1 & R(p_3) &= 1200 \\
+p_4 &= 20 + 5 \cdot (+1) = 25 & \text{sign}(R'(p_4)) &= 0 & R(p_4) &= 1250
+\end{aligned}
+$$
+
+Each step moves $p$ by a fixed amount in the direction of increasing $R$, and we stop when the derivative is zero (the sign is $0$).
+
+![Sign-based ascent on R(p)](/images/posts/ml-is-optimization/quadratic-sign-ascent.png)
+
+This works, but the fixed step size is a limitation. If the step is too large, we might overshoot the maximum and oscillate around it. If it's too small, convergence is slow. We can do better by also using the *magnitude* of the derivative — taking larger steps when we're far from the peak (where the slope is steep) and smaller steps as we approach it (where the slope flattens).
+
+This gives us gradient ascent with the update rule $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ is a step size.
+Starting at $p_0 = 5$ with $\alpha = 0.1$:
 
 $$
 \begin{aligned}
@@ -45,8 +63,7 @@ p_5 &= 22.41 + 0.1 \cdot 10.4 = 23.44 & R'(p_5) &= 6.2 & R(p_5) &= 1245
 \end{aligned}
 $$
 
-Each step moves $p$ in the direction of increasing $R$, and the steps get smaller as the gradient shrinks near the peak.
-After just a few iterations $p$ is close to $25$ and $R(p)$ is almost $1250$.
+Now the steps naturally get smaller as we approach the peak, allowing for both fast initial progress and precise convergence.
 
 ![Gradient ascent on R(p)](/images/posts/ml-is-optimization/quadratic-gradient-ascent.png)
 
