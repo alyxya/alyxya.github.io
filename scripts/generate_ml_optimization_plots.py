@@ -179,6 +179,7 @@ def plot_single_var_gradient_descent():
     ax.set_title(r"Gradient Descent on $f(x) = x^4 - x^3 - x^2 + e^{-x^2}$", fontsize=14)
     ax.axhline(y=0, color="gray", linewidth=0.5)
     ax.axvline(x=0, color="gray", linewidth=0.5)
+    ax.set_ylim(-1.5, 5)
     ax.grid(True, alpha=0.3)
     ax.legend(loc="upper right", fontsize=11)
 
