@@ -29,7 +29,7 @@ In this case, $R'(p) = -4p + 100 = 0 \implies p = 25$ is the only critical point
 
 An even more general purpose approach for when you can't solve for the derivative being $0$ is to start at a random point and traverse along the gradient.
 This is called gradient ascent when maximizing a function and gradient descent when minimizing a function.
-This is useful for finding local maximums and minimums of a function, and in the case of a function being concave or convex, the local maximum or minimum are also the global maximum or minimum.
+This is useful for finding local maximums and minimums of a function, and in the case of a function being concave/convex, any local maximum/minimum is also the global maximum/minimum.
 
 The update rule for gradient ascent is $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ is the step size.
 Since $R'(p) = -4p + 100$, let's start at $p_0 = 5$ with $\alpha = 0.1$ and see what happens:
@@ -56,7 +56,7 @@ Now let's move on to a more complex function.
 
 The previous example was a quadratic, where we could solve $R'(p) = 0$ analytically to find the critical point. But what if the derivative equation has no closed-form solution?
 
-Consider $f(x) = x^4 - x^3 - x^2 + e^{-x^2}$. Setting the derivative to zero gives $4x^3 - 3x^2 - 2x - 2xe^{-x^2} = 0$, which we can't solve algebraically. This is where gradient descent becomes essential rather than just convenient.
+Consider $f(x) = x^4 - x^3 - x^2 + e^(-x^2)$. Setting the derivative to zero gives $4x^3 - 3x^2 - 2x - 2xe^{-x^2} = 0$, which we can't solve algebraically. This is where gradient descent becomes essential rather than just convenient.
 
 ![f(x) = x^4 - x^3 - x^2 + e^-x^2](/images/posts/ml-is-optimization/single-var-function.png)
 
