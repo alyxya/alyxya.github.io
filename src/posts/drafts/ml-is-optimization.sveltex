@@ -74,9 +74,9 @@ $$
 
 After a few more steps, $x$ converges to the minimum at $x \approx 1.24$.
 
-![Gradient descent from four starting points](/images/posts/ml-is-optimization/single-var-gradient-descent.png)
+![Gradient descent from two starting points](/images/posts/ml-is-optimization/single-var-gradient-descent.png)
 
-The plot shows four different starting points. Starting from $x_0 = 0.5$ or $x_0 = 1.5$ leads to the deeper minimum on the right, while starting from $x_0 = -0.3$ or $x_0 = -1.0$ leads to the shallower minimum on the left. The starting point determines which minimum we find — gradient descent finds a local minimum, not necessarily the global one.
+The plot shows two different starting points. Starting from $x_0 = 2.0$ leads to the deeper minimum on the right, while starting from $x_0 = -1.2$ leads to the shallower minimum on the left. The starting point determines which minimum we find — gradient descent finds a local minimum, not necessarily the global one.
 
 ## Optimizing a Two Variable Function
 
