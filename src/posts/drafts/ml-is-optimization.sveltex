@@ -28,7 +28,9 @@ A more general purpose approach is to find the critical points, which you get wh
 In this case, $R'(p) = -4p + 100 = 0 \implies p = 25$ is the only critical point.
 
 An even more general purpose approach for when you can't solve for the derivative being $0$ is to start at a random point and iteratively move in the direction that increases the function.
-The derivative tells us which direction is "uphill": if $R'(p) > 0$, then increasing $p$ increases $R$, and if $R'(p) < 0$, then decreasing $p$ increases $R$.
+Recall the limit definition of the derivative: $R'(p) = \lim_{h \to 0} \frac{R(p + h) - R(p)}{h}$.
+Rearranging, this tells us that for a small step $h$, the function changes by approximately $R(p + h) - R(p) \approx h \cdot R'(p)$.
+So if $R'(p) > 0$, a positive step increases $R$, and if $R'(p) < 0$, a negative step increases $R$.
 
 The simplest approach is to just use the sign of the derivative: $p_{n+1} = p_n + s \cdot \text{sign}(R'(p_n))$, where $s$ is a fixed step size.
 Starting at $p_0 = 5$ with $s = 5$:
