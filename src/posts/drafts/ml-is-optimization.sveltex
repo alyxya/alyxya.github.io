@@ -29,7 +29,7 @@ In this case, $R'(p) = -4p + 100 = 0 \implies p = 25$ is the only critical point
 
 An even more general purpose approach for when you can't solve for the derivative being $0$ is to start at a random point and traverse along the gradient.
 This is called gradient ascent when maximizing a function and gradient descent when minimizing a function.
-This is useful for finding local maximums and minimums of a function, and in the case of a function being concave/convex, any local maximum/minimum is also the global maximum/minimum.
+This is useful for finding local maxima and minima of a function, and in the case of a function being concave/convex, any local maximum/minimum is also the global maximum/minimum.
 
 The update rule for gradient ascent is $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ is the step size.
 Since $R'(p) = -4p + 100$, let's start at $p_0 = 5$ with $\alpha = 0.1$ and see what happens:
@@ -56,19 +56,19 @@ Now let's move on to a more complex function.
 
 The previous example was a quadratic, where we could solve $R'(p) = 0$ analytically to find the critical point. But what if the derivative equation has no closed-form solution?
 
-Consider $f(x) = x^4 - x^3 - x^2 + e^(-x^2)$. Setting the derivative to zero gives $4x^3 - 3x^2 - 2x - 2xe^{-x^2} = 0$, which we can't solve algebraically. This is where gradient descent becomes essential rather than just convenient.
+Consider $f(x) = x^4 - x^3 - x^2 + e^{-x^2}$. Setting the derivative to zero gives $4x^3 - 3x^2 - 2x - 2xe^{-x^2} = 0$, which we can't solve algebraically. This is where gradient descent becomes essential rather than just convenient.
 
-![f(x) = x^4 - x^3 - x^2 + e^-x^2](/images/posts/ml-is-optimization/single-var-function.png)
+![f(x) = x^4 - x^3 - x^2 + e^(-x^2)](/images/posts/ml-is-optimization/single-var-function.png)
 
-This function has two local minima — one near $x = -0.62$ and a deeper one near $x = 1.24$. Since we're minimizing instead of maximizing, the update rule becomes $x_{n+1} = x_n - \alpha f'(x_n)$ (note the minus sign). Starting from $x_0 = 0.5$ with $\alpha = 0.1$:
+This function has two local minima — one near $x = -0.62$ and a deeper one near $x = 1.24$. Since we're minimizing instead of maximizing, the update rule becomes $x_{n+1} = x_n - \alpha f'(x_n)$ (note the minus sign). Starting from $x_0 = 2.0$ with $\alpha = 0.1$:
 
 $$
 \begin{aligned}
-x_0 &= 0.50 & f'(x_0) &= -2.03 & f(x_0) &= 0.47 \\
-x_1 &= 0.50 - 0.1 \cdot (-2.03) = 0.70 & f'(x_1) &= -2.36 & f(x_1) &= 0.01 \\
-x_2 &= 0.70 - 0.1 \cdot (-2.36) = 0.94 & f'(x_2) &= -1.99 & f(x_2) &= -0.52 \\
-x_3 &= 0.94 - 0.1 \cdot (-1.99) = 1.14 & f'(x_3) &= -0.89 & f(x_3) &= -0.82 \\
-x_4 &= 1.14 - 0.1 \cdot (-0.89) = 1.23 & f'(x_4) &= -0.13 & f(x_4) &= -0.86
+x_0 &= 2.00 & f'(x_0) &= 15.93 & f(x_0) &= 4.02 \\
+x_1 &= 2.00 - 0.1 \cdot 15.93 = 0.41 & f'(x_1) &= -1.73 & f(x_1) &= 0.64 \\
+x_2 &= 0.41 - 0.1 \cdot (-1.73) = 0.58 & f'(x_2) &= -2.22 & f(x_2) &= 0.29 \\
+x_3 &= 0.58 - 0.1 \cdot (-2.22) = 0.80 & f'(x_3) &= -2.31 & f(x_3) &= -0.22 \\
+x_4 &= 0.80 - 0.1 \cdot (-2.31) = 1.03 & f'(x_4) &= -1.57 & f(x_4) &= -0.69
 \end{aligned}
 $$
 
