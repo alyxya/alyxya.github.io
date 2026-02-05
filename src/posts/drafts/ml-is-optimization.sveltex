@@ -105,7 +105,7 @@ Now let's add another variable. Consider $f(x, y) = x^2 + 3y^2 - xy$, which has 
 
 ![f(x, y) = x² + 3y² - xy](/images/posts/ml-is-optimization/two-var-function.png)
 
-In the single-variable case, we minimized $f(x)$ by changing $x$ in the direction that decreased $f$. With two variables, we can ask the same question twice: how should we change $x$ (holding $y$ fixed) to decrease $f$, and how should we change $y$ (holding $x$ fixed) to decrease $f$? A small step $(\Delta x, \Delta y)$ changes the function by the sum of the partial contributions:
+In the single variable case, we minimized $f(x)$ by changing $x$ in the direction that decreased $f$. With two variables, we can ask the same question twice: how should we change $x$ (holding $y$ fixed) to decrease $f$, and how should we change $y$ (holding $x$ fixed) to decrease $f$? A small step $(\Delta x, \Delta y)$ changes the function by the sum of the partial contributions:
 
 $$
 \Delta f \approx \frac{\partial f}{\partial x}\Delta x + \frac{\partial f}{\partial y}\Delta y
@@ -116,9 +116,10 @@ $$
 \nabla f = \left(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right) = (2x - y, \; 6y - x)
 $$
 
-The gradient points in the direction of increasing $f$, so we subtract it to descend. This is the same idea as the single-variable update $x_{n+1} = x_n - \alpha f'(x_n)$, where we just replace the scalar derivative with a vector and take a step proportional to it in parameter space. The update rule is structurally identical to before:
+The gradient points in the direction of increasing $f$, so for small enough $\alpha$ we subtract it to descend. This is the same idea as the single variable update $x_{n+1} = x_n - \alpha f'(x_n)$, where we just replace the scalar derivative with a vector and take a step proportional to it in parameter space. The update rule is structurally identical to before:
 
 $$
+\mathbf{p} = (x, y), \qquad
 \mathbf{p}_{n+1} = \mathbf{p}_n - \alpha \nabla f(\mathbf{p}_n)
 $$
 
@@ -138,7 +139,8 @@ $$
 
 Notice the path doesn't head straight toward the minimum, it curves because the function is steeper in the $y$ direction. But the algorithm doesn't need to know this; it just follows the gradient downhill at each step.
 
-Nothing fundamentally changed from the single-variable case. We're still computing a derivative and stepping opposite to it. The only difference is that our derivative is now a vector. Now imagine doing this with a million parameters — that's a neural network.
+Nothing fundamentally changed from the single variable case. We're still computing a derivative and stepping opposite to it. The only difference is that our derivative is now a vector.
+Note that unlike the single variable case where you either have the choice to increase or decrease the variable and only one direction can decrease the function locally, the two variable case has many directions.
 
 ## Creating a Simple Model
 
