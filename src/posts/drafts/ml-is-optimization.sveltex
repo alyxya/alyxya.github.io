@@ -7,27 +7,27 @@ draft: true
 ---
 
 Rather than cataloging machine learning models and techniques, I want to start from first principles and build up the idea of machine learning.
-Some problems seem intractable in computer science, like programmatically identifying if an image shows a dog or not.
+Some problems seem intractable in computer science, like programmatically identifying whether an image shows a dog.
 If you knew nothing about machine learning, it's hard to imagine where you'd even start.
 
-On the other hand, there are far simpler problems that we do know how to solve.
-So it makes sense to start with a simple problem we can solve and gradually make it harder until it resembles the difficult problem we want to solve.
+On the other hand, there are far simpler problems we do know how to solve.
+So it makes sense to start with a simple problem we can solve and gradually make it harder until it resembles the difficult problem we care about.
 
 ## Optimizing a Quadratic Polynomial
 
-Say you're running a business and want to maximize your revenue selling a product.
-You notice a relationship where if you price the product at $p$ dollars, you can sell $100 - 2p$ units.
-Now you want to find the value of $p$ that maximizes your revenue $R(p) = p(100 - 2p) = -2p^2 + 100p$.
+Suppose we're running a business and want to maximize our revenue from a product.
+We notice a relationship: if we price the product at $p$ dollars, we can sell $100 - 2p$ units.
+Now we want to find the value of $p$ that maximizes our revenue $R(p) = p(100 - 2p) = -2p^2 + 100p$.
 
 ![R(p) = p(100 − 2p)](/images/posts/ml-is-optimization/quadratic-revenue.png)
 
-There are multiple approaches you could use to maximize a simple quadratic polynomial.
-One way is to complete the square and rewrite $R(p)$ as $-2(p - 25)^2 + 1250$ which is maximized at $R(25) = 1250$ because the first term is a negative squared value and is always nonpositive.
+There are multiple approaches we could use to maximize a simple quadratic polynomial.
+One way is to complete the square and rewrite $R(p)$ as $-2(p - 25)^2 + 1250$, which is maximized at $R(25) = 1250$ since the squared term is always nonnegative and the coefficient is negative.
 
-A more general purpose approach is to find the critical points, which you get when you set the derivative to $0$, and then find the critical point that maximizes the function.
+A more general purpose approach is to find the critical points by setting the derivative to $0$, then choose the one that maximizes the function.
 In this case, $R'(p) = -4p + 100 = 0 \implies p = 25$ is the only critical point.
 
-An even more general purpose approach for when you can't solve $R'(p)=0$ is to start at a random point and iteratively move in the direction that increases the function.
+A still more general approach, when we can't solve $R'(p)=0$, is to start at a random point and iteratively move in the direction that increases the function.
 Recall the limit definition of the derivative: $R'(p) = \lim_{h \to 0} \frac{R(p + h) - R(p)}{h}$.
 Rearranging, this tells us that for a small step $h$, the function changes by approximately $R(p + h) - R(p) \approx h \cdot R'(p)$.
 So if $R'(p) > 0$, a positive step increases $R$, and if $R'(p) < 0$, a negative step increases $R$.
@@ -47,7 +47,7 @@ p_{200} &= 25.00 & \text{sign}(R'(p_{200})) &= 0 & R(p_{200}) &= 1250.00
 \end{aligned}
 $$
 
-Each step moves $p$ by a fixed amount in the direction of increasing $R$. With $\alpha = 0.1$, we land exactly on $p = 25$ after $200$ steps; in general you'd stop when the derivative is near zero or the sign flips.
+Each step moves $p$ by a fixed amount in the direction of increasing $R$. With $\alpha = 0.1$, we land exactly on $p = 25$ after $200$ steps; in general we'd stop when the derivative is near zero or the sign flips.
 
 ![Sign-based ascent on R(p)](/images/posts/ml-is-optimization/quadratic-sign-ascent.png)
 
@@ -137,10 +137,11 @@ $$
 
 ![Gradient descent on f(x, y)](/images/posts/ml-is-optimization/two-var-gradient-descent.png)
 
-Notice the path doesn't head straight toward the minimum, it curves because the function is steeper in the $y$ direction. But the algorithm doesn't need to know this; it just follows the gradient downhill at each step.
+Notice the path doesn't head straight toward the minimum; it curves because the function is steeper in the $y$ direction. But the algorithm doesn't need to know this; it just follows the gradient downhill at each step.
 
 Nothing fundamentally changed from the single variable case. We're still computing a derivative and stepping opposite to it. The only difference is that our derivative is now a vector.
-Note that unlike the single variable case where you either have the choice to increase or decrease the variable and only one direction can decrease the function locally, the two variable case has many directions.
+In one dimension there are only two directions to move and only one decreases the function locally. In two dimensions, there are many directions that decrease the function.
+We could change only one variable at a time and alternate between them, which still results in a descending path, but in practice it's more efficient to update all variables each step.
 
 ## Creating a Simple Model
 
