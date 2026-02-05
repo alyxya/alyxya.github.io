@@ -26,6 +26,16 @@ def f_prime(x):
     return 4 * x**3 - 3 * x**2 - 2 * x - 2 * x * np.exp(-(x**2))
 
 
+def g(x, y):
+    """g(x, y) = x^2 + 3y^2 - xy"""
+    return x**2 + 3 * y**2 - x * y
+
+
+def g_grad(x, y):
+    """Gradient of g: (2x - y, 6y - x)"""
+    return np.array([2 * x - y, 6 * y - x])
+
+
 def plot_quadratic_revenue():
     """Plot 1: Basic quadratic revenue function with maximum marked."""
     fig, ax = plt.subplots(figsize=(10, 7))
@@ -255,10 +265,92 @@ def plot_single_var_gradient_descent():
     print("Generated single-var-gradient-descent.png")
 
 
+def plot_two_var_function():
+    """Plot 5: 3D surface of g(x, y) = x^2 + 3y^2 - xy"""
+    fig = plt.figure(figsize=(12, 9))
+    ax = fig.add_subplot(111, projection="3d")
+
+    x = np.linspace(-2, 4, 100)
+    y = np.linspace(-1.5, 3, 100)
+    X, Y = np.meshgrid(x, y)
+    Z = g(X, Y)
+
+    ax.plot_surface(X, Y, Z, cmap="viridis", alpha=0.8, edgecolor="none")
+
+    # Mark the minimum at (0, 0)
+    ax.scatter([0], [0], [0], color="red", s=100, zorder=5)
+
+    ax.set_xlabel("x", fontsize=12)
+    ax.set_ylabel("y", fontsize=12)
+    ax.set_zlabel("f(x, y)", fontsize=12)
+    ax.set_title(r"$f(x, y) = x^2 + 3y^2 - xy$", fontsize=14)
+    ax.view_init(elev=25, azim=-60)
+
+    plt.tight_layout()
+    plt.savefig(OUTPUT_DIR / "two-var-function.png", dpi=150, bbox_inches="tight")
+    plt.close()
+    print("Generated two-var-function.png")
+
+
+def plot_two_var_gradient_descent():
+    """Plot 6: 3D surface with gradient descent path."""
+    fig = plt.figure(figsize=(12, 9))
+    ax = fig.add_subplot(111, projection="3d")
+
+    x = np.linspace(-1, 4, 100)
+    y = np.linspace(-0.5, 2.5, 100)
+    X, Y = np.meshgrid(x, y)
+    Z = g(X, Y)
+
+    ax.plot_surface(X, Y, Z, cmap="viridis", alpha=0.6, edgecolor="none")
+
+    # Gradient descent from (3, 2)
+    alpha = 0.1
+    n_steps = 20
+    pos = np.array([3.0, 2.0])
+    path = [pos.copy()]
+
+    for _ in range(n_steps):
+        grad = g_grad(pos[0], pos[1])
+        pos = pos - alpha * grad
+        path.append(pos.copy())
+
+    path = np.array(path)
+    z_path = g(path[:, 0], path[:, 1])
+
+    # Plot the descent path
+    ax.plot(path[:, 0], path[:, 1], z_path, "r-", linewidth=2, zorder=10)
+    ax.scatter(path[:, 0], path[:, 1], z_path, color="red", s=30, zorder=10)
+
+    # Mark start and end
+    ax.scatter([path[0, 0]], [path[0, 1]], [z_path[0]], color="red", s=100, zorder=15)
+    ax.scatter(
+        [path[-1, 0]], [path[-1, 1]], [z_path[-1]], color="darkred", s=100, zorder=15
+    )
+
+    ax.set_xlabel("x", fontsize=12)
+    ax.set_ylabel("y", fontsize=12)
+    ax.set_zlabel("f(x, y)", fontsize=12)
+    ax.set_title(
+        r"Gradient Descent on $f(x, y) = x^2 + 3y^2 - xy$",
+        fontsize=14,
+    )
+    ax.view_init(elev=25, azim=-60)
+
+    plt.tight_layout()
+    plt.savefig(
+        OUTPUT_DIR / "two-var-gradient-descent.png", dpi=150, bbox_inches="tight"
+    )
+    plt.close()
+    print("Generated two-var-gradient-descent.png")
+
+
 if __name__ == "__main__":
     plot_quadratic_revenue()
     plot_quadratic_sign_ascent()
     plot_quadratic_gradient_ascent()
     plot_single_var_function()
     plot_single_var_gradient_descent()
+    plot_two_var_function()
+    plot_two_var_gradient_descent()
     print(f"\nAll plots saved to {OUTPUT_DIR}")

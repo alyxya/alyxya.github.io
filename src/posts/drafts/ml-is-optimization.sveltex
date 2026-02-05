@@ -101,9 +101,35 @@ The plot shows two different starting points. Starting from $x_0 = 2.0$ leads to
 
 ## Optimizing a Two Variable Function
 
-<!-- TODO: extend to f(x, y). Gradient is now a vector, update rule is the
-     same. Contour plot with descent path. Key point: nothing conceptually
-     changed, just more parameters. "Now imagine a million parameters." -->
+Now let's add another variable. Consider $f(x, y) = x^2 + 3y^2 - xy$, which has a minimum at the origin.
+
+![f(x, y) = x² + 3y² - xy](/images/posts/ml-is-optimization/two-var-function.png)
+
+The derivative generalizes to a vector called the gradient:
+
+$$\nabla f = \left(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right) = (2x - y, \; 6y - x)$$
+
+The gradient points in the direction of steepest ascent, so we subtract it to descend. The update rule is structurally identical to before:
+
+$$\mathbf{p}_{n+1} = \mathbf{p}_n - \alpha \nabla f(\mathbf{p}_n)$$
+
+Starting from $(x_0, y_0) = (3, 2)$ with $\alpha = 0.1$:
+
+$$
+\begin{aligned}
+(x_0, y_0) &= (3.00, 2.00) & \nabla f &= (4.00, 9.00) & f &= 15.00 \\
+(x_1, y_1) &= (2.60, 1.10) & \nabla f &= (4.10, 4.00) & f &= 7.53 \\
+(x_2, y_2) &= (2.19, 0.70) & \nabla f &= (3.68, 2.01) & f &= 4.73 \\
+(x_3, y_3) &= (1.82, 0.50) & \nabla f &= (3.14, 1.18) & f &= 3.15 \\
+(x_4, y_4) &= (1.51, 0.38) & \nabla f &= (2.64, 0.77) & f &= 2.14
+\end{aligned}
+$$
+
+![Gradient descent on f(x, y)](/images/posts/ml-is-optimization/two-var-gradient-descent.png)
+
+Notice the path doesn't head straight toward the minimum, it curves because the function is steeper in the $y$ direction. But the algorithm doesn't need to know this; it just follows the gradient downhill at each step.
+
+Nothing fundamentally changed from the single-variable case. We're still computing a derivative and stepping opposite to it. The only difference is that our derivative is now a vector. Now imagine doing this with a million parameters — that's a neural network.
 
 ## Creating a Simple Model
 
