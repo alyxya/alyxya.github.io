@@ -286,8 +286,9 @@ def plot_two_var_function():
     ax.set_title(r"$f(x, y) = x^2 + 3y^2 - xy$", fontsize=14)
     ax.view_init(elev=25, azim=-60)
 
-    plt.tight_layout()
-    plt.savefig(OUTPUT_DIR / "two-var-function.png", dpi=150, bbox_inches="tight")
+    # Avoid tight bbox on 3D axes; it can clip z-axis labels.
+    fig.subplots_adjust(left=0.02, right=0.90, bottom=0.05, top=0.92)
+    plt.savefig(OUTPUT_DIR / "two-var-function.png", dpi=150)
     plt.close()
     print("Generated two-var-function.png")
 
@@ -337,10 +338,9 @@ def plot_two_var_gradient_descent():
     )
     ax.view_init(elev=25, azim=-60)
 
-    plt.tight_layout()
-    plt.savefig(
-        OUTPUT_DIR / "two-var-gradient-descent.png", dpi=150, bbox_inches="tight"
-    )
+    # Avoid tight bbox on 3D axes; it can clip z-axis labels.
+    fig.subplots_adjust(left=0.02, right=0.90, bottom=0.05, top=0.92)
+    plt.savefig(OUTPUT_DIR / "two-var-gradient-descent.png", dpi=150)
     plt.close()
     print("Generated two-var-gradient-descent.png")
 
