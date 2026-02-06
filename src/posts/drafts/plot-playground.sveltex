@@ -3,7 +3,6 @@ title: "Plot Playground"
 date: "2025-02-14"
 description: "Mixed markdown, LaTeX, code, and Plotly visualizations powered by SvelTeX."
 tags: ["plots", "interactive", "plotly"]
-draft: true
 ---
 
 <script lang="ts">

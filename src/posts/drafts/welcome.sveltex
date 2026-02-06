@@ -3,7 +3,6 @@ title: "Welcome to My Technical Blog"
 date: "2024-01-15"
 description: "A first post demonstrating markdown, LaTeX, and the power of sveltex"
 tags: ["intro", "math"]
-draft: true
 ---
 
 <script lang="ts">

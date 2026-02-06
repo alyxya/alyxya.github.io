@@ -4,5 +4,4 @@ export type BlogPostMetadata = {
 	updated?: string;
 	description?: string;
 	tags?: string[];
-	draft?: boolean;
 };

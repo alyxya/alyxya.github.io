@@ -4,7 +4,6 @@ date: "2025-05-16"
 updated: "2026-01-16"
 description: "Building a tiny x86-64 ELF that prints “Hello, World!”."
 tags: ["low-level", "elf", "assembly"]
-draft: false
 ---
 
 Today I learned how to manually create a simple ELF executable that prints the

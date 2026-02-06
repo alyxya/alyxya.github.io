@@ -37,10 +37,6 @@ export const load: PageServerLoad = async ({ params }) => {
 	const [postPath, resolver] = postEntry;
 	const post = await resolver();
 
-	if (!post.metadata.draft) {
-		throw error(404, `Post not found: ${params.slug}`);
-	}
-
 	return {
 		slug: params.slug,
 		metadata: post.metadata,

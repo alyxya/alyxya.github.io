@@ -3,7 +3,6 @@ title: "Almost Orthogonal Vectors"
 date: "2026-01-30"
 description: "Exponentially many nearly orthogonal vectors fit in n dimensions."
 tags: ["linear-algebra", "vectors"]
-draft: false
 ---
 
 A neural network represents features as directions in its activation space.

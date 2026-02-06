@@ -3,7 +3,6 @@ title: "Dot Products"
 date: "2026-01-28"
 description: "A simple operation with many connections."
 tags: ["linear-algebra", "vectors"]
-draft: false
 ---
 
 Dot products are amazing when you consider how simple they are to compute, yet they're very expressive with what they can represent.

@@ -3,7 +3,6 @@ title: "Machine Learning Isn't Magic; It's Just Optimization"
 date: "2026-02-06"
 description: "At its core, machine learning is just finding the minimum of a function."
 tags: ["machine-learning", "optimization"]
-draft: false
 ---
 
 Rather than cataloging machine learning models and techniques, I want to start from first principles and build up the idea of machine learning.
