@@ -162,20 +162,18 @@ Now we need to determine what parameters give us the function we want.
 We already know how to minimize functions with gradient descent, so we need to turn "find parameters that make $f_{\boldsymbol{\theta}}$ accurate" into "minimize some function of $\boldsymbol{\theta}$."
 
 The function $f_{\boldsymbol{\theta}}$ on its own has no notion of being minimized or maximized. But we can define a new function that measures how wrong $f_{\boldsymbol{\theta}}$ is.
-If we let $y_i$ denote the true label of the $i$-th image ($1$ for dog, $0$ otherwise), then
+Suppose we had access to every possible dog image and every possible non-dog image. We want $f_{\boldsymbol{\theta}}$ to output $1$ for each dog image and $0$ for everything else, so we can measure the total error as
 
 $$
-g(\boldsymbol{\theta}) = \sum_{i} \left(f_{\boldsymbol{\theta}}(\text{image}_i) - y_i\right)^2
+g(\boldsymbol{\theta}) = \sum_{\text{dog images}} \left(f_{\boldsymbol{\theta}}(\text{image}) - 1\right)^2 + \sum_{\text{other images}} \left(f_{\boldsymbol{\theta}}(\text{image}) - 0\right)^2
 $$
 
-is minimized precisely when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
-Each term is a squared error, equal to zero when the prediction matches the label and positive otherwise.
-This isn't the only function we could choose.
+Every term in this sum is zero when the prediction is correct and positive otherwise, so $g$ is minimized precisely when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
+This isn't the only function we could choose though.
 Instead of squaring, we could raise it to the fourth power instead, or take the absolute value, and it would still be minimized when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
 Squaring is a nice choice because its derivative is smooth and easy to compute.
 
-But this sum ranges over all images, and we don't have access to every possible image with its label.
-This is where training data comes in. Given a dataset of pre-labelled images, we minimize the sum over only those examples:
+Of course, this function is uncomputable in practice since we can't enumerate every possible image. Instead, we collect a **training dataset** of $N$ labelled images, a representative sample of the full space. If we let $y_i$ denote the label of the $i$-th training image ($1$ for dog, $0$ otherwise), we replace the sum over all images with a sum over just our dataset:
 
 $$
 L(\boldsymbol{\theta}) = \sum_{i=1}^{N} \left(f_{\boldsymbol{\theta}}(\text{image}_i) - y_i\right)^2
