@@ -151,19 +151,39 @@ Although we don't have to follow this direction, it explains why descending alon
 
 ## Creating a Simple Model
 
-This is where we stop going over introductory calculus concepts and shift the focus to machine learning.
+Now that we have some tools, let's go back to the original problem of programmatically identifying whether an image shows a dog.
+Mathematically, we want to find a function $f$ such that $f(\text{image of a dog}) = 1$ and $f(\text{anything else}) = 0$.
 
-<!-- TODO: bridge from optimization to ML. Start with a tiny dataset and a
-     model (e.g. linear regression with slope/intercept). Define error as a
-     function of the model parameters (this is the "loss"). Show that the loss
-     is just another function to minimize, exactly like the ones above.
-     The image classification example (function that takes an image and says
-     if it contains a dog or not) may be too big a jump here. Consider
-     starting with something simpler and mentioning images as where this
-     scales to. -->
+The first question is: what kind of function could $f$ be? It could involve arbitrarily complex expressions, and we have no reason to expect it to take any particular form.
+The [universal approximation theorem](https://en.wikipedia.org/wiki/Universal_approximation_theorem) gives us a way forward: under mild conditions, a neural network with enough parameters can approximate any function to arbitrary accuracy.
+This reduces the problem from searching over all possible mathematical expressions to finding the right parameters $\boldsymbol{\theta}$ for a neural network $f_{\boldsymbol{\theta}}$.
 
-## Creating a Slightly Better Model
+Now we need to determine what parameters give us the function we want.
+We already know how to minimize functions with gradient descent, so we need to turn "find parameters that make $f_{\boldsymbol{\theta}}$ accurate" into "minimize some function of $\boldsymbol{\theta}$."
 
-<!-- TODO: iterate on the simple model. Maybe go from a line to a curve, or
-     add a feature. Show that "better model" = "different function family to
-     optimize over." The optimization machinery stays the same. -->
+The function $f_{\boldsymbol{\theta}}$ on its own has no notion of being minimized or maximized. But we can define a new function that measures how wrong $f_{\boldsymbol{\theta}}$ is.
+If we let $y_i$ denote the true label of the $i$-th image ($1$ for dog, $0$ otherwise), then
+
+$$
+g(\boldsymbol{\theta}) = \sum_{i} \left(f_{\boldsymbol{\theta}}(\text{image}_i) - y_i\right)^2
+$$
+
+is minimized precisely when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
+Each term is a squared error: it's zero when the prediction matches the label, and positive otherwise.
+This isn't the only function we could choose.
+Instead of squaring, we could raise it to the fourth power instead, or take the absolute value, and it would still be minimized when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
+Squaring is a nice choice because its derivative is smooth and easy to compute.
+
+There's one remaining issue: this sum ranges over all images, but we don't have access to every possible image with its label.
+This is where training data comes in. Given a dataset of pre-labelled images, we minimize the sum over only those examples:
+
+$$
+L(\boldsymbol{\theta}) = \sum_{i=1}^{N} \left(f_{\boldsymbol{\theta}}(\text{image}_i) - y_i\right)^2
+$$
+
+This is called the **loss function**. It takes in the neural network's parameters and returns a single number measuring how poorly the model performs on the training data. Minimizing it is structurally the same problem as the ones above: we compute $\nabla_{\boldsymbol{\theta}} L$, step opposite to it, and repeat. The parameters $\boldsymbol{\theta}$ play the same role as $p$ or $(x, y)$ did earlier; the only difference is that there may be millions of them instead of one or two.
+
+The idea behind machine learning with neural networks follows directly from optimization.
+We define a function that measures error, and minimize it with gradient descent. There's no new mathematical machinery beyond what we've already built up.
+
+Of course, I've left off many of the details that make machine learning work well in practice. How well does a model generalize beyond the training data? What happens when the loss surface is nonconvex and riddled with local minima? How do we choose the network architecture, the optimizer, or the learning rate? These are the questions that the different subfields of machine learning try to answer, but the core loop remains the same: define a loss, compute a gradient, and take a step.
