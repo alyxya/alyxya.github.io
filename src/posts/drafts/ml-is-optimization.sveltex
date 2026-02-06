@@ -16,7 +16,7 @@ So it makes sense to start with a simple problem we can solve and gradually make
 ## Optimizing a Quadratic Polynomial
 
 Suppose we're running a business and want to maximize our revenue from a product.
-We notice a relationship: if we price the product at $p$ dollars, we can sell $100 - 2p$ units.
+We notice a relationship, where if we price the product at $p$ dollars, we can sell $100 - 2p$ units.
 Now we want to find the value of $p$ that maximizes our revenue $R(p) = p(100 - 2p) = -2p^2 + 100p$.
 
 ![R(p) = p(100 − 2p)](/images/posts/ml-is-optimization/quadratic-revenue.png)
@@ -146,7 +146,7 @@ In two dimensions, there are many directions that decrease the function, so in p
 So what's special about the gradient vector?
 
 If we fix the length of a small update step $\Delta \mathbf{p}$, the change is $\Delta f \approx \nabla f \cdot \Delta \mathbf{p}$, and by [Cauchy-Schwarz](https://en.wikipedia.org/wiki/Cauchy%E2%80%93Schwarz_inequality) this is most negative when $\Delta \mathbf{p}$ points opposite $\nabla f$.
-That gives $\Delta \mathbf{p} = -\alpha \nabla f$: the steepest local decrease for a fixed step length.
+That gives $\Delta \mathbf{p} = -\alpha \nabla f$, the steepest local decrease for a fixed step length.
 Although we don't have to follow this direction, it explains why descending along the gradient is a principled default.
 
 ## Creating a Simple Model
@@ -154,8 +154,8 @@ Although we don't have to follow this direction, it explains why descending alon
 Now that we have some tools, let's go back to the original problem of programmatically identifying whether an image shows a dog.
 Mathematically, we want to find a function $f$ such that $f(\text{image of a dog}) = 1$ and $f(\text{anything else}) = 0$.
 
-The first question is: what kind of function could $f$ be? It could involve arbitrarily complex expressions, and we have no reason to expect it to take any particular form.
-The [universal approximation theorem](https://en.wikipedia.org/wiki/Universal_approximation_theorem) gives us a way forward: under mild conditions, a neural network with enough parameters can approximate any function to arbitrary accuracy.
+What kind of function could $f$ be? It could involve arbitrarily complex expressions, and we have no reason to expect it to take any particular form.
+The [universal approximation theorem](https://en.wikipedia.org/wiki/Universal_approximation_theorem) gives us a way forward. Under mild conditions, a neural network with enough parameters can approximate any function to arbitrary accuracy.
 This reduces the problem from searching over all possible mathematical expressions to finding the right parameters $\boldsymbol{\theta}$ for a neural network $f_{\boldsymbol{\theta}}$.
 
 Now we need to determine what parameters give us the function we want.
@@ -169,21 +169,21 @@ g(\boldsymbol{\theta}) = \sum_{i} \left(f_{\boldsymbol{\theta}}(\text{image}_i) 
 $$
 
 is minimized precisely when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
-Each term is a squared error: it's zero when the prediction matches the label, and positive otherwise.
+Each term is a squared error, equal to zero when the prediction matches the label and positive otherwise.
 This isn't the only function we could choose.
 Instead of squaring, we could raise it to the fourth power instead, or take the absolute value, and it would still be minimized when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
 Squaring is a nice choice because its derivative is smooth and easy to compute.
 
-There's one remaining issue: this sum ranges over all images, but we don't have access to every possible image with its label.
+But this sum ranges over all images, and we don't have access to every possible image with its label.
 This is where training data comes in. Given a dataset of pre-labelled images, we minimize the sum over only those examples:
 
 $$
 L(\boldsymbol{\theta}) = \sum_{i=1}^{N} \left(f_{\boldsymbol{\theta}}(\text{image}_i) - y_i\right)^2
 $$
 
-This is called the **loss function**. It takes in the neural network's parameters and returns a single number measuring how poorly the model performs on the training data. Minimizing it is structurally the same problem as the ones above: we compute $\nabla_{\boldsymbol{\theta}} L$, step opposite to it, and repeat. The parameters $\boldsymbol{\theta}$ play the same role as $p$ or $(x, y)$ did earlier; the only difference is that there may be millions of them instead of one or two.
+This is called the **loss function**. It takes in the neural network's parameters and returns a single number measuring how poorly the model performs on the training data. Minimizing it is structurally the same problem as the ones above. We compute $\nabla_{\boldsymbol{\theta}} L$, step opposite to it, and repeat. The parameters $\boldsymbol{\theta}$ play the same role as $p$ or $(x, y)$ did earlier; the only difference is that there may be millions of them instead of one or two.
 
 The idea behind machine learning with neural networks follows directly from optimization.
 We define a function that measures error, and minimize it with gradient descent. There's no new mathematical machinery beyond what we've already built up.
 
-Of course, I've left off many of the details that make machine learning work well in practice. How well does a model generalize beyond the training data? What happens when the loss surface is nonconvex and riddled with local minima? How do we choose the network architecture, the optimizer, or the learning rate? These are the questions that the different subfields of machine learning try to answer, but the core loop remains the same: define a loss, compute a gradient, and take a step.
+Of course, I've left off many of the details that make machine learning work well in practice. How well does a model generalize beyond the training data? What happens when the loss surface is nonconvex and riddled with local minima? How do we choose the network architecture, the optimizer, or the learning rate? These are the questions that the different subfields of machine learning try to answer, but the core loop remains the same. Define a loss, compute a gradient, and take a step.
