@@ -53,7 +53,7 @@ Each step moves $p$ by a fixed amount in the direction of increasing $R$. With $
 
 This works, but the fixed step size is a limitation. If the step is too large, we might overshoot the maximum and oscillate around it. If it's too small, convergence is slow. We can do better by also using the *magnitude* of the derivative, taking larger steps when we're far from the peak (where the slope is steep) and smaller steps as we approach it (where the slope flattens).
 
-This gives us gradient ascent with the update rule $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ is a step size.
+This gives us gradient ascent with the update rule $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ controls the step size.
 Starting at $p_0 = 5$ with $\alpha = 0.1$:
 
 $$
@@ -147,7 +147,7 @@ So what's special about the gradient vector?
 
 If we fix the length of a small update step $\Delta \mathbf{p}$, the change is $\Delta f \approx \nabla f \cdot \Delta \mathbf{p}$, and by [Cauchy-Schwarz](https://en.wikipedia.org/wiki/Cauchy%E2%80%93Schwarz_inequality) this is most negative when $\Delta \mathbf{p}$ points opposite $\nabla f$.
 That gives $\Delta \mathbf{p} = -\alpha \nabla f$: the steepest local decrease for a fixed step length.
-Although we don't have to follow this update for gradient descent to work, this gives a rationale behind why this update step is chosen as opposed to any other update steps that also decrease the function.
+Although we don't have to follow this direction, it explains why gradient descent is a principled default.
 
 ## Creating a Simple Model
 
