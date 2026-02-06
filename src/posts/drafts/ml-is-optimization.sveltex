@@ -7,8 +7,8 @@ draft: true
 ---
 
 Rather than cataloging machine learning models and techniques, I want to start from first principles and build up the idea of machine learning.
-Some problems seem intractable in computer science, like programmatically identifying whether an image shows a dog.
-If you knew nothing about machine learning, it's hard to imagine where you'd even start.
+Some problems seem intractable in computer science, like programmatically determining whether an image shows a dog.
+If you knew nothing about machine learning, it'd be hard to imagine where you'd even start.
 
 On the other hand, there are far simpler problems we do know how to solve.
 So it makes sense to start with a simple problem we can solve and gradually make it harder until it resembles the difficult problem we care about.
@@ -24,7 +24,7 @@ Now we want to find the value of $p$ that maximizes our revenue $R(p) = p(100 - 
 There are multiple approaches we could use to maximize a simple quadratic polynomial.
 One way is to complete the square and rewrite $R(p)$ as $-2(p - 25)^2 + 1250$, which is maximized at $R(25) = 1250$ since the squared term with a negative coefficient is always nonpositive.
 
-A more general purpose approach is to find the critical points by setting the derivative to $0$, then choose the one that maximizes the function.
+A more general-purpose approach is to find the critical points by setting the derivative to $0$, then choose the one that maximizes the function.
 In this case, $R'(p) = -4p + 100 = 0 \implies p = 25$ is the only critical point.
 
 A still more general approach, when we can't solve $R'(p)=0$, is to start at a random point and iteratively move in the direction that increases the function.
@@ -47,11 +47,12 @@ p_{200} &= 25.00 & \text{sign}(R'(p_{200})) &= 0 & R(p_{200}) &= 1250.00
 \end{aligned}
 $$
 
-Each step moves $p$ by a fixed amount in the direction of increasing $R$. With $\alpha = 0.1$, we land exactly on $p = 25$ after $200$ steps; in general we'd stop when the derivative is near zero or the sign flips.
+Each step moves $p$ by a fixed amount in the direction of increasing $R$. With $\alpha = 0.1$, we land exactly on $p = 25$ after $200$ steps; in practice, we'd stop when $|R'(p)|$ is near zero or when the updates begin to flip signs.
 
 ![Sign-based ascent on R(p)](/images/posts/ml-is-optimization/quadratic-sign-ascent.png)
 
-This works, but the fixed step size is a limitation. If the step is too large, we might overshoot the maximum and oscillate around it. If it's too small, convergence is slow. We can do better by also using the *magnitude* of the derivative, taking larger steps when we're far from the peak (where the slope is steep) and smaller steps as we approach it (where the slope flattens).
+This works, but the fixed step size is a limitation. If the step is too large, we might overshoot the maximum and oscillate around it. If it's too small, convergence is slow.
+We can do better by also using the magnitude of the derivative: taking larger steps when we're far from the peak (where the slope is steep), and smaller steps as we approach it (where the slope flattens).
 
 This gives us gradient ascent with the update rule $p_{n+1} = p_n + \alpha R'(p_n)$, where $\alpha$ controls the step size.
 Starting at $p_0 = 5$ with $\alpha = 0.1$:
@@ -73,11 +74,11 @@ Now the steps naturally get smaller as we approach the peak, allowing for both f
 
 Now let's move on to a more complex function.
 
-## Optimizing a Single Variable Function
+## Optimizing a Single-Variable Function
 
 The previous example was a quadratic, where we could solve $R'(p) = 0$ analytically to find the critical point. But what if the derivative equation has no closed-form solution?
 
-Consider $f(x) = x^4 - x^3 - x^2 + e^{-x^2}$. Setting the derivative to zero gives $4x^3 - 3x^2 - 2x - 2xe^{-x^2} = 0$, which we can't solve algebraically. This is where gradient descent becomes essential rather than just convenient.
+Consider $f(x) = x^4 - x^3 - x^2 + e^{-x^2}$. Setting the derivative to zero gives $4x^3 - 3x^2 - 2x - 2xe^{-x^2} = 0$, which has no simple closed-form solution. This is where gradient descent becomes essential rather than just convenient.
 
 ![f(x) = x^4 - x^3 - x^2 + e^(-x^2)](/images/posts/ml-is-optimization/single-var-function.png)
 
@@ -97,26 +98,31 @@ After a few more steps, $x$ converges to the minimum at $x \approx 1.24$.
 
 ![Gradient descent from two starting points](/images/posts/ml-is-optimization/single-var-gradient-descent.png)
 
-The plot shows two different starting points. Starting from $x_0 = 2.0$ leads to the deeper minimum on the right, while starting from $x_0 = -1.2$ leads to the shallower minimum on the left. The starting point determines which minimum we find, since gradient descent finds a local minimum, not necessarily the global one.
+The plot shows two different starting points. Starting from $x_0 = 2.0$ leads to the deeper minimum on the right, while starting from $x_0 = -1.2$ leads to the shallower minimum on the left.
+The starting point determines which minimum we find, since gradient descent finds a local minimum, not necessarily the global one.
 
-## Optimizing a Two Variable Function
+## Optimizing a Two-Variable Function
 
 Now let's add another variable. Consider $f(x, y) = x^2 + 3y^2 - xy$, which has a minimum at the origin.
 
 ![f(x, y) = x² + 3y² - xy](/images/posts/ml-is-optimization/two-var-function.png)
 
-In the single variable case, we minimized $f(x)$ by changing $x$ in the direction that decreased $f$. With two variables, we can ask the same question twice: how should we change $x$ (holding $y$ fixed) to decrease $f$, and how should we change $y$ (holding $x$ fixed) to decrease $f$? A small step $(\Delta x, \Delta y)$ changes the function by the sum of the partial contributions:
+In the single-variable case, we minimized $f(x)$ by changing $x$ in the direction that decreased $f$. With two variables, the same idea applies in both coordinates:
+how should we change $x$ (holding $y$ fixed) to decrease $f$, and how should we change $y$ (holding $x$ fixed) to decrease $f$?
+A small step $(\Delta x, \Delta y)$ changes the function by the sum of the partial contributions:
 
 $$
 \Delta f \approx \frac{\partial f}{\partial x}\Delta x + \frac{\partial f}{\partial y}\Delta y
 $$
-Those two partial derivatives form a vector called the gradient:
+Together, those partial derivatives form a vector called the gradient:
 
 $$
 \nabla f = \left(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right) = (2x - y, \; 6y - x)
 $$
 
-The gradient points in the direction of increasing $f$, so for small enough $\alpha$ we subtract it to descend. This is the same idea as the single variable update $x_{n+1} = x_n - \alpha f'(x_n)$, where we just replace the scalar derivative with a vector and take a step proportional to it in parameter space. The update rule is structurally identical to before:
+The gradient points in the direction of increasing $f$, so for small enough $\alpha$ we subtract it to descend.
+This is the same idea as the single-variable update $x_{n+1} = x_n - \alpha f'(x_n)$, where we replace the scalar derivative with a vector and take a proportional step in parameter space.
+The update rule is structurally identical to before:
 
 $$
 \mathbf{p} = (x, y), \qquad
@@ -137,16 +143,17 @@ $$
 
 ![Gradient descent on f(x, y)](/images/posts/ml-is-optimization/two-var-gradient-descent.png)
 
-Notice the path doesn't head straight toward the minimum; it curves because the function is steeper in the $y$ direction. But the algorithm doesn't need to know this; it just follows the gradient downhill at each step.
+Notice that the path doesn't head straight toward the minimum; it curves because the function is steeper in the $y$ direction.
+But the algorithm doesn't need to know this; it just follows the gradient downhill at each step.
 
-Nothing fundamentally changed from the single variable case. We're still computing a derivative and stepping opposite to it. The only difference is that our derivative is now a vector.
+Nothing fundamentally changed from the single-variable case. We're still computing a derivative and stepping opposite to it. The only difference is that our derivative is now a vector.
 
-In one dimension there are only two directions to move and only one decreases the function locally.
-In two dimensions, there are many directions that decrease the function, so in principle there are many update rules we could use, such as changing one variable at a time.
+In one dimension there are only two directions to move, and only one decreases the function locally.
+In two dimensions, there are infinitely many descent directions, so in principle there are many update rules we could use, such as changing one variable at a time.
 So what's special about the gradient vector?
 
 If we fix the length of a small update step $\Delta \mathbf{p}$, the change is $\Delta f \approx \nabla f \cdot \Delta \mathbf{p}$, and by [Cauchy-Schwarz](https://en.wikipedia.org/wiki/Cauchy%E2%80%93Schwarz_inequality) this is most negative when $\Delta \mathbf{p}$ points opposite $\nabla f$.
-That gives $\Delta \mathbf{p} = -\alpha \nabla f$, the steepest local decrease for a fixed step length.
+So the steepest local decrease direction is $-\nabla f$. A standard update rule is therefore $\Delta \mathbf{p} = -\alpha \nabla f$, where $\alpha$ sets the step size.
 Although we don't have to follow this direction, it explains why descending along the gradient is a principled default.
 
 ## Creating a Simple Model
@@ -155,13 +162,14 @@ Now that we have some tools, let's go back to the original problem of programmat
 Mathematically, we want to find a function $f$ such that $f(\text{image of a dog}) = 1$ and $f(\text{anything else}) = 0$.
 
 What kind of function could $f$ be? It could involve arbitrarily complex expressions, and we have no reason to expect it to take any particular form.
-The [universal approximation theorem](https://en.wikipedia.org/wiki/Universal_approximation_theorem) gives us a way forward. Under mild conditions, a neural network with enough parameters can approximate any function to arbitrary accuracy.
+The [universal approximation theorem](https://en.wikipedia.org/wiki/Universal_approximation_theorem) gives us a way forward.
+Under mild conditions, a neural network with enough parameters can approximate any function arbitrarily well.
 This reduces the problem from searching over all possible mathematical expressions to finding the right parameters $\boldsymbol{\theta}$ for a neural network $f_{\boldsymbol{\theta}}$.
 
 Now we need to determine what parameters give us the function we want.
 We already know how to minimize functions with gradient descent, so we need to turn "find parameters that make $f_{\boldsymbol{\theta}}$ accurate" into "minimize some function of $\boldsymbol{\theta}$."
 
-The function $f_{\boldsymbol{\theta}}$ on its own has no notion of being minimized or maximized. But we can define a new function that measures how wrong $f_{\boldsymbol{\theta}}$ is.
+The function $f_{\boldsymbol{\theta}}$ on its own has no notion of being minimized or maximized. But we can define a new objective function that measures how wrong $f_{\boldsymbol{\theta}}$ is.
 Suppose we had access to every possible dog image and every possible non-dog image. We want $f_{\boldsymbol{\theta}}$ to output $1$ for each dog image and $0$ for everything else, so we can measure the total error as
 
 $$
@@ -173,15 +181,15 @@ This isn't the only function we could choose though.
 Instead of squaring, we could raise it to the fourth power, or take the absolute value, and it would still be minimized when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
 Squaring is a nice choice because its derivative is smooth and easy to compute.
 
-Of course, this function is uncomputable in practice since we can't enumerate every possible image. Instead, we collect a training dataset of $N$ labelled images, a representative sample of the full distribution.
-If we let $y_i$ denote the label of the $i$-th training image ($1$ for dog, $0$ otherwise), we replace the sum over all images with a sum over just our dataset:
+Of course, this objective is intractable in practice since we can't enumerate every possible image. Instead, we collect a training dataset of $N$ labeled images, a representative sample of the full distribution.
+If we let $y_i$ denote the label of the $i$th training image ($1$ for dog, $0$ otherwise), we replace the sum over all images with a sum over just our dataset:
 
 $$
 L(\boldsymbol{\theta}) = \sum_{i=1}^{N} \left(f_{\boldsymbol{\theta}}(\text{image}_i) - y_i\right)^2
 $$
 
 This is called the loss function.
-It takes in the neural network's parameters and returns a single number measuring how poorly the model performs on the training data.
+It takes the neural network's parameters and returns a single number measuring how poorly the model performs on the training data.
 Minimizing it is structurally the same problem as the ones above.
 We compute $\nabla_{\boldsymbol{\theta}} L$, step opposite to it, and repeat.
 The parameters $\boldsymbol{\theta}$ play the same role as $p$ or $(x, y)$ did earlier; the only difference is that there may be millions of them instead of one or two.
@@ -194,5 +202,5 @@ There's no new mathematical machinery beyond what we've already built up.
 
 Of course, there are plenty of open questions I haven't addressed here.
 How do we make a model generalize well with limited training data?
-How do we make training work well when the loss surface is full of local minima?
+How do we make training work well when the loss landscape is non-convex and poorly conditioned?
 How do we choose the network architecture, the optimizer, or the learning rate?
