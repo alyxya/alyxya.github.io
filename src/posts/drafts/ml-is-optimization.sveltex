@@ -140,7 +140,14 @@ $$
 Notice the path doesn't head straight toward the minimum; it curves because the function is steeper in the $y$ direction. But the algorithm doesn't need to know this; it just follows the gradient downhill at each step.
 
 Nothing fundamentally changed from the single variable case. We're still computing a derivative and stepping opposite to it. The only difference is that our derivative is now a vector.
-In one dimension there are only two directions to move and only one decreases the function locally. In two dimensions, there are many directions that decrease the function, so we need a principled rule. For a small step $\Delta \mathbf{p}$ of fixed length, the change is $\Delta f \approx \nabla f \cdot \Delta \mathbf{p}$, and by Cauchy-Schwarz this is most negative when $\Delta \mathbf{p}$ points opposite $\nabla f$. That yields $\Delta \mathbf{p} = -\alpha \nabla f$: the gradient gives direction, $\alpha$ sets the step size. We could also change one variable at a time and alternate between them, which still decreases the function, but in practice it's more efficient to update all variables at once using the gradient.
+
+In one dimension there are only two directions to move and only one decreases the function locally.
+In two dimensions, there are many directions that decrease the function, so in principle there are many update rules we could use, such as changing one variable at a time.
+So what's special about the gradient vector?
+
+If we fix the length of a small update step $\Delta \mathbf{p}$, the change is $\Delta f \approx \nabla f \cdot \Delta \mathbf{p}$, and by [Cauchy-Schwarz](https://en.wikipedia.org/wiki/Cauchy%E2%80%93Schwarz_inequality) this is most negative when $\Delta \mathbf{p}$ points opposite $\nabla f$.
+That gives $\Delta \mathbf{p} = -\alpha \nabla f$: the steepest local decrease for a fixed step length.
+Although we don't have to follow this update for gradient descent to work, this gives a rationale behind why this update step is chosen as opposed to any other update steps that also decrease the function.
 
 ## Creating a Simple Model
 
