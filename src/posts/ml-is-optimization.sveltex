@@ -3,7 +3,7 @@ title: "Machine Learning Isn't Magic; It's Just Optimization"
 date: "2026-02-06"
 description: "At its core, machine learning is just finding the minimum of a function."
 tags: ["machine-learning", "optimization"]
-draft: true
+draft: false
 ---
 
 Rather than cataloging machine learning models and techniques, I want to start from first principles and build up the idea of machine learning.
@@ -114,6 +114,7 @@ A small step $(\Delta x, \Delta y)$ changes the function by the sum of the parti
 $$
 \Delta f \approx \frac{\partial f}{\partial x}\Delta x + \frac{\partial f}{\partial y}\Delta y
 $$
+
 Together, those partial derivatives form a vector called the gradient:
 
 $$
@@ -148,7 +149,7 @@ But the algorithm doesn't need to know this; it just follows the gradient downhi
 
 Nothing fundamentally changed from the single-variable case. We're still computing a derivative and stepping opposite to it. The only difference is that our derivative is now a vector.
 
-In one dimension there are only two directions to move, and only one decreases the function locally.
+In one dimension, there are only two directions to move, and only one decreases the function locally.
 In two dimensions, there are infinitely many descent directions, so in principle there are many update rules we could use, such as changing one variable at a time.
 So what's special about the gradient vector?
 
