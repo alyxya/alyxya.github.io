@@ -1,6 +1,6 @@
 ---
 title: "Machine Learning Isn't Magic; It's Just Optimization"
-date: "2026-01-30"
+date: "2026-02-06"
 description: "Machine learning demystified: at its core, it's just finding the minimum of a function."
 tags: ["machine-learning", "optimization"]
 draft: true
