@@ -1,7 +1,7 @@
 ---
 title: "Machine Learning Isn't Magic; It's Just Optimization"
 date: "2026-02-06"
-description: "Machine learning demystified: at its core, it's just finding the minimum of a function."
+description: "At its core, machine learning is just finding the minimum of a function."
 tags: ["machine-learning", "optimization"]
 draft: true
 ---
@@ -173,7 +173,7 @@ This isn't the only function we could choose though.
 Instead of squaring, we could raise it to the fourth power instead, or take the absolute value, and it would still be minimized when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
 Squaring is a nice choice because its derivative is smooth and easy to compute.
 
-Of course, this function is uncomputable in practice since we can't enumerate every possible image. Instead, we collect a training dataset of $N$ labelled images, a representative sample of all images to classify.
+Of course, this function is uncomputable in practice since we can't enumerate every possible image. Instead, we collect a training dataset of $N$ labelled images, a representative sample of the full distribution.
 If we let $y_i$ denote the label of the $i$-th training image ($1$ for dog, $0$ otherwise), we replace the sum over all images with a sum over just our dataset:
 
 $$
@@ -192,8 +192,7 @@ The idea behind machine learning with neural networks follows directly from opti
 We define a function that measures error, and minimize it with gradient descent.
 There's no new mathematical machinery beyond what we've already built up.
 
-Of course, there's a lot of open-ended questions I've left off here.
+Of course, there are plenty of open questions I've left off here.
 How do we make a model generalize well with limited training data?
-How do we make training work well when there's plenty of local minima in the loss function?
+How do we make training work well when the loss surface is riddled with local minima?
 How do we choose the network architecture, the optimizer, or the learning rate?
-Machine learning is full of empirical and theoretical results that help neural networks train better, and the best practices people follow come from these results.
