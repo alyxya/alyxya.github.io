@@ -16,12 +16,12 @@ const isDraftPath = (path: string) => path.includes('/posts/drafts/');
 
 const listPostSlugs = () =>
 	Object.keys(postModules)
-		.filter((path) => !isDraftPath(path))
+		.filter((path) => isDraftPath(path))
 		.map(slugFromPath);
 
 const findPostEntry = (slug: string) =>
 	Object.entries(postModules).find(
-		([path]) => !isDraftPath(path) && path.endsWith(`/${slug}.sveltex`)
+		([path]) => isDraftPath(path) && path.endsWith(`/${slug}.sveltex`)
 	);
 
 export const entries: EntryGenerator = async () =>
@@ -37,7 +37,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const [postPath, resolver] = postEntry;
 	const post = await resolver();
 
-	if (post.metadata.draft) {
+	if (!post.metadata.draft) {
 		throw error(404, `Post not found: ${params.slug}`);
 	}
 
