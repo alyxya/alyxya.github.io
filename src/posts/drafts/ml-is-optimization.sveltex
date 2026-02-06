@@ -22,7 +22,7 @@ Now we want to find the value of $p$ that maximizes our revenue $R(p) = p(100 - 
 ![R(p) = p(100 − 2p)](/images/posts/ml-is-optimization/quadratic-revenue.png)
 
 There are multiple approaches we could use to maximize a simple quadratic polynomial.
-One way is to complete the square and rewrite $R(p)$ as $-2(p - 25)^2 + 1250$, which is maximized at $R(25) = 1250$ since the squared term is always nonnegative and the coefficient is negative.
+One way is to complete the square and rewrite $R(p)$ as $-2(p - 25)^2 + 1250$, which is maximized at $R(25) = 1250$ since the squared term with a negative coefficient is always nonpositive.
 
 A more general purpose approach is to find the critical points by setting the derivative to $0$, then choose the one that maximizes the function.
 In this case, $R'(p) = -4p + 100 = 0 \implies p = 25$ is the only critical point.
@@ -140,8 +140,7 @@ $$
 Notice the path doesn't head straight toward the minimum; it curves because the function is steeper in the $y$ direction. But the algorithm doesn't need to know this; it just follows the gradient downhill at each step.
 
 Nothing fundamentally changed from the single variable case. We're still computing a derivative and stepping opposite to it. The only difference is that our derivative is now a vector.
-In one dimension there are only two directions to move and only one decreases the function locally. In two dimensions, there are many directions that decrease the function.
-We could change only one variable at a time and alternate between them, which still results in a descending path, but in practice it's more efficient to update all variables each step.
+In one dimension there are only two directions to move and only one decreases the function locally. In two dimensions, there are many directions that decrease the function, so we need a principled rule. For a small step $\Delta \mathbf{p}$ of fixed length, the change is $\Delta f \approx \nabla f \cdot \Delta \mathbf{p}$, and by Cauchy-Schwarz this is most negative when $\Delta \mathbf{p}$ points opposite $\nabla f$. That yields $\Delta \mathbf{p} = -\alpha \nabla f$: the gradient gives direction, $\alpha$ sets the step size. We could also change one variable at a time and alternate between them, which still decreases the function, but in practice it's more efficient to update all variables at once using the gradient.
 
 ## Creating a Simple Model
 
