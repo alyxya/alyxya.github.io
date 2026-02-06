@@ -16,7 +16,7 @@ So it makes sense to start with a simple problem we can solve and gradually make
 ## Optimizing a Quadratic Polynomial
 
 Suppose we're running a business and want to maximize our revenue from a product.
-We notice a relationship, where if we price the product at $p$ dollars, we can sell $100 - 2p$ units.
+We notice that if we price the product at $p$ dollars, we can sell $100 - 2p$ units.
 Now we want to find the value of $p$ that maximizes our revenue $R(p) = p(100 - 2p) = -2p^2 + 100p$.
 
 ![R(p) = p(100 − 2p)](/images/posts/ml-is-optimization/quadratic-revenue.png)
@@ -170,7 +170,7 @@ $$
 
 Every term in this sum is zero when the prediction is correct and positive otherwise, so $g$ is minimized precisely when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
 This isn't the only function we could choose though.
-Instead of squaring, we could raise it to the fourth power instead, or take the absolute value, and it would still be minimized when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
+Instead of squaring, we could raise it to the fourth power, or take the absolute value, and it would still be minimized when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
 Squaring is a nice choice because its derivative is smooth and easy to compute.
 
 Of course, this function is uncomputable in practice since we can't enumerate every possible image. Instead, we collect a training dataset of $N$ labelled images, a representative sample of the full distribution.
@@ -192,7 +192,7 @@ The idea behind machine learning with neural networks follows directly from opti
 We define a function that measures error, and minimize it with gradient descent.
 There's no new mathematical machinery beyond what we've already built up.
 
-Of course, there are plenty of open questions I've left off here.
+Of course, there are plenty of open questions I haven't addressed here.
 How do we make a model generalize well with limited training data?
-How do we make training work well when the loss surface is riddled with local minima?
+How do we make training work well when the loss surface is full of local minima?
 How do we choose the network architecture, the optimizer, or the learning rate?
