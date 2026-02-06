@@ -173,15 +173,27 @@ This isn't the only function we could choose though.
 Instead of squaring, we could raise it to the fourth power instead, or take the absolute value, and it would still be minimized when $f_{\boldsymbol{\theta}}$ correctly classifies every image.
 Squaring is a nice choice because its derivative is smooth and easy to compute.
 
-Of course, this function is uncomputable in practice since we can't enumerate every possible image. Instead, we collect a training dataset of $N$ labelled images, a representative sample of the full space. If we let $y_i$ denote the label of the $i$-th training image ($1$ for dog, $0$ otherwise), we replace the sum over all images with a sum over just our dataset:
+Of course, this function is uncomputable in practice since we can't enumerate every possible image. Instead, we collect a training dataset of $N$ labelled images, a representative sample of all images to classify.
+If we let $y_i$ denote the label of the $i$-th training image ($1$ for dog, $0$ otherwise), we replace the sum over all images with a sum over just our dataset:
 
 $$
 L(\boldsymbol{\theta}) = \sum_{i=1}^{N} \left(f_{\boldsymbol{\theta}}(\text{image}_i) - y_i\right)^2
 $$
 
-This is called the loss function. It takes in the neural network's parameters and returns a single number measuring how poorly the model performs on the training data. Minimizing it is structurally the same problem as the ones above. We compute $\nabla_{\boldsymbol{\theta}} L$, step opposite to it, and repeat. The parameters $\boldsymbol{\theta}$ play the same role as $p$ or $(x, y)$ did earlier; the only difference is that there may be millions of them instead of one or two.
+This is called the loss function.
+It takes in the neural network's parameters and returns a single number measuring how poorly the model performs on the training data.
+Minimizing it is structurally the same problem as the ones above.
+We compute $\nabla_{\boldsymbol{\theta}} L$, step opposite to it, and repeat.
+The parameters $\boldsymbol{\theta}$ play the same role as $p$ or $(x, y)$ did earlier; the only difference is that there may be millions of them instead of one or two.
+
+---
 
 The idea behind machine learning with neural networks follows directly from optimization.
-We define a function that measures error, and minimize it with gradient descent. There's no new mathematical machinery beyond what we've already built up.
+We define a function that measures error, and minimize it with gradient descent.
+There's no new mathematical machinery beyond what we've already built up.
 
-Of course, I've left off many of the details that make machine learning work well in practice. How well does a model generalize beyond the training data? What happens when the loss surface is nonconvex and riddled with local minima? How do we choose the network architecture, the optimizer, or the learning rate? These are the questions that the different subfields of machine learning try to answer, but the core loop remains the same. Define a loss, compute a gradient, and take a step.
+Of course, there's a lot of open-ended questions I've left off here.
+How do we make a model generalize well with limited training data?
+How do we make training work well when there's plenty of local minima in the loss function?
+How do we choose the network architecture, the optimizer, or the learning rate?
+Machine learning is full of empirical and theoretical results that help neural networks train better, and the best practices people follow come from these results.
