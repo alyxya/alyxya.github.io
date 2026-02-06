@@ -147,7 +147,7 @@ So what's special about the gradient vector?
 
 If we fix the length of a small update step $\Delta \mathbf{p}$, the change is $\Delta f \approx \nabla f \cdot \Delta \mathbf{p}$, and by [Cauchy-Schwarz](https://en.wikipedia.org/wiki/Cauchy%E2%80%93Schwarz_inequality) this is most negative when $\Delta \mathbf{p}$ points opposite $\nabla f$.
 That gives $\Delta \mathbf{p} = -\alpha \nabla f$: the steepest local decrease for a fixed step length.
-Although we don't have to follow this direction, it explains why gradient descent is a principled default.
+Although we don't have to follow this direction, it explains why descending along the gradient is a principled default.
 
 ## Creating a Simple Model
 
