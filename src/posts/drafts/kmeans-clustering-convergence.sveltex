@@ -25,8 +25,7 @@ Therefore, the procedure here needs to consider how the function can be locally 
 There are two kinds of local moves: change a point's assigned cluster, or change the center of some cluster.
 The former is a discrete change, while the latter is a continuous change where gradient descent can be used.
 
-The best local change to a point's assignment is to reassign it to the cluster whose center is closest.
-Since reassigning any single point to its nearest center cannot increase $J$, we can reassign all points at once.
+The best local change to a point's assignment is to reassign it to the cluster whose center is closest, so we can reassign all points to their nearest centers.
 
 The best local change to the center of a cluster would ordinarily be a gradient descent step, but since the function is a simple quadratic polynomial, we can set the center directly to the minimum point.
 This turns out to be the mean of all points assigned to the corresponding cluster.
