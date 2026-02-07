@@ -22,13 +22,13 @@ $$
 
 Unlike neural networks with continuous parameters that we can locally minimize with gradient descent, this function is discrete in having assigned clusters be non-differentiable.
 Therefore, the procedure here needs to take into consideration how the function can be locally minimized.
-The smallest units of change for the function are to either change the assigned cluster for a data point, or to change the center of the cluster.
+The smallest units of change for the function are to either change the assigned cluster for a data point, or to change the center of some cluster.
 The former is a discrete change, while the latter is a continuous change where gradient descent can be used.
 
 The best local change for the assigned cluster for a data point is to reassign its cluster to whichever cluster has its center closest to the data point.
 This can be extended where instead of just reassigning the cluster for a single data point, we might as well reassign the clusters for all data points.
 
-The best local change for the center of a cluster would ordinarily be to perform a gradient descent step, but since the function is just a simple quadratic polynomial with a directly computable minimum, we can just reassign the center directly to the minimum.
+The best local change for the center of a cluster would ordinarily be to perform a gradient descent step on $\mu_{c}$, but since the function is a simple quadratic polynomial, we can just reassign the center directly to the minimum.
 This turns out to be the centroid or average of all points assigned to the corresponding cluster.
 
 note: maybe sketch proof
