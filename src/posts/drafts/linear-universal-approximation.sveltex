@@ -1,6 +1,12 @@
 ---
 title: "The Linear Universal Approximation Theorem"
-date: "2026-02-06"
+date: "2026-02-07"
 description: "A linear map can approximate any function if you encode and decode in high enough dimensions."
 tags: ["machine-learning", "approximation-theory", "linear-algebra"]
 ---
+
+* intro with the universal approximation theorem
+* explain the linear universal approximation theorem (a theorem I made up)
+* give discrete example with discrete inputs and discrete outputs
+* give continuous example where linear interpolation between discrete output points can approximate a continuous function
+* lead into the almost orthogonal vectors blog post idea where you can compress things with almost orthogonal vectors and linear map between them
