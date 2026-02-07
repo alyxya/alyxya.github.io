@@ -10,10 +10,10 @@
 	const posts = import.meta.glob<PostModule>('/src/posts/**/*.sveltex');
 
 	let { data } = $props();
-	const postPath = data.postPath ?? `/src/posts/${data.slug}.sveltex`;
+	const postPath = $derived(data.postPath ?? `/src/posts/${data.slug}.sveltex`);
 
 	// Load the specific post component asynchronously
-	const postPromise = posts[postPath]?.() || Promise.reject(new Error('Post not found'));
+	const postPromise = $derived(posts[postPath]?.() || Promise.reject(new Error('Post not found')));
 
 	function getHeaderOffset() {
 		if (typeof document === 'undefined') return 0;
