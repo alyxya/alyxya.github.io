@@ -21,13 +21,13 @@ J = \sum_{i=1}^{n} \|\mathbf{x}_i - \mu_{c_i}\|^2
 $$
 
 Unlike neural networks with continuous parameters that we can optimize with gradient descent, this function depends on discrete cluster assignments, so it isn't differentiable with respect to them.
-Therefore, the procedure here needs to consider how the function can be locally decreased.
+Therefore, we need to consider how the function can be locally decreased.
 There are two kinds of local moves: change a point's assigned cluster, or change the center of some cluster.
 The former is a discrete change, while the latter is a continuous change where gradient descent can be used.
 
 The best local change to a point's assignment is to reassign it to the cluster whose center is closest, so we can reassign all points to their nearest centers.
 
-The best local change to the center of a cluster would ordinarily be a gradient descent step, but since the function is a simple quadratic polynomial, we can set the center directly to the minimum point.
+The best local change to the center of a cluster would ordinarily be a gradient descent step, but since the function is a simple quadratic polynomial, we can jump directly to the optimal center.
 This turns out to be the mean of all points assigned to the corresponding cluster.
 To see why, consider a single cluster with points $\mathbf{x}_1, \ldots, \mathbf{x}_m$ and center $\mu$. Setting the derivative to zero:
 
