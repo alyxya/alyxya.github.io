@@ -25,7 +25,7 @@ Therefore, we need to consider how the function can be locally decreased.
 There are two kinds of local moves: change a point's assigned cluster, or change the center of some cluster.
 The former is a discrete change, while the latter is a continuous change where gradient descent can be used.
 
-The best local change to a point's assignment is to reassign it to the cluster whose center is closest, so we can reassign all points to their nearest centers.
+The best local change to a point's assignment is to reassign it to the cluster whose center is closest, so we can reassign all points' clusters in this manner.
 
 The best local change to the center of a cluster would ordinarily be a gradient descent step, but since the function is a simple quadratic polynomial, we can jump directly to the optimal center.
 This turns out to be the mean of all points assigned to the corresponding cluster.
