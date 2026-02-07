@@ -20,20 +20,20 @@ $$
 J = \sum_{i=1}^{n} \|\mathbf{x}_i - \mu_{c_i}\|^2
 $$
 
-Unlike neural networks with continuous parameters that we can locally minimize with gradient descent, this function is discrete in having assigned clusters be non-differentiable.
+Unlike neural networks with continuous parameters that we can locally minimize with gradient descent, this function involves discrete cluster assignments that aren't differentiable.
 Therefore, the procedure here needs to take into consideration how the function can be locally minimized.
-The smallest units of change for the function are to either change the assigned cluster for a data point, or to change the center of some cluster.
+There are two kinds of local moves: change a point's assigned cluster, or change the center of some cluster.
 The former is a discrete change, while the latter is a continuous change where gradient descent can be used.
 
-The best local change for the assigned cluster for a data point is to reassign its cluster to whichever cluster has its center closest to the data point.
-This can be extended where instead of just reassigning the cluster for a single data point, we might as well reassign the clusters for all data points.
+The best local change to a point's assignment is to reassign it to whichever cluster has its center closest.
+This extends to instead of just reassigning one point, we might as well reassign all of them.
 
-The best local change for the center of a cluster would ordinarily be to perform a gradient descent step on $\mu_{c}$, but since the function is a simple quadratic polynomial, we can just reassign the center directly to the minimum.
+The best local change for the center of a cluster would ordinarily be a gradient descent step, but since the function is a simple quadratic polynomial, we can just set the center directly to the minimum.
 This turns out to be the centroid or average of all points assigned to the corresponding cluster.
 
 note: maybe sketch proof
 
 Thus, the k-means clustering procedure boils down to alternating between these two local changes until no local change will decrease the function anymore.
-This procedure necessarily converges at some point because the function is nonnegative and each step decreases it.
+This procedure necessarily converges because the function is nonnegative, each step decreases it, and there are finitely many possible assignments.
 
-To conclude, k-means clustering isn't some arbitrary procedure, rather it follows the same pattern as gradient descent: define an objective, then iteratively decrease it by making local improvements.
+To conclude, k-means clustering isn't some arbitrary procedure. It follows the same pattern as gradient descent, where we define an objective, then iteratively decrease it by making local improvements.
