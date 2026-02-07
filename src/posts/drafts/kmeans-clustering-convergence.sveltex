@@ -10,7 +10,7 @@ Since you don't have labels, it's unclear how the data should be categorized.
 One simple way is to categorize data into clusters where data points near each other form a cluster.
 
 So how do we go about this?
-In the [previous post](/blog/ml-is-optimization), we minimized functions using gradient descent, where the fundamental principle behind the gradient update is to take a small step that locally minimizes the function.
+In the [previous post](/blog/ml-is-optimization), we minimized functions using gradient descent, where the fundamental principle behind the gradient update is to take a small step that locally decreases the function.
 Naturally, it makes sense to do something similar here: construct a function where minimizing it forms good clusters, and then minimize it.
 This is what k-means clustering does.
 
@@ -20,15 +20,15 @@ $$
 J = \sum_{i=1}^{n} \|\mathbf{x}_i - \mu_{c_i}\|^2
 $$
 
-Unlike neural networks with continuous parameters that we can locally minimize with gradient descent, this function involves discrete cluster assignments that aren't differentiable.
-Therefore, the procedure here needs to take into consideration how the function can be locally minimized.
+Unlike neural networks with continuous parameters that we can optimize with gradient descent, this function depends on discrete cluster assignments, so it isn't differentiable with respect to them.
+Therefore, the procedure here needs to consider how the function can be locally decreased.
 There are two kinds of local moves: change a point's assigned cluster, or change the center of some cluster.
 The former is a discrete change, while the latter is a continuous change where gradient descent can be used.
 
-The best local change to a point's assignment is to reassign it to whichever cluster has its center closest.
-This can be extended where instead of just reassigning one point, we might as well reassign all points to the cluster whose center is closest.
+The best local change to a point's assignment is to reassign it to the cluster whose center is closest.
+Since reassigning any single point to its nearest center cannot increase $J$, we can reassign all points at once.
 
-The best local change for the center of a cluster would ordinarily be a gradient descent step, but since the function is a simple quadratic polynomial, we can just set the center directly to the minimum.
+The best local change to the center of a cluster would ordinarily be a gradient descent step, but since the function is a simple quadratic polynomial, we can set the center directly to the minimum point.
 This turns out to be the mean of all points assigned to the corresponding cluster.
 To see why, consider a single cluster with points $\mathbf{x}_1, \ldots, \mathbf{x}_m$ and center $\mu$. Setting the derivative to zero:
 
@@ -36,7 +36,8 @@ $$
 \frac{\partial}{\partial \mu} \sum_{i=1}^{m} \|\mathbf{x}_i - \mu\|^2 = -2 \sum_{i=1}^{m} (\mathbf{x}_i - \mu) = 0 \quad \implies \quad \mu = \frac{1}{m} \sum_{i=1}^{m} \mathbf{x}_i
 $$
 
-Thus, the k-means clustering procedure boils down to alternating between these two local changes until no local change will decrease the function anymore.
-This procedure necessarily converges because the function is nonnegative, each step decreases it, and there are finitely many possible assignments.
+Thus, the k-means clustering procedure boils down to alternating between these two local changes until neither changes anything.
+This procedure necessarily converges because the function is nonnegative, each step cannot increase it, and whenever the assignments change $J$ strictly decreases, so no previous assignment can be revisited.
+Since there are finitely many possible assignments, the algorithm must terminate.
 
 To conclude, k-means clustering isn't some arbitrary procedure. It follows the same pattern as gradient descent, where we define an objective, then iteratively decrease it by making local improvements.
