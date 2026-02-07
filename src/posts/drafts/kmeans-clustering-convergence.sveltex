@@ -1,0 +1,76 @@
+---
+title: "K-Means Clustering Convergence"
+date: "2026-02-06"
+description: "K-means minimizes a function by alternating two local improvements."
+tags: ["machine-learning", "optimization", "clustering"]
+---
+
+In the [previous post](/blog/ml-is-optimization), we minimized functions using gradient descent: compute the gradient, step opposite to it, repeat.
+K-means clustering also minimizes a function, but some of its variables are discrete (which point belongs to which cluster), so we can't take gradients with respect to them.
+
+The function k-means minimizes is the total squared distance from each point to its assigned cluster center:
+
+$$
+J = \sum_{i=1}^{n} \|\mathbf{x}_i - \mu_{c_i}\|^2
+$$
+
+There are two ways to locally decrease $J$: move the cluster centers closer to their assigned points, or reassign points to a closer center.
+K-means just alternates between these two moves:
+
+1. **Assign** each point to its nearest center.
+2. **Update** each center to the mean of its assigned points.
+
+Repeat until nothing changes.
+
+## Example
+
+Six points, two clusters. We initialize both centers near the bottom-left:
+
+<!-- TODO: scatter plot showing 6 points with initial centroids mu1=(0,0) and mu2=(2,0) -->
+
+**Iteration 1 — Assign.** Points go to their nearest center. The top-right points all land in $C_2$, far from either center.
+
+$$
+C_1 = \{(0,0),\, (0,2)\}, \qquad C_2 = \{(2,0),\, (6,6),\, (8,6),\, (6,8)\}
+$$
+
+$J = 208$. Most of this comes from the top-right points being far from $\mu_2 = (2, 0)$.
+
+**Iteration 1 — Update.** Each center moves to the mean of its cluster: $\mu_1 = (0, 1)$, $\mu_2 = (5.5, 5)$. The second center jumps toward the top-right. $J = 57$.
+
+<!-- TODO: diagram showing centroids after first update -->
+
+**Iteration 2 — Assign.** Now $(2, 0)$ is closer to $\mu_1$ than $\mu_2$, so it switches clusters. We arrive at the natural clustering. $J = 24.75$.
+
+**Iteration 2 — Update.** $\mu_1 = (\frac{2}{3}, \frac{2}{3})$, $\mu_2 = (\frac{20}{3}, \frac{20}{3})$. $J \approx 10.67$.
+
+**Iteration 3 — Assign.** No points change. Converged.
+
+<!-- TODO: diagram showing converged state, or animated gif of all iterations -->
+
+$$
+J: \quad 208 \;\xrightarrow{\text{update}}\; 57 \;\xrightarrow{\text{assign}}\; 24.75 \;\xrightarrow{\text{update}}\; 10.67 \;\to\; \text{converged}
+$$
+
+## Why It Converges
+
+Both moves are guaranteed to not increase $J$:
+
+**Reassigning points** minimizes $J$ over assignments. Each point's contribution $\|\mathbf{x}_i - \mu_{c_i}\|^2$ depends only on its own assignment, so picking the nearest center independently minimizes every term.
+
+**Moving centers** minimizes $J$ over center positions. For a fixed cluster, minimizing $\sum_{i \in C_j} \|\mathbf{x}_i - \mu_j\|^2$ over $\mu_j$ gives $\mu_j = \frac{1}{|C_j|} \sum_{i \in C_j} \mathbf{x}_i$ — the mean. This isn't a heuristic; it's the exact minimizer (set the derivative to zero).
+
+So $J$ decreases at every step, $J \geq 0$, and there are finitely many possible assignments. The algorithm must terminate.
+
+In the worst case the number of iterations can be exponential, but in practice k-means converges quickly.
+
+## Local Minima
+
+Like gradient descent, k-means only finds a local minimum — the result depends on where you start.
+In the example above, the algorithm found the natural clustering despite a bad initialization.
+But if both centers had started inside the top-right cluster, the algorithm could converge to an unnatural partition with higher $J$.
+
+---
+
+K-means follows the same pattern as gradient descent: define an objective, then iteratively decrease it by making local improvements.
+The two moves — reassigning points and moving centers — are both ways of locally decreasing the same function, and the convergence argument just follows from a bounded decreasing sequence over finitely many configurations.
