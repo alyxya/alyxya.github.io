@@ -6,11 +6,11 @@ tags: ["machine-learning", "optimization", "clustering"]
 ---
 
 Suppose you're studying a collection of stars and have measured each one's brightness and temperature.
-When you plot these measurements, you notice that the stars aren't spread uniformly — they seem to form a few distinct clumps.
+When you plot these measurements, you notice that the stars aren't spread uniformly; they seem to form a few distinct clumps.
 You'd like an algorithm to automatically identify these groups, but no one has labelled which group each star belongs to. You just have raw measurements and want to discover natural groupings within them.
 
 This is the problem of clustering: given unlabelled data points, find groups where points within each group are similar to each other.
-It comes up everywhere — grouping stars by type, segmenting genes with similar expression patterns, compressing images by grouping similar pixels, and more.
+It comes up everywhere: grouping stars by type, segmenting genes with similar expression patterns, compressing images by grouping similar pixels, and more.
 
 So how do we find good clusters?
 In the [previous post](/blog/ml-is-optimization), we minimized functions using gradient descent, where the fundamental principle behind the gradient update is to take a small step that locally decreases the function.
@@ -46,4 +46,6 @@ Thus, the k-means clustering procedure boils down to alternating between these t
 This procedure necessarily converges because the function is nonnegative, each step cannot increase it, and whenever the assignments change $J$ strictly decreases, so no previous assignment can be revisited.
 Since there are finitely many possible assignments, the algorithm must terminate.
 
-To conclude, k-means clustering isn't some arbitrary procedure. It follows the same pattern as gradient descent, where we define an objective, then iteratively decrease it by making local improvements.
+To conclude, k-means clustering isn't some arbitrary procedure.
+It follows the same pattern as gradient descent, where we define an objective, then iteratively decrease it by making local improvements.
+And just like gradient descent, making local improvements doesn't guarantee reaching the global minimum. K-means can get stuck in a local minimum depending on where the cluster centers are initialized.
