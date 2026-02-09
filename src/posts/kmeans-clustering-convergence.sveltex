@@ -1,6 +1,7 @@
 ---
 title: "K-Means Clustering Convergence"
 date: "2026-02-06"
+updated: "2026-02-09"
 description: "K-means minimizes a function by alternating two local improvements."
 tags: ["machine-learning", "optimization", "clustering"]
 ---
