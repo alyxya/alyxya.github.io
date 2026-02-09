@@ -17,7 +17,9 @@ In the [previous post](/blog/ml-is-optimization), we minimized functions using g
 Naturally, it makes sense to do something similar here: construct a function where minimizing it produces good clusters, and then minimize it.
 This is what k-means clustering does.
 
-The function k-means minimizes is the total squared distance from each point to its assigned cluster center:
+In k-means, each cluster is represented by a point in the same space as the data called its center.
+The center doesn't have to be one of the data points; it's a free parameter that the algorithm can move around.
+The function k-means minimizes is the total squared distance from each point to its assigned cluster's center:
 
 $$
 J = \sum_{i=1}^{n} \|\mathbf{x}_i - \mu_{c_i}\|^2
