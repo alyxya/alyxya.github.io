@@ -9,7 +9,7 @@ Suppose you're studying a collection of stars and have measured each one's brigh
 When you plot these measurements, you notice that the stars aren't spread uniformly; they seem to form a few distinct clumps.
 You'd like an algorithm to automatically identify these groups, but no one has labelled which group each star belongs to. You just have raw measurements and want to discover natural groupings within them.
 
-This is the problem of clustering: given unlabelled data points, find groups where points within each group are similar to each other.
+This is the problem of clustering, where given unlabelled data points, we want to find groups of similar points.
 It comes up everywhere: grouping stars by type, segmenting genes with similar expression patterns, compressing images by grouping similar pixels, and more.
 
 So how do we find good clusters?
