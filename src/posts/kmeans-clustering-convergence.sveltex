@@ -5,13 +5,16 @@ description: "K-means minimizes a function by alternating two local improvements
 tags: ["machine-learning", "optimization", "clustering"]
 ---
 
-Suppose you have unlabelled data points and want to categorize them in some way.
-Since you don't have labels, it's unclear how the data should be categorized.
-One simple way is to categorize data into clusters where data points near each other form a cluster.
+Suppose you're studying a collection of stars and have measured each one's brightness and temperature.
+When you plot these measurements, you notice that the stars aren't spread uniformly — they seem to form a few distinct clumps.
+You'd like an algorithm to automatically identify these groups, but no one has labelled which group each star belongs to. You just have raw measurements and want to discover natural groupings within them.
 
-So how do we go about this?
+This is the problem of clustering: given unlabelled data points, find groups where points within each group are similar to each other.
+It comes up everywhere — grouping stars by type, segmenting genes with similar expression patterns, compressing images by grouping similar pixels, and more.
+
+So how do we find good clusters?
 In the [previous post](/blog/ml-is-optimization), we minimized functions using gradient descent, where the fundamental principle behind the gradient update is to take a small step that locally decreases the function.
-Naturally, it makes sense to do something similar here: construct a function where minimizing it forms good clusters, and then minimize it.
+Naturally, it makes sense to do something similar here: construct a function where minimizing it produces good clusters, and then minimize it.
 This is what k-means clustering does.
 
 The function k-means minimizes is the total squared distance from each point to its assigned cluster center:
