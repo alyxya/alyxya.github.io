@@ -1,0 +1,6 @@
+---
+title: "Backpropagation"
+date: "2026-02-15"
+description: "Computing gradients through a neural network, one derivative at a time."
+tags: ["machine-learning", "optimization", "calculus"]
+---
