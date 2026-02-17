@@ -1,6 +1,63 @@
 ---
 title: "Backpropagation"
 date: "2026-02-15"
-description: "Computing gradients through a neural network, one derivative at a time."
+description: "Computing gradients through a neural network."
 tags: ["machine-learning", "optimization", "calculus"]
 ---
+
+In the [previous post](/blog/ml-is-optimization), we trained models by computing the gradient of a loss function and stepping opposite to it. But we glossed over how to compute the gradient when the loss depends on the parameters through a chain of operations. A neural network is a sequence of such operations, and the most fundamental one is matrix multiplication. So let's start by figuring out how to differentiate through a matmul.
+
+## The Gradient of a Matrix Multiplication
+
+Suppose $C = AB$ where $A$ is $2 \times 3$, $B$ is $3 \times 4$, and $C$ is $2 \times 4$:
+
+$$
+\begin{bmatrix} C_{11} & C_{12} & C_{13} & C_{14} \\ C_{21} & C_{22} & C_{23} & C_{24} \end{bmatrix} = \begin{bmatrix} A_{11} & A_{12} & A_{13} \\ A_{21} & A_{22} & A_{23} \end{bmatrix} \begin{bmatrix} B_{11} & B_{12} & B_{13} & B_{14} \\ B_{21} & B_{22} & B_{23} & B_{24} \\ B_{31} & B_{32} & B_{33} & B_{34} \end{bmatrix}
+$$
+
+Each element of $C$ is a dot product of a row of $A$ with a column of $B$:
+
+$$
+\begin{aligned}
+C_{11} &= A_{11} B_{11} + A_{12} B_{21} + A_{13} B_{31} \\
+C_{12} &= A_{11} B_{12} + A_{12} B_{22} + A_{13} B_{32} \\
+C_{13} &= A_{11} B_{13} + A_{12} B_{23} + A_{13} B_{33} \\
+C_{14} &= A_{11} B_{14} + A_{12} B_{24} + A_{13} B_{34} \\[6pt]
+C_{21} &= A_{21} B_{11} + A_{22} B_{21} + A_{23} B_{31} \\
+C_{22} &= A_{21} B_{12} + A_{22} B_{22} + A_{23} B_{32} \\
+C_{23} &= A_{21} B_{13} + A_{22} B_{23} + A_{23} B_{33} \\
+C_{24} &= A_{21} B_{14} + A_{22} B_{24} + A_{23} B_{34}
+\end{aligned}
+$$
+
+Now suppose $C$ feeds into some downstream computation that produces a scalar loss $L$. We're given $\frac{\partial L}{\partial C_{ij}}$ for every element of $C$, and want to find how $L$ changes with each element of $A$.
+
+Consider $A_{12}$. Scanning the equations above, $A_{12}$ appears in $C_{11}$, $C_{12}$, $C_{13}$, and $C_{14}$, which is the entire first row of $C$. By the chain rule, the total effect of changing $A_{12}$ on $L$ is the sum of its effects through each of these:
+
+$$
+\frac{\partial L}{\partial A_{12}} = \frac{\partial L}{\partial C_{11}} B_{21} + \frac{\partial L}{\partial C_{12}} B_{22} + \frac{\partial L}{\partial C_{13}} B_{23} + \frac{\partial L}{\partial C_{14}} B_{24}
+$$
+
+This is the dot product of row $1$ of $\frac{\partial L}{\partial C}$ with $(B_{21}, B_{22}, B_{23}, B_{24})$, which is row $2$ of $B$. In other words, it's the $(1, 2)$ entry of $\frac{\partial L}{\partial C} B^\top$.
+
+The same pattern holds for every entry: $\frac{\partial L}{\partial A_{ij}}$ equals the dot product of row $i$ of $\frac{\partial L}{\partial C}$ with row $j$ of $B$. So the gradient of $A$ is itself a matrix multiplication:
+
+$$
+\frac{\partial L}{\partial A} = \frac{\partial L}{\partial C} B^\top
+$$
+
+Similarly, $B_{21}$ appears in $C_{11}$ and $C_{21}$, which is the entire first column of $C$, giving
+
+$$
+\frac{\partial L}{\partial B_{21}} = \frac{\partial L}{\partial C_{11}} A_{12} + \frac{\partial L}{\partial C_{21}} A_{22}
+$$
+
+which is the $(2, 1)$ entry of $A^\top \frac{\partial L}{\partial C}$. In general:
+
+$$
+\frac{\partial L}{\partial B} = A^\top \frac{\partial L}{\partial C}
+$$
+
+The dimensions confirm this: $\frac{\partial L}{\partial A}$ should be $2 \times 3$ like $A$, and $\frac{\partial L}{\partial C} B^\top$ is $(2 \times 4)(4 \times 3) = 2 \times 3$. Likewise $\frac{\partial L}{\partial B}$ should be $3 \times 4$ like $B$, and $A^\top \frac{\partial L}{\partial C}$ is $(3 \times 2)(2 \times 4) = 3 \times 4$.
+
+The gradient of a matmul is another matmul, just with transposed matrices. And the only information we needed from upstream was $\frac{\partial L}{\partial C}$: how much the loss changes per unit change in each element of $C$. We didn't need to know anything about what happens after $C$.
