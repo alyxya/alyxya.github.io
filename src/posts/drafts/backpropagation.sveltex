@@ -5,7 +5,11 @@ description: "Computing gradients through a neural network."
 tags: ["machine-learning", "optimization", "calculus"]
 ---
 
-In the [previous post](/blog/ml-is-optimization), we trained models by computing the gradient of a loss function and stepping opposite to it. But we glossed over how to compute the gradient when the loss depends on the parameters through a chain of operations. A neural network is a sequence of such operations, and the most fundamental one is matrix multiplication. So let's start by figuring out how to differentiate through a matmul.
+The "gradient" in gradient descent is a vector of partial derivatives of the loss with respect to each parameter.
+A partial derivative $\frac{\partial y}{\partial x}$ is just a ratio: how much $y$ changes when we nudge $x$ by a small amount.
+If $\frac{\partial y}{\partial x} = 3$, then increasing $x$ by $\epsilon$ causes $y$ to increase by approximately $3\epsilon$, where this approximation is more accurate for smaller $\epsilon$.
+
+In a neural network, the loss depends on each parameter through a chain of intermediate operations. Backpropagation computes all of these partial derivatives by working backwards through the network, one operation at a time. The most fundamental operation in a neural network is matrix multiplication, so let's start there.
 
 ## The Gradient of a Matrix Multiplication
 
