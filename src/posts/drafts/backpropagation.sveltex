@@ -15,7 +15,9 @@ If changing $x$ by $\epsilon_1$ causes $y$ to change by $3\epsilon_1$, and chang
 This can be seen by letting $\epsilon_2 = 3\epsilon_1$.
 If $x$ affects $z$ through two independent intermediate variables $y_1$ and $y_2$, we add the contributions: $\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y_1} \cdot \frac{\partial y_1}{\partial x} + \frac{\partial z}{\partial y_2} \cdot \frac{\partial y_2}{\partial x}$.
 
-A neural network is a long chain of such operations, where the loss depends on each parameter through many intermediate layers. Backpropagation is just the systematic application of the chain rule, working backwards from the loss through each operation to compute every partial derivative. The most fundamental operation in a neural network is matrix multiplication, so let's start there.
+A neural network is a long chain of differentiable operations, where the loss depends on each parameter through many intermediate layers.
+Backpropagation is just the systematic application of the chain rule, working backwards from the loss through each operation to compute every partial derivative.
+The most fundamental operation in a neural network is matrix multiplication, so let's start there.
 
 ## The Gradient of a Matrix Multiplication
 
