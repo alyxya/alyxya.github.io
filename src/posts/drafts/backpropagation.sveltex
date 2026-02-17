@@ -144,10 +144,10 @@ $$
 
 The entire second row is zero because neuron $2$ had $z_2 = -1 < 0$: the ReLU zeroed it out in the forward pass, and now zeros out its gradient in the backward pass.
 
-The gradient tells us $\frac{\partial L}{\partial W_{11}} = 2$: increasing $W_{11}$ by $\epsilon$ should increase the loss by approximately $2\epsilon$. Let's check by setting $W_{11} = 1.001$:
+Each gradient tells us how the loss changes when we adjust that parameter. To verify them all at once, let's increase every parameter by $\epsilon = 0.001$. The predicted change in loss is $\epsilon$ times the sum of all gradient entries:
 
 $$
-z_1 = 1.001(1) + 1(2) = 3.001, \quad \hat{y} = 3.001, \quad L = (3.001 - 2)^2 = 1.002001
+\Delta L \approx (2 + 4 + 0 + 0 + 6 + 0) \cdot 0.001 = 0.012
 $$
 
-The predicted change is $2(0.001) = 0.002$. The actual change is $1.002001 - 1 = 0.002001$, confirming the gradient.
+Rerunning the forward pass with the perturbed parameters gives $L = 1.01204$, an actual change of $0.01204$.
