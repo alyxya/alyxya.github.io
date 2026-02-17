@@ -42,9 +42,11 @@ C_{24} &= A_{21} B_{14} + A_{22} B_{24} + A_{23} B_{34}
 \end{aligned}
 $$
 
-Now suppose $C$ feeds into some downstream computation that produces a scalar loss $L$. We're given $\frac{\partial L}{\partial C_{ij}}$ for every element of $C$, and want to find how $L$ changes with each element of $A$.
+From these equations we can read off partial derivatives directly. For example, $C_{11} = A_{11} B_{11} + A_{12} B_{21} + A_{13} B_{31}$, so $\frac{\partial C_{11}}{\partial A_{12}} = B_{21}$ and $\frac{\partial C_{11}}{\partial B_{21}} = A_{12}$. Each element of $C$ depends on only one row of $A$ and one column of $B$, so most partial derivatives are zero: $\frac{\partial C_{11}}{\partial A_{21}} = 0$ since $A_{21}$ doesn't appear in $C_{11}$.
 
-Consider $A_{12}$. Scanning the equations above, $A_{12}$ appears in $C_{11}$, $C_{12}$, $C_{13}$, and $C_{14}$, which is the entire first row of $C$. By the chain rule, the total effect of changing $A_{12}$ on $L$ is the sum of its effects through each of these:
+Now suppose $C$ feeds into some downstream computation that produces a scalar loss $L$. We're given $\frac{\partial L}{\partial C_{ij}}$ for every element of $C$, and want to find $\frac{\partial L}{\partial A_{ij}}$ and $\frac{\partial L}{\partial B_{ij}}$.
+
+Consider $A_{12}$. It appears in $C_{11}$, $C_{12}$, $C_{13}$, and $C_{14}$, which is the entire first row of $C$. By the chain rule, we sum the effect through each:
 
 $$
 \frac{\partial L}{\partial A_{12}} = \frac{\partial L}{\partial C_{11}} B_{21} + \frac{\partial L}{\partial C_{12}} B_{22} + \frac{\partial L}{\partial C_{13}} B_{23} + \frac{\partial L}{\partial C_{14}} B_{24}
