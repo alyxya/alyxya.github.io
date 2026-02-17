@@ -49,6 +49,12 @@ Now suppose $C$ feeds into some downstream computation that produces a scalar lo
 Consider $A_{12}$. It appears in $C_{11}$, $C_{12}$, $C_{13}$, and $C_{14}$, which is the entire first row of $C$. By the chain rule, we sum the effect through each:
 
 $$
+\frac{\partial L}{\partial A_{12}} = \frac{\partial L}{\partial C_{11}} \frac{\partial C_{11}}{\partial A_{12}} + \frac{\partial L}{\partial C_{12}} \frac{\partial C_{12}}{\partial A_{12}} + \frac{\partial L}{\partial C_{13}} \frac{\partial C_{13}}{\partial A_{12}} + \frac{\partial L}{\partial C_{14}} \frac{\partial C_{14}}{\partial A_{12}}
+$$
+
+Substituting the partial derivatives we computed above:
+
+$$
 \frac{\partial L}{\partial A_{12}} = \frac{\partial L}{\partial C_{11}} B_{21} + \frac{\partial L}{\partial C_{12}} B_{22} + \frac{\partial L}{\partial C_{13}} B_{23} + \frac{\partial L}{\partial C_{14}} B_{24}
 $$
 
