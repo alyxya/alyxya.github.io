@@ -58,7 +58,13 @@ $$
 \frac{\partial L}{\partial A_{12}} = \frac{\partial L}{\partial C_{11}} B_{21} + \frac{\partial L}{\partial C_{12}} B_{22} + \frac{\partial L}{\partial C_{13}} B_{23} + \frac{\partial L}{\partial C_{14}} B_{24}
 $$
 
-This is the dot product of row $1$ of $\frac{\partial L}{\partial C}$ with $(B_{21}, B_{22}, B_{23}, B_{24})$, which is row $2$ of $B$. In other words, it's the $(1, 2)$ entry of $\frac{\partial L}{\partial C} B^\top$.
+Writing out $\frac{\partial L}{\partial C}$ as a matrix:
+
+$$
+\frac{\partial L}{\partial C} = \begin{bmatrix} \frac{\partial L}{\partial C_{11}} & \frac{\partial L}{\partial C_{12}} & \frac{\partial L}{\partial C_{13}} & \frac{\partial L}{\partial C_{14}} \\ \frac{\partial L}{\partial C_{21}} & \frac{\partial L}{\partial C_{22}} & \frac{\partial L}{\partial C_{23}} & \frac{\partial L}{\partial C_{24}} \end{bmatrix}
+$$
+
+we see that $\frac{\partial L}{\partial A_{12}}$ is the dot product of row $1$ of $\frac{\partial L}{\partial C}$ with $\begin{bmatrix} B_{21} & B_{22} & B_{23} & B_{24} \end{bmatrix}$, which is row $2$ of $B$. In other words, it's the $(1, 2)$ entry of $\frac{\partial L}{\partial C} B^\top$.
 
 The same pattern holds for every entry: $\frac{\partial L}{\partial A_{ij}}$ equals the dot product of row $i$ of $\frac{\partial L}{\partial C}$ with row $j$ of $B$. So the gradient of $A$ is itself a matrix multiplication:
 
