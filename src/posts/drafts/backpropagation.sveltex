@@ -144,10 +144,26 @@ $$
 
 The entire second row is zero because neuron $2$ had $z_2 = -1 < 0$: the ReLU zeroed it out in the forward pass, and now zeros out its gradient in the backward pass.
 
+The parameters of this network are $W$ and $\mathbf{v}$, and we computed their gradients:
+
+$$
+\frac{\partial L}{\partial W} = \begin{bmatrix} 2 & 4 \\ 0 & 0 \end{bmatrix}, \quad \frac{\partial L}{\partial \mathbf{v}} = \begin{bmatrix} 6 \\ 0 \end{bmatrix}
+$$
+
 Each gradient tells us how the loss changes when we adjust that parameter. To verify them all at once, let's increase every parameter by $\epsilon = 0.001$. The predicted change in loss is $\epsilon$ times the sum of all gradient entries:
 
 $$
 \Delta L \approx (2 + 4 + 0 + 0 + 6 + 0) \cdot 0.001 = 0.012
 $$
 
-Rerunning the forward pass with the perturbed parameters gives $L = 1.01204$, an actual change of $0.01204$.
+Rerunning the forward pass with $W + \epsilon$ and $\mathbf{v} + \epsilon$:
+
+$$
+\mathbf{z} = \begin{bmatrix} 1.001 & 1.001 \\ 1.001 & -0.999 \end{bmatrix} \begin{bmatrix} 1 \\ 2 \end{bmatrix} = \begin{bmatrix} 3.003 \\ -0.997 \end{bmatrix}, \quad \mathbf{h} = \begin{bmatrix} 3.003 \\ 0 \end{bmatrix}
+$$
+
+$$
+\hat{y} = \begin{bmatrix} 1.001 & 1.001 \end{bmatrix} \begin{bmatrix} 3.003 \\ 0 \end{bmatrix} = 3.006003, \quad L = (3.006003 - 2)^2 \approx 1.012042
+$$
+
+The actual change is $1.012042 - 1 = 0.012042$, closely matching the predicted $0.012$.
