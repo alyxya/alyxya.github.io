@@ -86,7 +86,7 @@ $$
 
 The dimensions confirm this: $\frac{\partial L}{\partial A}$ should be $2 \times 3$ like $A$, and $\frac{\partial L}{\partial C} B^\top$ is $(2 \times 4)(4 \times 3) = 2 \times 3$. Likewise $\frac{\partial L}{\partial B}$ should be $3 \times 4$ like $B$, and $A^\top \frac{\partial L}{\partial C}$ is $(3 \times 2)(2 \times 4) = 3 \times 4$.
 
-The gradient of a matmul is another matmul, just with transposed matrices. And the only information we needed from upstream was $\frac{\partial L}{\partial C}$: how much the loss changes per unit change in each element of $C$. We didn't need to know anything about what happens after $C$.
+To compute these gradients, the only information we needed from upstream was $\frac{\partial L}{\partial C}$: how much the loss changes per unit change in each element of $C$. We didn't need to know anything about what happens after $C$.
 
 ## A Small Neural Network
 
