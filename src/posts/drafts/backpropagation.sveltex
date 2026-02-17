@@ -6,12 +6,12 @@ tags: ["machine-learning", "optimization", "calculus"]
 ---
 
 The "gradient" in gradient descent is a vector of partial derivatives of the loss with respect to each parameter.
-A partial derivative $\frac{\partial y}{\partial x}$ is just a ratio: how much $y$ changes when we increase $x$ by a small amount.
-If $\frac{\partial y}{\partial x} = 3$, then increasing $x$ by $\epsilon$ causes $y$ to increase by approximately $3\epsilon$, where this approximation is more accurate for smaller $\epsilon$.
+A partial derivative $\frac{\partial y}{\partial x}$ is just a ratio: how much $y$ changes when we change $x$ by a small amount.
+If $\frac{\partial y}{\partial x} = 3$, then changing $x$ by $\epsilon$ causes $y$ to change by approximately $3\epsilon$, where this approximation is more accurate for smaller $\epsilon$.
 
 What if we want $\frac{\partial z}{\partial x}$ but we only know intermediary partial derivatives $\frac{\partial z}{\partial y}$ and $\frac{\partial y}{\partial x}$?
 The chain rule says we multiply them: $\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial x}$.
-If increasing $x$ by $\epsilon_1$ causes $y$ to increase by $3\epsilon_1$, and increasing $y$ by $\epsilon_2$ causes $z$ to increase by $5\epsilon_2$, then increasing $x$ by $\epsilon_1$ causes $z$ to increase by $15\epsilon_1$.
+If changing $x$ by $\epsilon_1$ causes $y$ to change by $3\epsilon_1$, and changing $y$ by $\epsilon_2$ causes $z$ to change by $5\epsilon_2$, then changing $x$ by $\epsilon_1$ causes $z$ to change by $15\epsilon_1$.
 This can be seen by letting $\epsilon_2 = 3\epsilon_1$.
 If $x$ affects $z$ through two independent intermediate variables $y_1$ and $y_2$, we add the contributions: $\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y_1} \cdot \frac{\partial y_1}{\partial x} + \frac{\partial z}{\partial y_2} \cdot \frac{\partial y_2}{\partial x}$.
 
