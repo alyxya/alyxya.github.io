@@ -9,7 +9,7 @@ In [a previous post](/blog/ml-is-optimization), we defined the loss function as 
 
 The "gradient" in gradient descent is a vector of partial derivatives of the loss with respect to each parameter.
 A partial derivative $\frac{\partial y}{\partial x}$ is just a ratio: how much $y$ changes when we change $x$ by a small amount.
-If $\frac{\partial y}{\partial x} = 3$, then changing $x$ by $\epsilon$ causes $y$ to change by approximately $3\epsilon$, where this approximation is more accurate for smaller $\epsilon$.
+If $\frac{\partial y}{\partial x} = 3$, then changing $x$ by $\epsilon$ causes $y$ to change by approximately $3\epsilon$, and this approximation is more accurate for smaller $\epsilon$.
 
 What if we want $\frac{\partial z}{\partial x}$ but we only know intermediate partial derivatives $\frac{\partial z}{\partial y}$ and $\frac{\partial y}{\partial x}$?
 The chain rule says we multiply them: $\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial x}$.
@@ -74,7 +74,7 @@ $$
 \frac{\partial L}{\partial A} = \frac{\partial L}{\partial C} B^\top
 $$
 
-Similarly, $B_{21}$ appears in $C_{11}$ and $C_{21}$, which is the entire first column of $C$, giving
+Similarly, $B_{21}$ appears in $C_{11}$ and $C_{21}$, which is the entire first column of $C$:
 
 $$
 \frac{\partial L}{\partial B_{21}} = \frac{\partial L}{\partial C_{11}} A_{12} + \frac{\partial L}{\partial C_{21}} A_{22}
