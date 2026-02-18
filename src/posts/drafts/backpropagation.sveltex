@@ -15,7 +15,9 @@ What if we want $\frac{\partial z}{\partial x}$ but we only know intermediate pa
 The chain rule says we multiply them: $\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial x}$.
 If changing $x$ by $\epsilon_1$ causes $y$ to change by $3\epsilon_1$, and changing $y$ by $\epsilon_2$ causes $z$ to change by $5\epsilon_2$, then changing $x$ by $\epsilon_1$ causes $z$ to change by $15\epsilon_1$.
 This can be seen by letting $\epsilon_2 = 3\epsilon_1$.
-If $x$ affects $z$ through two intermediate variables $y_1$ and $y_2$, we add the contributions: $\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y_1} \cdot \frac{\partial y_1}{\partial x} + \frac{\partial z}{\partial y_2} \cdot \frac{\partial y_2}{\partial x}$.
+
+What if the dependency isn't a single chain?
+If $x$ affects $z$ through two intermediate variables $y_1$ and $y_2$, we sum the contributions: $\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y_1} \cdot \frac{\partial y_1}{\partial x} + \frac{\partial z}{\partial y_2} \cdot \frac{\partial y_2}{\partial x}$.
 
 A neural network is a long chain of differentiable operations, where the loss depends on each parameter through many intermediate layers.
 Backpropagation is just the systematic application of the chain rule, working backwards from the loss through each operation to compute every partial derivative.
@@ -191,3 +193,7 @@ $$
 $$
 
 The actual change is roughly $0.9449 - 1 = -0.0551$, closely matching the predicted $-0.056$.
+
+---
+
+That's all backpropagation is: a forward pass to compute the loss, then a backward pass applying the chain rule through each operation. Each operation only needs its local inputs and the gradient flowing back from downstream, so the same procedure scales to networks with millions of parameters and hundreds of layers.
