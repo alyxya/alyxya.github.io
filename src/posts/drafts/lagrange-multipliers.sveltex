@@ -1,0 +1,36 @@
+---
+title: "Lagrange Multipliers"
+date: "2026-02-18"
+description: "Constrained optimization with Lagrange multipliers"
+tags: ["math", "calculus", "optimization"]
+---
+
+Calculus-based optimization methods can be summarized in a single sentence: when minimizing a function, every point either has a nearby point that decreases the function, or it's a candidate that minimizes the function.
+This can be seen in single variable optimization problems, where we either solve for critical points that let the derivative of the function equal 0, or use the derivative to indicate which side a nearby point decreases the function.
+Extending this to multivariable optimization problems, all nearby points involve small perturbations of each variable.
+When the partial derivatives of the function with respect to each variable is 0, then no nearby point decreases the function.
+Otherwise, for each nonzero partial derivative, there is a known direction the corresponding variable should be perturbed by to decrease the function.
+Gradient descent does this while also setting the magnitude of the perturbation to be proportional to the partial derivative.
+
+Lagrange multipliers is a method to solving modified optimization problems that include a constraint on variables.
+For a single constraint, the problem is to minimize $f(x_1, x_2, ..., x_n)$ given $g(x_1, x_2, ..., x_n) = 0$.
+Instead of describing the method of Lagrange multipliers, we can reason about the core idea described in the previous paragraph to obtain the same approach to the constrained optimization problem.
+
+Without the constraint, we would ordinarily minimize $f(x_1, x_2, ..., x_n)$ by setting $\partial{f}{x_1}...\partial{f}{x_n}$ to all be $0$.
+The reasoning behind this is because every nearby point to $(x_1, x_2, ..., x_n)$ is of the form $(x_1 + delta_1, x_2 + delta_2, ..., x_n + delta_n)$ where all $delta_k$ are small, and the limit definition of a derivative says that $f(x_1 + delta_1, x_2 + delta_2, ..., x_n + delta_n)$ is approximately $f(x_1, x_2, ..., x_n) + \partial{f}{x_1}delta_1 + ... + \partial{f}{x_n}delta_n$.
+If any $\partial{f}{x_k}$ were nonzero, it would be possible to choose the sign of a small $\delta_k$ to make $\partial{f}{x_k} \delta_k$ to be negative and decrease the function as a result.
+
+Now with the constraint, this restricts the possible valid perturbations we can make on $(x_1, x_2, ..., x_n)$.
+If we consider the effects of an arbitrary perturbation we make on $g(x_1, x_2, ..., x_n)$, we see that $g(x_1 + delta_1, x_2 + delta_2, ..., x_n + delta_n)$ is approximately $g(x_1, x_2, ..., x_n) + \partial{g}{x_1}delta_1 + ... + \partial{g}{x_n}delta_n$.
+Starting from $g(x_1, x_2, ..., x_n) = 0$, valid perturbations that satisfy the constraint must satisfy $\partial{g}{x_1}delta_1 + ... + \partial{g}{x_n}delta_n = 0$.
+
+Restricting the valid perturbations means there are fewer nearby points to consider, so a point is a candidate for minimizing $f$ if none of the valid perturbations on it can decrease the function.
+This means we only require that for any perturbation $\partial{g}{x_1}delta_1 + ... + \partial{g}{x_n}delta_n = 0$, that $\partial{f}{x_1}delta_1 + ... + \partial{f}{x_n}delta_n = 0$ must hold.
+
+Notice that these expresion are like dot products if you have $vec_g, vec_delta, vec_f$ and this requirement can be reinterpreted as given $vec_g dot vec_delta = 0$, then $vec_f dot vec_delta = 0$ must hold.
+$vec_delta$ is allowed to be any orthogonal vector to $vec_g$, and the only vectors that orthogonal to every vector orthogonal to $vec_g$ are some scaled version of $vec_g$.
+There's a number of different ways to see this, like the orthogonal complement of $vec_g$ has $n-1$ dimensions, and the orthogonal complement of that must have $1$ dimension, being scaled versions of $vec_g$.
+
+note: insert simpler proof with dot products and projections
+
+note: finish off by reiterating the conditions for a candidate to minimize the function, like the g=0 condition and the scaled vector condition where the scale is lambda, then connect that to what lagrange multipliers says
