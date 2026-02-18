@@ -187,7 +187,7 @@ $$
 $$
 
 $$
-\hat{y} = 0.994(2.990) = 2.97206, \quad L = (2.97206 - 2)^2 \approx 0.9449
+\hat{y} = \begin{bmatrix} 0.994 & 1 \end{bmatrix} \begin{bmatrix} 2.990 \\ 0 \end{bmatrix} = 2.97206, \quad L = (2.97206 - 2)^2 \approx 0.9449
 $$
 
 The actual change is roughly $0.9449 - 1 = -0.0551$, closely matching the predicted $-0.056$.
