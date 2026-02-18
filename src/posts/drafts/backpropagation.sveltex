@@ -197,4 +197,4 @@ The actual change is roughly $0.9449 - 1 = -0.0551$, closely matching the predic
 ---
 
 That's all backpropagation is: a forward pass to compute the loss, then a backward pass applying the chain rule through each operation, tracking how much the loss changes with respect to each variable.
-Each operation only needs its local inputs and the gradient flowing back from downstream, so it's a computationally efficient way to determine how to nudge parameters to decrease the loss.
+Each operation only needs its local inputs and the gradient flowing back from downstream, so it's a computationally efficient way to determine how to nudge the parameters of a model to decrease the loss.
