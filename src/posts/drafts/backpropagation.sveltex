@@ -167,3 +167,27 @@ $$
 $$
 
 The actual change in $L$ is roughly $1.012042 - 1 = 0.012042$, closely matching the predicted $0.012$.
+
+In practice, we use these gradients to improve the model through gradient descent: each parameter is updated by subtracting $\alpha$ times its gradient, where $\alpha$ is a learning rate. With $\alpha = 0.001$:
+
+$$
+W = \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix} - 0.001 \begin{bmatrix} 2 & 4 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 0.998 & 0.996 \\ 1 & -1 \end{bmatrix}, \quad \mathbf{v} = \begin{bmatrix} 1 \\ 1 \end{bmatrix} - 0.001 \begin{bmatrix} 6 \\ 0 \end{bmatrix} = \begin{bmatrix} 0.994 \\ 1 \end{bmatrix}
+$$
+
+The predicted change in loss sums each parameter's contribution:
+
+$$
+\frac{\partial L}{\partial W_{11}} \Delta W_{11} + \frac{\partial L}{\partial W_{12}} \Delta W_{12} + \frac{\partial L}{\partial v_1} \Delta v_1 = 2(-0.002) + 4(-0.004) + 6(-0.006) = -0.056
+$$
+
+Rerunning the forward pass with the updated parameters:
+
+$$
+\mathbf{z} = \begin{bmatrix} 0.998 & 0.996 \\ 1 & -1 \end{bmatrix} \begin{bmatrix} 1 \\ 2 \end{bmatrix} = \begin{bmatrix} 2.990 \\ -1 \end{bmatrix}, \quad \mathbf{h} = \begin{bmatrix} 2.990 \\ 0 \end{bmatrix}
+$$
+
+$$
+\hat{y} = 0.994(2.990) = 2.97206, \quad L = (2.97206 - 2)^2 \approx 0.9449
+$$
+
+The actual change is roughly $0.9449 - 1 = -0.0551$, closely matching the predicted $-0.056$.
