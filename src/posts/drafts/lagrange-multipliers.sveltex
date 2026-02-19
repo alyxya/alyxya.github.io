@@ -46,3 +46,5 @@ $$
 for some scalar $\lambda$.
 This is exactly what the method of Lagrange multipliers prescribes, and $\lambda$ is the Lagrange multiplier.
 The second condition says that the gradient of $f$ must be proportional to the gradient of $g$ — in other words, the only directions that could decrease $f$ are directions that would violate the constraint.
+
+The same reasoning can be used to derive the [Karush-Kuhn-Tucker (KKT) conditions](https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions), which generalize Lagrange multipliers to inequality constraints.
