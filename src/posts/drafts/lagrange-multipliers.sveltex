@@ -31,6 +31,7 @@ With the constraint, we no longer need $\frac{\partial f}{\partial x_1}\delta_1 
 
 These expressions are dot products: letting $\vec{u} = \nabla f$, $\vec{v} = \nabla g$, and $\vec{\delta} = (\delta_1, \delta_2, \ldots, \delta_n)$, the requirement is that for all $\vec{\delta}$ satisfying $\vec{v} \cdot \vec{\delta} = 0$, $\vec{u} \cdot \vec{\delta} = 0$ must hold.
 $\vec{\delta}$ is allowed to be any vector orthogonal to $\vec{v}$, and the only vectors that are orthogonal to every vector orthogonal to $\vec{v}$ are scalar multiples of $\vec{v}$.
+
 To see this, decompose $\vec{u}$ into a component along $\vec{v}$ and a component orthogonal to $\vec{v}$: that is, $\vec{u} = \text{proj}_{\vec{v}} \vec{u} + \vec{u}_\perp$.
 If $\vec{u}_\perp$ were nonzero, we could choose $\vec{\delta} = \vec{u}_\perp$, which is orthogonal to $\vec{v}$ but — since $\text{proj}_{\vec{v}} \vec{u}$ is along $\vec{v}$ and hence orthogonal to $\vec{u}_\perp$ — gives $\vec{u} \cdot \vec{\delta} = \vec{u}_\perp \cdot \vec{u}_\perp > 0$, a contradiction.
 So $\vec{u}_\perp = 0$, meaning $\vec{u}$ must point entirely in the direction of $\vec{v}$: that is, $\nabla f = \lambda \nabla g$ for some scalar $\lambda$.
