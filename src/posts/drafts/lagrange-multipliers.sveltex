@@ -35,15 +35,14 @@ $\vec{\delta}$ is allowed to be any vector orthogonal to $\nabla g$, and the onl
 If $\nabla f$ had any component not along $\nabla g$, that component would itself be orthogonal to $\nabla g$ and so would be a valid choice of $\vec{\delta}$, but dotting it with $\nabla f$ would be positive, contradicting the requirement.
 So $\nabla f$ must point entirely along $\nabla g$: that is, $\nabla f = \lambda \nabla g$ for some scalar $\lambda$.
 
-Translating back, the conditions for a candidate to minimize $f$ subject to the constraint are:
+Together with the constraint $g(x_1, x_2, \ldots, x_n) = 0$, the conditions for a candidate minimum are:
 $$
 g(x_1, x_2, \ldots, x_n) = 0
 $$
 $$
 \nabla f = \lambda \nabla g
 $$
-for some scalar $\lambda$.
-This is exactly what the method of Lagrange multipliers prescribes, and $\lambda$ is the Lagrange multiplier.
-The second condition says that the gradient of $f$ must be proportional to the gradient of $g$ — in other words, the only directions that could decrease $f$ are directions that would violate the constraint.
+for some scalar $\lambda$. This is exactly the method of Lagrange multipliers, where $\lambda$ is the Lagrange multiplier.
+The gradient of $f$ must be proportional to the gradient of $g$: the only directions that could decrease $f$ are directions that would violate the constraint.
 
 The same reasoning can be used to derive the [Karush-Kuhn-Tucker (KKT) conditions](https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions), which generalize Lagrange multipliers to inequality constraints.
