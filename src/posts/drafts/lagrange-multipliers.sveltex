@@ -5,7 +5,7 @@ description: "Constrained optimization with Lagrange multipliers"
 tags: ["math", "calculus", "optimization"]
 ---
 
-Calculus-based optimization methods can be summarized in a single sentence: when minimizing a function, every point either has a nearby point that decreases the function, or is a candidate for minimizing it.
+Calculus-based optimization methods can be summarized in a single sentence: **when minimizing a function, every point either has a nearby point that decreases the function, or is a candidate for minimizing it.**
 This can be seen in single variable optimization problems, where we either solve for critical points by setting the derivative of the function equal to $0$, or use the derivative to indicate which direction to move to decrease the function.
 In multivariable optimization problems, all nearby points are obtained by small perturbations of each variable.
 When the partial derivatives of the function with respect to each variable are $0$, then no nearby point decreases the function.
