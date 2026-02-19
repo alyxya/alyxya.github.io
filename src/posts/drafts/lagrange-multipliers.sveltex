@@ -6,13 +6,13 @@ tags: ["math", "calculus", "optimization"]
 ---
 
 Calculus-based optimization methods can be summarized in a single sentence: when minimizing a function, every point either has a nearby point that decreases the function, or it's a candidate that minimizes the function.
-This can be seen in single variable optimization problems, where we either solve for critical points that let the derivative of the function equal $0$, or use the derivative to indicate which direction to move to decrease the function.
+This can be seen in single variable optimization problems, where we either solve for critical points by setting the derivative of the function equal to $0$, or use the derivative to indicate which direction to move to decrease the function.
 In multivariable optimization problems, all nearby points involve small perturbations of each variable.
 When the partial derivatives of the function with respect to each variable are $0$, then no nearby point decreases the function.
 Otherwise, for each nonzero partial derivative, there is a known direction to perturb the corresponding variable to decrease the function.
 Gradient descent does this while also setting the magnitude of the perturbation to be proportional to the partial derivative.
 
-Lagrange multipliers is a method to solving modified optimization problems that include a constraint on variables.
+Lagrange multipliers is a method for solving modified optimization problems that include a constraint on variables.
 For a single constraint, the problem is
 $$
 \min_{x_1, \ldots, x_n} f(x_1, x_2, \ldots, x_n) \quad \text{subject to} \quad g(x_1, x_2, \ldots, x_n) = 0
@@ -20,18 +20,18 @@ $$
 Instead of describing the method of Lagrange multipliers, we can reason about the core idea described in the previous paragraph to obtain the same approach to the constrained optimization problem.
 
 Without the constraint, we would ordinarily minimize $f(x_1, x_2, \ldots, x_n)$ by setting $\frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n}$ to all be $0$.
-The reasoning behind this is because every nearby point to $(x_1, x_2, \ldots, x_n)$ is of the form $(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ where all $\delta_k$ are small, and the limit definition of a derivative says that $f(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ is approximately $f(x_1, x_2, \ldots, x_n) + \frac{\partial f}{\partial x_1}\delta_1 + \ldots + \frac{\partial f}{\partial x_n}\delta_n$.
-If any $\frac{\partial f}{\partial x_k}$ were nonzero, it would be possible to choose the sign of a small $\delta_k$ to make $\frac{\partial f}{\partial x_k} \delta_k$ to be negative and decrease the function as a result.
+This is because every nearby point to $(x_1, x_2, \ldots, x_n)$ is of the form $(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ where all $\delta_k$ are small, and the limit definition of a derivative says that $f(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ is approximately $f(x_1, x_2, \ldots, x_n) + \frac{\partial f}{\partial x_1}\delta_1 + \ldots + \frac{\partial f}{\partial x_n}\delta_n$.
+If any $\frac{\partial f}{\partial x_k}$ were nonzero, it would be possible to choose the sign of a small $\delta_k$ to make $\frac{\partial f}{\partial x_k} \delta_k$ negative and decrease the function as a result.
 
-Now with the constraint, this restricts the possible valid perturbations we can make on $(x_1, x_2, \ldots, x_n)$.
+The constraint restricts the possible valid perturbations we can make on $(x_1, x_2, \ldots, x_n)$.
 If we consider the effects of an arbitrary perturbation we make on $g(x_1, x_2, \ldots, x_n)$, we see that $g(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ is approximately $g(x_1, x_2, \ldots, x_n) + \frac{\partial g}{\partial x_1}\delta_1 + \ldots + \frac{\partial g}{\partial x_n}\delta_n$.
 Starting from $g(x_1, x_2, \ldots, x_n) = 0$, valid perturbations that satisfy the constraint must satisfy $\frac{\partial g}{\partial x_1}\delta_1 + \ldots + \frac{\partial g}{\partial x_n}\delta_n = 0$.
 
 Restricting the valid perturbations means there are fewer nearby points to consider, so a point is a candidate for minimizing $f$ if none of the valid perturbations on it can decrease the function.
-This means we only require that for any perturbation satisfying $\frac{\partial g}{\partial x_1}\delta_1 + \ldots + \frac{\partial g}{\partial x_n}\delta_n = 0$, that $\frac{\partial f}{\partial x_1}\delta_1 + \ldots + \frac{\partial f}{\partial x_n}\delta_n = 0$ must hold.
+This means we only require that for any perturbation satisfying $\frac{\partial g}{\partial x_1}\delta_1 + \ldots + \frac{\partial g}{\partial x_n}\delta_n = 0$, $\frac{\partial f}{\partial x_1}\delta_1 + \ldots + \frac{\partial f}{\partial x_n}\delta_n = 0$ must hold.
 
-Notice that these expressions are like dot products if you have $\vec{g}, \vec{\delta}, \vec{f}$ and this requirement can be reinterpreted as given $\vec{g} \cdot \vec{\delta} = 0$, then $\vec{f} \cdot \vec{\delta} = 0$ must hold.
-$\vec{\delta}$ is allowed to be any vector orthogonal to $\vec{g}$, and the only vectors that are orthogonal to every vector orthogonal to $\vec{g}$ are some scaled version of $\vec{g}$.
+Notice that these expressions are like dot products if you let $\vec{f} = \nabla f$, $\vec{g} = \nabla g$, and $\vec{\delta} = (\delta_1, \ldots, \delta_n)$, and this requirement can be reinterpreted as: given $\vec{g} \cdot \vec{\delta} = 0$, $\vec{f} \cdot \vec{\delta} = 0$ must hold.
+$\vec{\delta}$ is allowed to be any vector orthogonal to $\vec{g}$, and the only vectors that are orthogonal to every vector orthogonal to $\vec{g}$ are scalar multiples of $\vec{g}$.
 To see this, decompose $\vec{f}$ into a component along $\vec{g}$ and a component orthogonal to $\vec{g}$: that is, $\vec{f} = \text{proj}_{\vec{g}} \vec{f} + \vec{f}_\perp$.
 If $\vec{f}_\perp$ were nonzero, we could choose $\vec{\delta} = \vec{f}_\perp$, which is orthogonal to $\vec{g}$ but gives $\vec{f} \cdot \vec{\delta} = \vec{f}_\perp \cdot \vec{f}_\perp > 0$, a contradiction.
 So $\vec{f}_\perp = 0$, meaning $\vec{f}$ must point entirely in the direction of $\vec{g}$: that is, $\vec{f} = \lambda \vec{g}$ for some scalar $\lambda$.
