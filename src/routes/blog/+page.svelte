@@ -8,14 +8,14 @@
 </svelte:head>
 
 <div class="mx-auto max-w-3xl px-4 py-12">
-	<div class="glass-card mb-8 p-6">
+	<div class="panel-card mb-8 p-6">
 		<h1 class="text-4xl font-bold text-ocean-900">Blog</h1>
 	</div>
 
 	<div class="space-y-6">
 		{#each data.posts as post (post.slug)}
 			<a href="/blog/{post.slug}" class="group block">
-				<article class="glass-card p-6">
+				<article class="panel-card p-6">
 					<h2 class="mb-2 text-2xl font-semibold text-ocean-900 group-hover:text-ocean-600">
 						{post.title}
 					</h2>

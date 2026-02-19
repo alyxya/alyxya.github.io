@@ -52,12 +52,12 @@ body {
 	background: transparent;
 }
 
-.glass-card ::selection {
+.panel-card ::selection {
 	background: oklch(65% 0.1 220 / 0.4);
 	color: oklch(25% 0.08 240);
 }
 
-.glass-card ::-moz-selection {
+.panel-card ::-moz-selection {
 	background: oklch(65% 0.1 220 / 0.4);
 	color: oklch(25% 0.08 240);
 }
@@ -152,12 +152,10 @@ body {
 	color: inherit !important;
 }
 
-/* Glass morphism cards */
-.glass-card {
-	background: rgba(255, 255, 255, 0.6);
-	backdrop-filter: blur(12px);
-	-webkit-backdrop-filter: blur(12px);
-	border: 1px solid rgba(255, 255, 255, 0.8);
+/* Panel cards */
+.panel-card {
+	background: oklch(95% 0.02 210);
+	border: 1px solid oklch(90% 0.03 210);
 	border-radius: 1rem;
 	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 	overflow: hidden;
