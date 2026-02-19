@@ -13,7 +13,10 @@ Otherwise, for each nonzero partial derivative, there is a known direction the c
 Gradient descent does this while also setting the magnitude of the perturbation to be proportional to the partial derivative.
 
 Lagrange multipliers is a method to solving modified optimization problems that include a constraint on variables.
-For a single constraint, the problem is to minimize $f(x_1, x_2, \ldots, x_n)$ given $g(x_1, x_2, \ldots, x_n) = 0$.
+For a single constraint, the problem is
+$$
+\min_{x_1, \ldots, x_n} f(x_1, x_2, \ldots, x_n) \quad \text{subject to} \quad g(x_1, x_2, \ldots, x_n) = 0
+$$
 Instead of describing the method of Lagrange multipliers, we can reason about the core idea described in the previous paragraph to obtain the same approach to the constrained optimization problem.
 
 Without the constraint, we would ordinarily minimize $f(x_1, x_2, \ldots, x_n)$ by setting $\frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n}$ to all be $0$.
