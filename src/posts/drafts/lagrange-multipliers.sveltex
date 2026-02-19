@@ -6,9 +6,9 @@ tags: ["math", "calculus", "optimization"]
 ---
 
 Calculus-based optimization methods can be summarized in a single sentence: when minimizing a function, every point either has a nearby point that decreases the function, or it's a candidate that minimizes the function.
-This can be seen in single variable optimization problems, where we either solve for critical points that let the derivative of the function equal 0, or use the derivative to indicate which side a nearby point decreases the function.
+This can be seen in single variable optimization problems, where we either solve for critical points that let the derivative of the function equal $0$, or use the derivative to indicate which side a nearby point decreases the function.
 Extending this to multivariable optimization problems, all nearby points involve small perturbations of each variable.
-When the partial derivatives of the function with respect to each variable is 0, then no nearby point decreases the function.
+When the partial derivatives of the function with respect to each variable is $0$, then no nearby point decreases the function.
 Otherwise, for each nonzero partial derivative, there is a known direction the corresponding variable should be perturbed by to decrease the function.
 Gradient descent does this while also setting the magnitude of the perturbation to be proportional to the partial derivative.
 
