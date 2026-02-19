@@ -7,12 +7,12 @@ tags: ["math", "calculus", "optimization"]
 
 Calculus-based optimization methods can be summarized in a single sentence: when minimizing a function, every point either has a nearby point that decreases the function, or is a candidate for minimizing it.
 This can be seen in single variable optimization problems, where we either solve for critical points by setting the derivative of the function equal to $0$, or use the derivative to indicate which direction to move to decrease the function.
-In multivariable optimization problems, all nearby points involve small perturbations of each variable.
+In multivariable optimization problems, all nearby points are obtained by small perturbations of each variable.
 When the partial derivatives of the function with respect to each variable are $0$, then no nearby point decreases the function.
 Otherwise, for each nonzero partial derivative, there is a known direction to perturb the corresponding variable to decrease the function.
 Gradient descent does this while also setting the magnitude of the perturbation to be proportional to the partial derivative.
 
-Lagrange multipliers is a method for solving constrained optimization problems that include a constraint on variables.
+Lagrange multipliers is a method for solving optimization problems subject to constraints on the variables.
 For a single constraint, the problem is
 $$
 \min_{x_1, \ldots, x_n} f(x_1, x_2, \ldots, x_n) \quad \text{subject to} \quad g(x_1, x_2, \ldots, x_n) = 0
@@ -20,10 +20,10 @@ $$
 Instead of describing the method of Lagrange multipliers, we can reason about the core idea described in the previous paragraph to obtain the same approach to the constrained optimization problem.
 
 Without the constraint, we would ordinarily minimize $f(x_1, x_2, \ldots, x_n)$ by setting $\frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n}$ to all be $0$.
-This is because every point near $(x_1, x_2, \ldots, x_n)$ is of the form $(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ where all $\delta_k$ are small, and the limit definition of a derivative says that $f(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ is approximately $f(x_1, x_2, \ldots, x_n) + \frac{\partial f}{\partial x_1}\delta_1 + \ldots + \frac{\partial f}{\partial x_n}\delta_n$.
+This is because every point near $(x_1, x_2, \ldots, x_n)$ is of the form $(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ where all $\delta_k$ are small, and a first-order approximation gives that $f(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ is approximately $f(x_1, x_2, \ldots, x_n) + \frac{\partial f}{\partial x_1}\delta_1 + \ldots + \frac{\partial f}{\partial x_n}\delta_n$.
 If any $\frac{\partial f}{\partial x_k}$ were nonzero, it would be possible to choose the sign of a small $\delta_k$ to make $\frac{\partial f}{\partial x_k} \delta_k$ negative and decrease the function as a result.
 
-The constraint restricts the possible valid perturbations we can make on $(x_1, x_2, \ldots, x_n)$.
+The constraint restricts the possible valid perturbations we can make to $(x_1, x_2, \ldots, x_n)$.
 If we consider the effect on $g$ of an arbitrary perturbation, we see that $g(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ is approximately $g(x_1, x_2, \ldots, x_n) + \frac{\partial g}{\partial x_1}\delta_1 + \ldots + \frac{\partial g}{\partial x_n}\delta_n$.
 Starting from $g(x_1, x_2, \ldots, x_n) = 0$, valid perturbations that satisfy the constraint must satisfy $\frac{\partial g}{\partial x_1}\delta_1 + \ldots + \frac{\partial g}{\partial x_n}\delta_n = 0$.
 
