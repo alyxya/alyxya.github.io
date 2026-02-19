@@ -30,10 +30,19 @@ Starting from $g(x_1, x_2, \ldots, x_n) = 0$, valid perturbations that satisfy t
 Restricting the valid perturbations means there are fewer nearby points to consider, so a point is a candidate for minimizing $f$ if none of the valid perturbations on it can decrease the function.
 This means we only require that for any perturbation satisfying $\frac{\partial g}{\partial x_1}\delta_1 + \ldots + \frac{\partial g}{\partial x_n}\delta_n = 0$, that $\frac{\partial f}{\partial x_1}\delta_1 + \ldots + \frac{\partial f}{\partial x_n}\delta_n = 0$ must hold.
 
-Notice that these expresion are like dot products if you have $\vec{g}, \vec{\delta}, \vec{f}$ and this requirement can be reinterpreted as given $\vec{g} \cdot \vec{\delta} = 0$, then $\vec{f} \cdot \vec{\delta} = 0$ must hold.
-$\vec{\delta}$ is allowed to be any orthogonal vector to $\vec{g}$, and the only vectors that orthogonal to every vector orthogonal to $\vec{g}$ are some scaled version of $\vec{g}$.
-There's a number of different ways to see this, like the orthogonal complement of $\vec{g}$ has $n-1$ dimensions, and the orthogonal complement of that must have $1$ dimension, being scaled versions of $\vec{g}$.
+Notice that these expressions are like dot products if you have $\vec{g}, \vec{\delta}, \vec{f}$ and this requirement can be reinterpreted as given $\vec{g} \cdot \vec{\delta} = 0$, then $\vec{f} \cdot \vec{\delta} = 0$ must hold.
+$\vec{\delta}$ is allowed to be any vector orthogonal to $\vec{g}$, and the only vectors that are orthogonal to every vector orthogonal to $\vec{g}$ are some scaled version of $\vec{g}$.
+To see this, decompose $\vec{f}$ into a component along $\vec{g}$ and a component orthogonal to $\vec{g}$: that is, $\vec{f} = \text{proj}_{\vec{g}} \vec{f} + \vec{f}_\perp$.
+If $\vec{f}_\perp$ were nonzero, we could choose $\vec{\delta} = \vec{f}_\perp$, which is orthogonal to $\vec{g}$ but gives $\vec{f} \cdot \vec{\delta} = \vec{f}_\perp \cdot \vec{f}_\perp > 0$, a contradiction.
+So $\vec{f}_\perp = 0$, meaning $\vec{f}$ must point entirely in the direction of $\vec{g}$: that is, $\vec{f} = \lambda \vec{g}$ for some scalar $\lambda$.
 
-note: insert simpler proof with dot products and projections
-
-note: finish off by reiterating the conditions for a candidate to minimize the function, like the g=0 condition and the scaled vector condition where the scale is lambda, then connect that to what lagrange multipliers says
+Translating back, the conditions for a candidate to minimize $f$ subject to the constraint are:
+$$
+g(x_1, x_2, \ldots, x_n) = 0
+$$
+$$
+\nabla f = \lambda \nabla g
+$$
+for some scalar $\lambda$.
+This is exactly what the method of Lagrange multipliers prescribes, and $\lambda$ is the Lagrange multiplier.
+The second condition says that the gradient of $f$ must be proportional to the gradient of $g$ — in other words, the only directions that could decrease $f$ are directions that would violate the constraint.
