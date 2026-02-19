@@ -29,11 +29,11 @@ Since $g(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ is approximate
 
 With the constraint, we no longer need $\frac{\partial f}{\partial x_1}\delta_1 + \frac{\partial f}{\partial x_2}\delta_2 + \ldots + \frac{\partial f}{\partial x_n}\delta_n = 0$ for all perturbations $\vec{\delta}$, only for those satisfying $\frac{\partial g}{\partial x_1}\delta_1 + \frac{\partial g}{\partial x_2}\delta_2 + \ldots + \frac{\partial g}{\partial x_n}\delta_n = 0$.
 
-These expressions are dot products: letting $\vec{u} = \nabla f$, $\vec{v} = \nabla g$, and $\vec{\delta} = (\delta_1, \delta_2, \ldots, \delta_n)$, the requirement is that for all $\vec{\delta}$ satisfying $\vec{v} \cdot \vec{\delta} = 0$, $\vec{u} \cdot \vec{\delta} = 0$ must hold.
-$\vec{\delta}$ is allowed to be any vector orthogonal to $\vec{v}$, and the only vectors that are orthogonal to every vector orthogonal to $\vec{v}$ are scalar multiples of $\vec{v}$.
+These expressions are dot products: letting $\nabla f = \left(\frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n}\right)$, $\nabla g = \left(\frac{\partial g}{\partial x_1}, \ldots, \frac{\partial g}{\partial x_n}\right)$, and $\vec{\delta} = (\delta_1, \delta_2, \ldots, \delta_n)$, the requirement is that for all $\vec{\delta}$ satisfying $\nabla g \cdot \vec{\delta} = 0$, $\nabla f \cdot \vec{\delta} = 0$ must hold.
+$\vec{\delta}$ is allowed to be any vector orthogonal to $\nabla g$, and the only vectors orthogonal to every vector orthogonal to $\nabla g$ are scalar multiples of $\nabla g$.
 
-If $\vec{u}$ had any component not along $\vec{v}$, that component would itself be orthogonal to $\vec{v}$ and so would be a valid choice of $\vec{\delta}$, but dotting it with $\vec{u}$ would be positive, contradicting the requirement.
-So $\vec{u}$ must point entirely along $\vec{v}$: that is, $\nabla f = \lambda \nabla g$ for some scalar $\lambda$.
+If $\nabla f$ had any component not along $\nabla g$, that component would itself be orthogonal to $\nabla g$ and so would be a valid choice of $\vec{\delta}$, but dotting it with $\nabla f$ would be positive, contradicting the requirement.
+So $\nabla f$ must point entirely along $\nabla g$: that is, $\nabla f = \lambda \nabla g$ for some scalar $\lambda$.
 
 Translating back, the conditions for a candidate to minimize $f$ subject to the constraint are:
 $$
