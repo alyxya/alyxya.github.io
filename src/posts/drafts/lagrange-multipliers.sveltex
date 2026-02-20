@@ -29,7 +29,7 @@ Setting all partial derivatives to $0$ is equivalent to requiring
 $$
 \frac{\partial f}{\partial x_1}\delta_1 + \frac{\partial f}{\partial x_2}\delta_2 + \ldots + \frac{\partial f}{\partial x_n}\delta_n = 0
 $$
-for all perturbations $\vec{\delta}$.
+for all perturbations.
 
 The constraint gives us $g(x_1, x_2, \ldots, x_n) = 0$ and restricts the valid perturbations we can make to $(x_1, x_2, \ldots, x_n)$.
 Since
@@ -45,7 +45,7 @@ With the constraint, we no longer need
 $$
 \frac{\partial f}{\partial x_1}\delta_1 + \frac{\partial f}{\partial x_2}\delta_2 + \ldots + \frac{\partial f}{\partial x_n}\delta_n = 0
 $$
-for all perturbations $\vec{\delta}$, only for those satisfying
+for all perturbations, only for those satisfying
 $$
 \frac{\partial g}{\partial x_1}\delta_1 + \frac{\partial g}{\partial x_2}\delta_2 + \ldots + \frac{\partial g}{\partial x_n}\delta_n = 0
 $$
@@ -55,10 +55,9 @@ $$
 \nabla f = \left(\frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n}\right), \quad \nabla g = \left(\frac{\partial g}{\partial x_1}, \ldots, \frac{\partial g}{\partial x_n}\right), \quad \vec{\delta} = (\delta_1, \delta_2, \ldots, \delta_n)
 $$
 the requirement is that $\nabla f \cdot \vec{\delta} = 0$ for all $\vec{\delta}$ satisfying $\nabla g \cdot \vec{\delta} = 0$.
-$\vec{\delta}$ is allowed to be any vector orthogonal to $\nabla g$.
-The only vectors orthogonal to every such $\vec{\delta}$ are scalar multiples of $\nabla g$.
+Since $\vec{\delta}$ can be any vector orthogonal to $\nabla g$, $\nabla f$ must be a scalar multiple of $\nabla g$.
 
-If $\nabla f$ had any component not along $\nabla g$, that component would itself be orthogonal to $\nabla g$ and so would be a valid choice of $\vec{\delta}$, but dotting it with $\nabla f$ would be positive, contradicting the requirement.
+To see this, if $\nabla f$ had any component not along $\nabla g$, that component would itself be orthogonal to $\nabla g$ and so would be a valid choice of $\vec{\delta}$, but dotting it with $\nabla f$ would be positive, contradicting the requirement.
 So $\nabla f$ must point entirely along $\nabla g$, meaning $\nabla f = \lambda \nabla g$ for some scalar $\lambda$.
 
 Together with the constraint $g(x_1, x_2, \ldots, x_n) = 0$, the conditions for a candidate minimum are:
