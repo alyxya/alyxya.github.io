@@ -20,16 +20,16 @@ $$
 Instead of describing the method of Lagrange multipliers, we can reason about the core idea described in the first paragraph to obtain the same approach to the constrained optimization problem.
 
 Without the constraint, we would ordinarily minimize $f$ by setting all its partial derivatives to $0$.
-This is because every point near $(x_1, x_2, \ldots, x_n)$ is of the form $(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ where all $\delta_k$ are small, and a first-order approximation gives
+This is because every point near $(x_1, x_2, \ldots, x_n)$ is of the form $(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ for small perturbations $\delta_k$, and a first-order approximation gives
 $$
 f(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n) \approx f(x_1, x_2, \ldots, x_n) + \frac{\partial f}{\partial x_1}\delta_1 + \frac{\partial f}{\partial x_2}\delta_2 + \ldots + \frac{\partial f}{\partial x_n}\delta_n
 $$
-If any $\frac{\partial f}{\partial x_k}$ were nonzero, it would be possible to choose the sign of a small $\delta_k$ to make $\frac{\partial f}{\partial x_k} \delta_k$ negative and decrease the function as a result.
+If any $\frac{\partial f}{\partial x_k}$ were nonzero, it would be possible to choose the sign of a small perturbation $\delta_k$ to make $\frac{\partial f}{\partial x_k} \delta_k$ negative and decrease the function as a result.
 Setting all partial derivatives to $0$ is equivalent to requiring
 $$
 \frac{\partial f}{\partial x_1}\delta_1 + \frac{\partial f}{\partial x_2}\delta_2 + \ldots + \frac{\partial f}{\partial x_n}\delta_n = 0
 $$
-for all perturbations.
+for all perturbations $(\delta_1, \delta_2, \ldots, \delta_n)$.
 
 The constraint gives us $g(x_1, x_2, \ldots, x_n) = 0$ and restricts the valid perturbations we can make to $(x_1, x_2, \ldots, x_n)$.
 Since
