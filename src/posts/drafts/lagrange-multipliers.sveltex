@@ -70,4 +70,5 @@ $$
 for some scalar $\lambda$. This is exactly the method of Lagrange multipliers, where $\lambda$ is the Lagrange multiplier.
 The gradient of $f$ must be proportional to the gradient of $g$, meaning the only directions that could decrease $f$ are directions that would violate the constraint.
 
-The same reasoning can be used to derive the [Karush-Kuhn-Tucker (KKT) conditions](https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions), which generalize Lagrange multipliers to inequality constraints.
+The same reasoning extends to multiple equality constraints $g_1 = 0, \ldots, g_m = 0$. Valid perturbations must be orthogonal to all $\nabla g_i$, so $\nabla f$ must lie in their span, giving $\nabla f = \lambda_1 \nabla g_1 + \cdots + \lambda_m \nabla g_m$.
+It can also be used to derive the [Karush-Kuhn-Tucker (KKT) conditions](https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions), which generalize Lagrange multipliers to inequality constraints.
