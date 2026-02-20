@@ -19,7 +19,7 @@ $$
 $$
 Instead of describing the method of Lagrange multipliers, we can reason about the core idea described in the first paragraph to obtain the same approach to the constrained optimization problem.
 
-Without the constraint, we would ordinarily minimize $f(x_1, x_2, \ldots, x_n)$ by setting $\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \ldots, \frac{\partial f}{\partial x_n}$ to all be $0$.
+Without the constraint, we would ordinarily minimize $f$ by setting all its partial derivatives to $0$.
 This is because every point near $(x_1, x_2, \ldots, x_n)$ is of the form $(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n)$ where all $\delta_k$ are small, and a first-order approximation gives
 $$
 f(x_1 + \delta_1, x_2 + \delta_2, \ldots, x_n + \delta_n) \approx f(x_1, x_2, \ldots, x_n) + \frac{\partial f}{\partial x_1}\delta_1 + \frac{\partial f}{\partial x_2}\delta_2 + \ldots + \frac{\partial f}{\partial x_n}\delta_n
@@ -55,7 +55,8 @@ $$
 \nabla f = \left(\frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n}\right), \quad \nabla g = \left(\frac{\partial g}{\partial x_1}, \ldots, \frac{\partial g}{\partial x_n}\right), \quad \vec{\delta} = (\delta_1, \delta_2, \ldots, \delta_n)
 $$
 the requirement is that $\nabla f \cdot \vec{\delta} = 0$ for all $\vec{\delta}$ satisfying $\nabla g \cdot \vec{\delta} = 0$.
-$\vec{\delta}$ is allowed to be any vector orthogonal to $\nabla g$, and the only vectors orthogonal to every vector orthogonal to $\nabla g$ are scalar multiples of $\nabla g$.
+$\vec{\delta}$ is allowed to be any vector orthogonal to $\nabla g$.
+The only vectors orthogonal to every such $\vec{\delta}$ are scalar multiples of $\nabla g$.
 
 If $\nabla f$ had any component not along $\nabla g$, that component would itself be orthogonal to $\nabla g$ and so would be a valid choice of $\vec{\delta}$, but dotting it with $\nabla f$ would be positive, contradicting the requirement.
 So $\nabla f$ must point entirely along $\nabla g$, meaning $\nabla f = \lambda \nabla g$ for some scalar $\lambda$.
