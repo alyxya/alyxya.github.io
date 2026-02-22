@@ -14,3 +14,4 @@ tags: []
 - bias never used in the model
 - other models besides llms can only work with this provided that input vectors have a fixed magnitude
 - demonstrate some result
+- room to explore other variations of rotational gradient descent like backpropping the optimal delta rather than backpropping the gradient, also things like having the backpropped gradient/delta implicitly constrain to the hypersphere manifold
