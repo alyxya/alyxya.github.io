@@ -4,3 +4,13 @@ date: "2026-02-21"
 description: ""
 tags: []
 ---
+
+- introduce by noting change in parameterization from cartesian to hyperspherical coordinates
+- add motivating example with output layer of a llm and the softmax after regarding the standard gradient
+- show convergence issues where weights can grow arbitrarily large without converging
+- show how hyperspherical coordinates and disallowing radial changes solves convergence issues
+- relate to other topics like interpretability showing direction matters and not magnitude, the weight vector is a feature detector, differentiating a dot product in the radial form is more natural, various optimizers doing normalization, layernorm and rmsnorm indicating how magnitude doesn't really matter, also hyperball optimizer and modular manifolds
+- give a simple formulation where the rotational gradient descent only affects the optimizer weight update
+- bias never used in the model
+- other models besides llms can only work with this provided that input vectors have a fixed magnitude
+- demonstrate some result
