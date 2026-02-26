@@ -1,0 +1,13 @@
+---
+title: "Matrix Network"
+date: "2026-02-26"
+description: ""
+tags: []
+---
+
+- intro with linear universal approximation theorem
+- connect idea to the fact that the nonlinearity that the universal approximation theorem requires exists in the encoding/decoding parts
+- describe architecture as matrix encoding, matrix multiplication with state, vector query to decode
+- describe LLM/transformer comparison
+- maybe train and show gpt2 equivalent?
+- maybe describe the framing around rotations and vector directions
