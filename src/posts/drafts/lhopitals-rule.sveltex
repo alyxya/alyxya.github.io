@@ -1,0 +1,12 @@
+---
+title: "L'Hôpital's Rule"
+date: "2026-02-27"
+description: ""
+tags: []
+---
+
+- introduce L'Hôpital's rule and the intuition behind it (ratio of derivatives approximates ratio of functions near indeterminate points)
+- case 1: 0/0 form at a finite limit
+- case 2: 0/0 form at an infinite limit
+- case 3: inf/inf form at a finite limit
+- case 4: inf/inf form at an infinite limit
