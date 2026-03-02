@@ -22,15 +22,6 @@ $$
 $$
 The $\delta$ cancels, and the ratio of the functions reduces to the ratio of their derivatives at $a$.
 
-More precisely, writing $f(x) = f(x) - f(a)$ and $g(x) = g(x) - g(a)$ since $f(a) = g(a) = 0$:
-$$
-\frac{f(x)}{g(x)} = \frac{f(x) - f(a)}{g(x) - g(a)} = \frac{\frac{f(x) - f(a)}{x - a}}{\frac{g(x) - g(a)}{x - a}}
-$$
-Taking the limit as $x \to a$, the numerator and denominator become $f'(a)$ and $g'(a)$ by the definition of the derivative, giving
-$$
-\lim_{x \to a} \frac{f(x)}{g(x)} = \frac{f'(a)}{g'(a)}
-$$
-
 ## The $\frac{0}{0}$ case at an infinite limit
 
 Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = 0$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
