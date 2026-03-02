@@ -11,11 +11,8 @@ L'Hôpital's rule resolves these by replacing the limit with the ratio of deriva
 ## The $\frac{0}{0}$ case at a finite limit
 
 Suppose $f(a) = g(a) = 0$ and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
-Since $f(a) = 0$, the first-order approximation of $f$ near $a$ is
-$$
-f(a + \delta) \approx f'(a) \cdot \delta
-$$
-and similarly $g(a + \delta) \approx g'(a) \cdot \delta$. So the ratio near $a$ is approximately
+By the definition of the derivative, $f'(a) = \lim_{\delta \to 0} \frac{f(a + \delta) - f(a)}{\delta}$, so for small $\delta$ we have $f(a + \delta) \approx f(a) + f'(a) \cdot \delta$.
+Since $f(a) = 0$, this gives $f(a + \delta) \approx f'(a) \cdot \delta$, and similarly $g(a + \delta) \approx g'(a) \cdot \delta$. So the ratio near $a$ is approximately
 $$
 \frac{f(a + \delta)}{g(a + \delta)} \approx \frac{f'(a) \cdot \delta}{g'(a) \cdot \delta} = \frac{f'(a)}{g'(a)}
 $$
