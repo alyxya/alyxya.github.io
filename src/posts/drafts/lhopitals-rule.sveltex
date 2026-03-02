@@ -6,7 +6,6 @@ tags: []
 ---
 
 - introduce L'Hôpital's rule and the intuition behind it (ratio of derivatives approximates ratio of functions near indeterminate points)
-- case 1: 0/0 form at a finite limit
-- case 2: 0/0 form at an infinite limit
-- case 3: inf/inf form at a finite limit
-- case 4: inf/inf form at an infinite limit
+- 0/0 case with finite limit: state and prove, give examples
+- 0/0 case with infinite limit: extend the proof, give examples
+- inf/inf case: prove using reduction to 0/0 form, give examples
