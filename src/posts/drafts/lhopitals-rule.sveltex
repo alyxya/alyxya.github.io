@@ -28,11 +28,11 @@ $$
 ## The $\frac{0}{0}$ case at an infinite limit
 
 Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = 0$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
-Since $f$ tends to $0$, by the fundamental theorem of calculus,
+By the fundamental theorem of calculus,
 $$
-f(x) = -\int_x^{\infty} f'(t) \, dt
+\lim_{t \to \infty} f(t) - f(x) = \int_x^{\infty} f'(t) \, dt
 $$
-and similarly $g(x) = -\int_x^{\infty} g'(t) \, dt$.
+Since $f$ tends to $0$, this gives $\lim_{t \to \infty} f(t) = 0$ and $f(x) = -\int_x^{\infty} f'(t) \, dt$, and similarly $g(x) = -\int_x^{\infty} g'(t) \, dt$.
 
 For sufficiently large $x$, if $\frac{f'(t)}{g'(t)}$ is approximately equal to some constant $L$ for all $t \geq x$, then $f'(t) \approx L \cdot g'(t)$ throughout the interval, and so
 $$
