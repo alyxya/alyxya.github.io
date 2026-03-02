@@ -30,7 +30,7 @@ $$
 Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = 0$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
 By the fundamental theorem of calculus,
 $$
-f(x) - f(a) = \int_a^{x} f'(y) \, dy
+f(a) - f(x) = \int_x^{a} f'(y) \, dy
 $$
 Since $f$ tends to $0$, taking $a \to \infty$ gives $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty} g'(y) \, dy$.
 
@@ -45,24 +45,18 @@ $$
 
 ## The $\frac{\infty}{\infty}$ case
 
-Now suppose $\lim_{x \to a} f(x) = \lim_{x \to a} g(x) = \infty$ where $a$ is either finite or infinite, and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
-By the fundamental theorem of calculus,
+Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = \infty$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
+By the fundamental theorem of calculus, for any fixed $a$,
 $$
-f(x) - f(b) = \int_b^{x} f'(y) \, dy
+f(a) - f(x) = \int_x^{a} f'(y) \, dy
 $$
-Since $f(x) \to \infty$ as $x \to a$, the integral grows without bound while $f(b)$ is a fixed constant. So as $x$ approaches $a$, $f(b)$ is negligible and
+Since $f(x) \to \infty$, $f(a)$ is a negligible constant, so $f(x) \approx -\int_x^{a} f'(y) \, dy$, and similarly $g(x) \approx -\int_x^{a} g'(y) \, dy$.
+
+As before, if $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $x$ and $a$, then $f'(y) \approx L \cdot g'(y)$ and
 $$
-f(x) \approx \int_b^{x} f'(y) \, dy
+\frac{f(x)}{g(x)} \approx \frac{-\int_x^{a} f'(y) \, dy}{-\int_x^{a} g'(y) \, dy} \approx \frac{\int_x^{a} L \cdot g'(y) \, dy}{\int_x^{a} g'(y) \, dy} = L
 $$
-and similarly $g(x) \approx \int_b^{x} g'(y) \, dy$. The ratio becomes
+Choosing $a$ large enough makes the approximation arbitrarily precise, giving
 $$
-\frac{f(x)}{g(x)} \approx \frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy}
-$$
-As before, if $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, then $f'(y) \approx L \cdot g'(y)$ and
-$$
-\frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} L \cdot g'(y) \, dy}{\int_b^{x} g'(y) \, dy} = L
-$$
-Choosing $b$ close enough to $a$ makes the approximation arbitrarily precise, giving
-$$
-\lim_{x \to a} \frac{f(x)}{g(x)} = L = \lim_{x \to a} \frac{f'(x)}{g'(x)}
+\lim_{x \to \infty} \frac{f(x)}{g(x)} = L = \lim_{x \to \infty} \frac{f'(x)}{g'(x)}
 $$
