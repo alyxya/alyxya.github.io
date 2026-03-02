@@ -48,4 +48,26 @@ $$
 \lim_{x \to \infty} \frac{f(x)}{g(x)} = \lim_{x \to \infty} \frac{f'(x)}{g'(x)} = L
 $$
 
-- inf/inf case: prove using reduction to 0/0 form, give examples
+## The $\frac{\infty}{\infty}$ case
+
+Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = \infty$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
+The same integral decomposition applies: for any fixed $b$,
+$$
+f(a) = f(b) + \int_b^{a} f'(x) \, dx
+$$
+Since $f(a) \to \infty$ as $a \to \infty$, the integral $\int_b^{a} f'(x) \, dx$ grows without bound while $f(b)$ is a fixed constant. So for large $a$, $f(b)$ is negligible and
+$$
+f(a) \approx \int_b^{a} f'(x) \, dx
+$$
+and similarly $g(a) \approx \int_b^{a} g'(x) \, dx$. The ratio becomes
+$$
+\frac{f(a)}{g(a)} \approx \frac{\int_b^{a} f'(x) \, dx}{\int_b^{a} g'(x) \, dx}
+$$
+As before, if $\frac{f'(x)}{g'(x)} \approx L$ for all $x \geq b$, then $f'(x) \approx L \cdot g'(x)$ and
+$$
+\frac{\int_b^{a} f'(x) \, dx}{\int_b^{a} g'(x) \, dx} \approx \frac{\int_b^{a} L \cdot g'(x) \, dx}{\int_b^{a} g'(x) \, dx} = L
+$$
+Choosing $b$ large enough makes the approximation arbitrarily precise, giving
+$$
+\lim_{x \to \infty} \frac{f(x)}{g(x)} = \lim_{x \to \infty} \frac{f'(x)}{g'(x)} = L
+$$
