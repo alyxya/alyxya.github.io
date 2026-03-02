@@ -30,5 +30,22 @@ $$
 \lim_{x \to a} \frac{f(x)}{g(x)} = \frac{f'(a)}{g'(a)}
 $$
 
-- 0/0 case with infinite limit: extend the proof, give examples
+## The $\frac{0}{0}$ case at an infinite limit
+
+Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = 0$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
+Since $f$ tends to $0$, for any $a$ we have
+$$
+f(a) + \int_a^{\infty} f'(x) \, dx = \lim_{x \to \infty} f(x) = 0
+$$
+so $f(a) = -\int_a^{\infty} f'(x) \, dx$, and similarly $g(a) = -\int_a^{\infty} g'(x) \, dx$.
+
+For a sufficiently large value of $a$, if $\frac{f'(x)}{g'(x)}$ is approximately equal to some constant $L$ for all $x \geq a$, then $f'(x) \approx L \cdot g'(x)$ throughout the interval, and so
+$$
+\frac{f(a)}{g(a)} = \frac{\int_a^{\infty} f'(x) \, dx}{\int_a^{\infty} g'(x) \, dx} \approx \frac{\int_a^{\infty} L \cdot g'(x) \, dx}{\int_a^{\infty} g'(x) \, dx} = L
+$$
+As $a \to \infty$, the approximation $\frac{f'(x)}{g'(x)} \approx L$ becomes exact, giving
+$$
+\lim_{x \to \infty} \frac{f(x)}{g(x)} = \lim_{x \to \infty} \frac{f'(x)}{g'(x)} = L
+$$
+
 - inf/inf case: prove using reduction to 0/0 form, give examples
