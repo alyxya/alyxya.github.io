@@ -30,15 +30,15 @@ $$
 Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = 0$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
 By the fundamental theorem of calculus,
 $$
-\lim_{t \to \infty} f(t) - f(x) = \int_x^{\infty} f'(t) \, dt
+\lim_{y \to \infty} f(y) - f(x) = \int_x^{\infty} f'(y) \, dy
 $$
-Since $f$ tends to $0$, this gives $\lim_{t \to \infty} f(t) = 0$ and $f(x) = -\int_x^{\infty} f'(t) \, dt$, and similarly $g(x) = -\int_x^{\infty} g'(t) \, dt$.
+Since $f$ tends to $0$, this gives $\lim_{y \to \infty} f(y) = 0$ and $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty} g'(y) \, dy$.
 
-For sufficiently large $x$, if $\frac{f'(t)}{g'(t)}$ is approximately equal to some constant $L$ for all $t \geq x$, then $f'(t) \approx L \cdot g'(t)$ throughout the interval, and so
+For sufficiently large $x$, if $\frac{f'(y)}{g'(y)}$ is approximately equal to some constant $L$ for all $y \geq x$, then $f'(y) \approx L \cdot g'(y)$ throughout the interval, and so
 $$
-\frac{f(x)}{g(x)} = \frac{-\int_x^{\infty} f'(t) \, dt}{-\int_x^{\infty} g'(t) \, dt} \approx \frac{\int_x^{\infty} L \cdot g'(t) \, dt}{\int_x^{\infty} g'(t) \, dt} = L
+\frac{f(x)}{g(x)} = \frac{-\int_x^{\infty} f'(y) \, dy}{-\int_x^{\infty} g'(y) \, dy} \approx \frac{\int_x^{\infty} L \cdot g'(y) \, dy}{\int_x^{\infty} g'(y) \, dy} = L
 $$
-As $x \to \infty$, the approximation $\frac{f'(t)}{g'(t)} \approx L$ becomes exact, giving
+As $x \to \infty$, the approximation $\frac{f'(y)}{g'(y)} \approx L$ becomes exact, giving
 $$
 \lim_{x \to \infty} \frac{f(x)}{g(x)} = L = \lim_{x \to \infty} \frac{f'(x)}{g'(x)}
 $$
@@ -48,19 +48,19 @@ $$
 Now suppose $\lim_{x \to a} f(x) = \lim_{x \to a} g(x) = \infty$ where $a$ is either finite or infinite, and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
 By the fundamental theorem of calculus, for any fixed $b$,
 $$
-f(x) = f(b) + \int_b^{x} f'(t) \, dt
+f(x) = f(b) + \int_b^{x} f'(y) \, dy
 $$
-Since $f(x) \to \infty$ as $x \to a$, the integral $\int_b^{x} f'(t) \, dt$ grows without bound while $f(b)$ is a fixed constant. So as $x$ approaches $a$, $f(b)$ is negligible and
+Since $f(x) \to \infty$ as $x \to a$, the integral $\int_b^{x} f'(y) \, dy$ grows without bound while $f(b)$ is a fixed constant. So as $x$ approaches $a$, $f(b)$ is negligible and
 $$
-f(x) \approx \int_b^{x} f'(t) \, dt
+f(x) \approx \int_b^{x} f'(y) \, dy
 $$
-and similarly $g(x) \approx \int_b^{x} g'(t) \, dt$. The ratio becomes
+and similarly $g(x) \approx \int_b^{x} g'(y) \, dy$. The ratio becomes
 $$
-\frac{f(x)}{g(x)} \approx \frac{\int_b^{x} f'(t) \, dt}{\int_b^{x} g'(t) \, dt}
+\frac{f(x)}{g(x)} \approx \frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy}
 $$
-As before, if $\frac{f'(t)}{g'(t)} \approx L$ for all $t$ between $b$ and $a$, then $f'(t) \approx L \cdot g'(t)$ and
+As before, if $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, then $f'(y) \approx L \cdot g'(y)$ and
 $$
-\frac{\int_b^{x} f'(t) \, dt}{\int_b^{x} g'(t) \, dt} \approx \frac{\int_b^{x} L \cdot g'(t) \, dt}{\int_b^{x} g'(t) \, dt} = L
+\frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} L \cdot g'(y) \, dy}{\int_b^{x} g'(y) \, dy} = L
 $$
 Choosing $b$ close enough to $a$ makes the approximation arbitrarily precise, giving
 $$
