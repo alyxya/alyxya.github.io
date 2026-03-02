@@ -6,7 +6,8 @@ tags: ["math", "calculus"]
 ---
 
 When computing limits of the form $\lim_{x \to a} \frac{f(x)}{g(x)}$, direct substitution sometimes gives an indeterminate form like $\frac{0}{0}$ or $\frac{\infty}{\infty}$.
-L'Hôpital's rule resolves these by replacing the limit with the ratio of derivatives: $\lim_{x \to a} \frac{f'(x)}{g'(x)}$.
+L'Hôpital's rule resolves these by replacing the limit with the ratio of derivatives so you have $\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}$.
+I'll walk through a few cases demonstrating why this is true. It won't be rigorous, but I think it's more useful to gain the intuition.
 
 ## The $\frac{0}{0}$ case at a finite limit
 
@@ -27,36 +28,36 @@ $$
 
 ## The $\frac{0}{0}$ case at an infinite limit
 
-Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = 0$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
+Now suppose $f(\infty) = g(\infty) = 0$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
 By the fundamental theorem of calculus,
 $$
-f(a) - f(x) = \int_x^{a} f'(y) \, dy
+f(\infty) - f(x) = \int_x^{\infty} f'(y) \, dy
 $$
-Since $f$ tends to $0$, taking $a \to \infty$ gives $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty} g'(y) \, dy$.
+so this gives $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty} g'(y) \, dy$.
 
 For sufficiently large $x$, if $\frac{f'(y)}{g'(y)}$ is approximately equal to some constant $L$ for all $y \geq x$, then $f'(y) \approx L \cdot g'(y)$ throughout the interval, and so
 $$
 \frac{f(x)}{g(x)} = \frac{-\int_x^{\infty} f'(y) \, dy}{-\int_x^{\infty} g'(y) \, dy} \approx \frac{\int_x^{\infty} L \cdot g'(y) \, dy}{\int_x^{\infty} g'(y) \, dy} = L
 $$
-As $x \to \infty$, the approximation $\frac{f'(y)}{g'(y)} \approx L$ becomes exact, giving
+As $x \to \infty$, the approximation $\frac{f'(y)}{g'(y)} \approx L$ becomes more precise, giving
 $$
 \lim_{x \to \infty} \frac{f(x)}{g(x)} = L = \lim_{x \to \infty} \frac{f'(x)}{g'(x)}
 $$
 
 ## The $\frac{\infty}{\infty}$ case
 
-Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = \infty$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
-By the fundamental theorem of calculus, for any fixed $a$,
+Now suppose $f(a) = g(a) = \infty$ and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
+Letting $b < a$ be a constant with $f(b)$ being finite, by the fundamental theorem of calculus,
 $$
-f(a) - f(x) = \int_x^{a} f'(y) \, dy
+f(a) - f(b) = \int_b^{a} f'(y) \, dy
 $$
-Since $f(x) \to \infty$, $f(a)$ is a negligible constant, so $f(x) \approx -\int_x^{a} f'(y) \, dy$, and similarly $g(x) \approx -\int_x^{a} g'(y) \, dy$.
+so $f(a) = f(b) + \int_b^{a} f'(y) \, dy \approx \int_b^{a} f'(y) \, dy$ because the latter term must be infinite, and similarly $g(a) \approx \int_b^{a} g'(y) \, dy$.
 
-As before, if $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $x$ and $a$, then $f'(y) \approx L \cdot g'(y)$ and
+As before, if $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, then $f'(y) \approx L \cdot g'(y)$ and
 $$
-\frac{f(x)}{g(x)} \approx \frac{-\int_x^{a} f'(y) \, dy}{-\int_x^{a} g'(y) \, dy} \approx \frac{\int_x^{a} L \cdot g'(y) \, dy}{\int_x^{a} g'(y) \, dy} = L
+\frac{f(x)}{g(x)} \approx \frac{\int_b^{a} f'(y) \, dy}{\int_b^{a} g'(y) \, dy} \approx \frac{\int_b^{a} L \cdot g'(y) \, dy}{\int_b^{a} g'(y) \, dy} = L
 $$
-Choosing $a$ large enough makes the approximation arbitrarily precise, giving
+Choosing $b$ to be closer enough to $a$ makes the approximation more precise, giving
 $$
 \lim_{x \to \infty} \frac{f(x)}{g(x)} = L = \lim_{x \to \infty} \frac{f'(x)}{g'(x)}
 $$
