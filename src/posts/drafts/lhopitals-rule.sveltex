@@ -1,8 +1,8 @@
 ---
 title: "L'Hôpital's Rule"
-date: "2026-02-27"
-description: ""
-tags: []
+date: "2026-03-02"
+description: "The intuition behind L'Hôpital's rule"
+tags: ["math", "calculus"]
 ---
 
 When computing limits of the form $\lim_{x \to a} \frac{f(x)}{g(x)}$, direct substitution sometimes gives an indeterminate form like $\frac{0}{0}$ or $\frac{\infty}{\infty}$.
