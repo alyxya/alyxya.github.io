@@ -20,7 +20,7 @@ Since $f(a) = 0$, this gives $f(a + \delta) \approx f'(a) \cdot \delta$, and sim
 $$
 \frac{f(a + \delta)}{g(a + \delta)} \approx \frac{f'(a) \cdot \delta}{g'(a) \cdot \delta} = \frac{f'(a)}{g'(a)}
 $$
-The $\delta$ cancels, and the ratio of the functions reduces to the ratio of their derivatives, giving:
+The $\delta$ cancels, and the ratio of the functions reduces to the ratio of their derivatives, giving
 $$
 \lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}
 $$
@@ -36,7 +36,7 @@ and similarly $g(x) = -\int_x^{\infty} g'(t) \, dt$.
 
 For sufficiently large $x$, if $\frac{f'(t)}{g'(t)}$ is approximately equal to some constant $L$ for all $t \geq x$, then $f'(t) \approx L \cdot g'(t)$ throughout the interval, and so
 $$
-\frac{f(x)}{g(x)} = \frac{\int_x^{\infty} f'(t) \, dt}{\int_x^{\infty} g'(t) \, dt} \approx \frac{\int_x^{\infty} L \cdot g'(t) \, dt}{\int_x^{\infty} g'(t) \, dt} = L
+\frac{f(x)}{g(x)} = \frac{-\int_x^{\infty} f'(t) \, dt}{-\int_x^{\infty} g'(t) \, dt} \approx \frac{\int_x^{\infty} L \cdot g'(t) \, dt}{\int_x^{\infty} g'(t) \, dt} = L
 $$
 As $x \to \infty$, the approximation $\frac{f'(t)}{g'(t)} \approx L$ becomes exact, giving
 $$
