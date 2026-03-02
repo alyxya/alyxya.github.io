@@ -49,15 +49,15 @@ $$
 Now suppose $f(a) = g(a) = \infty$ and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
 Letting $b < a$ be a constant with $f(b)$ being finite, by the fundamental theorem of calculus,
 $$
-f(a) - f(b) = \int_b^{a} f'(y) \, dy
+f(x) - f(b) = \int_b^{x} f'(y) \, dy
 $$
-so $f(a) = f(b) + \int_b^{a} f'(y) \, dy \approx \int_b^{a} f'(y) \, dy$ because the latter term must be infinite, and similarly $g(a) \approx \int_b^{a} g'(y) \, dy$.
+so $f(x) = f(b) + \int_b^{x} f'(y) \, dy \approx \int_b^{x} f'(y) \, dy$ because the integral grows to infinity as $x \to a$, and similarly $g(x) \approx \int_b^{x} g'(y) \, dy$.
 
 As before, if $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, then $f'(y) \approx L \cdot g'(y)$ and
 $$
-\frac{f(x)}{g(x)} \approx \frac{\int_b^{a} f'(y) \, dy}{\int_b^{a} g'(y) \, dy} \approx \frac{\int_b^{a} L \cdot g'(y) \, dy}{\int_b^{a} g'(y) \, dy} = L
+\frac{f(x)}{g(x)} \approx \frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} L \cdot g'(y) \, dy}{\int_b^{x} g'(y) \, dy} = L
 $$
-Choosing $b$ to be closer enough to $a$ makes the approximation more precise, giving
+Choosing $b$ close enough to $a$ makes the approximation more precise, giving
 $$
-\lim_{x \to \infty} \frac{f(x)}{g(x)} = L = \lim_{x \to \infty} \frac{f'(x)}{g'(x)}
+\lim_{x \to a} \frac{f(x)}{g(x)} = L = \lim_{x \to a} \frac{f'(x)}{g'(x)}
 $$
