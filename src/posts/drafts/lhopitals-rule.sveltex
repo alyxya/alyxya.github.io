@@ -5,7 +5,30 @@ description: ""
 tags: []
 ---
 
-- introduce L'Hôpital's rule and the intuition behind it (ratio of derivatives approximates ratio of functions near indeterminate points)
-- 0/0 case with finite limit: state and prove, give examples
+When computing limits of the form $\lim_{x \to a} \frac{f(x)}{g(x)}$, direct substitution sometimes gives an indeterminate form like $\frac{0}{0}$ or $\frac{\infty}{\infty}$.
+L'Hôpital's rule resolves these by replacing the limit with the ratio of derivatives: $\lim_{x \to a} \frac{f'(x)}{g'(x)}$.
+
+## The $\frac{0}{0}$ case at a finite limit
+
+Suppose $f(a) = g(a) = 0$ and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
+Since $f(a) = 0$, the first-order approximation of $f$ near $a$ is
+$$
+f(a + \delta) \approx f'(a) \cdot \delta
+$$
+and similarly $g(a + \delta) \approx g'(a) \cdot \delta$. So the ratio near $a$ is approximately
+$$
+\frac{f(a + \delta)}{g(a + \delta)} \approx \frac{f'(a) \cdot \delta}{g'(a) \cdot \delta} = \frac{f'(a)}{g'(a)}
+$$
+The $\delta$ cancels, and the ratio of the functions reduces to the ratio of their derivatives at $a$.
+
+More precisely, writing $f(x) = f(x) - f(a)$ and $g(x) = g(x) - g(a)$ since $f(a) = g(a) = 0$:
+$$
+\frac{f(x)}{g(x)} = \frac{f(x) - f(a)}{g(x) - g(a)} = \frac{\frac{f(x) - f(a)}{x - a}}{\frac{g(x) - g(a)}{x - a}}
+$$
+Taking the limit as $x \to a$, the numerator and denominator become $f'(a)$ and $g'(a)$ by the definition of the derivative, giving
+$$
+\lim_{x \to a} \frac{f(x)}{g(x)} = \frac{f'(a)}{g'(a)}
+$$
+
 - 0/0 case with infinite limit: extend the proof, give examples
 - inf/inf case: prove using reduction to 0/0 form, give examples
