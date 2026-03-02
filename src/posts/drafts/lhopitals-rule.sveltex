@@ -6,8 +6,8 @@ tags: ["math", "calculus"]
 ---
 
 When computing limits of the form $\lim_{x \to a} \frac{f(x)}{g(x)}$, direct substitution sometimes gives an indeterminate form like $\frac{0}{0}$ or $\frac{\infty}{\infty}$.
-L'Hôpital's rule resolves these by replacing the limit with the ratio of derivatives so you have $\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}$.
-I'll walk through a few cases demonstrating why this is true. It won't be rigorous, but I think it's more useful to gain the intuition.
+L'Hôpital's rule resolves these by replacing the limit with the ratio of derivatives: $\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}$.
+I'll walk through a few cases demonstrating why this is true. It won't be rigorous, but I think it's more useful to build intuition.
 
 ## The $\frac{0}{0}$ case at a finite limit
 
@@ -33,7 +33,7 @@ By the fundamental theorem of calculus,
 $$
 f(\infty) - f(x) = \int_x^{\infty} f'(y) \, dy
 $$
-so this gives $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty} g'(y) \, dy$.
+so $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty} g'(y) \, dy$.
 
 For sufficiently large $x$, if $\frac{f'(y)}{g'(y)}$ is approximately equal to some constant $L$ for all $y \geq x$, then $f'(y) \approx L \cdot g'(y)$ throughout the interval, and so
 $$
@@ -47,7 +47,7 @@ $$
 ## The $\frac{\infty}{\infty}$ case
 
 Now suppose $f(a) = g(a) = \infty$ and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
-Letting $b < a$ be a constant with $f(b)$ being finite, by the fundamental theorem of calculus,
+Letting $b < a$ be a constant where $f(b)$ is finite, by the fundamental theorem of calculus,
 $$
 f(x) - f(b) = \int_b^{x} f'(y) \, dy
 $$
@@ -57,7 +57,7 @@ As before, if $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, t
 $$
 \frac{f(x)}{g(x)} \approx \frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} L \cdot g'(y) \, dy}{\int_b^{x} g'(y) \, dy} = L
 $$
-Choosing $b$ close enough to $a$ makes the approximation more precise, giving
+As $x \to a$ the finite constant $f(b)$ becomes negligible, and choosing $b$ close enough to $a$ ensures $\frac{f'(y)}{g'(y)} \approx L$ throughout the interval, giving
 $$
 \lim_{x \to a} \frac{f(x)}{g(x)} = L = \lim_{x \to a} \frac{f'(x)}{g'(x)}
 $$
