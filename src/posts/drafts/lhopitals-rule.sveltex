@@ -30,9 +30,9 @@ $$
 Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = 0$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
 By the fundamental theorem of calculus,
 $$
-f(b) - f(x) = \int_x^{b} f'(y) \, dy
+f(x) - f(a) = \int_a^{x} f'(y) \, dy
 $$
-Since $f$ tends to $0$, taking $b \to \infty$ gives $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty} g'(y) \, dy$.
+Since $f$ tends to $0$, taking $a \to \infty$ gives $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty} g'(y) \, dy$.
 
 For sufficiently large $x$, if $\frac{f'(y)}{g'(y)}$ is approximately equal to some constant $L$ for all $y \geq x$, then $f'(y) \approx L \cdot g'(y)$ throughout the interval, and so
 $$
