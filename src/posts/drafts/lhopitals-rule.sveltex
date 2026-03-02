@@ -46,11 +46,11 @@ $$
 ## The $\frac{\infty}{\infty}$ case
 
 Now suppose $\lim_{x \to a} f(x) = \lim_{x \to a} g(x) = \infty$ where $a$ is either finite or infinite, and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
-By the fundamental theorem of calculus, for any fixed $b$,
+By the fundamental theorem of calculus,
 $$
-f(x) = f(b) + \int_b^{x} f'(y) \, dy
+f(x) - f(b) = \int_b^{x} f'(y) \, dy
 $$
-Since $f(x) \to \infty$ as $x \to a$, the integral $\int_b^{x} f'(y) \, dy$ grows without bound while $f(b)$ is a fixed constant. So as $x$ approaches $a$, $f(b)$ is negligible and
+Since $f(x) \to \infty$ as $x \to a$, the integral grows without bound while $f(b)$ is a fixed constant. So as $x$ approaches $a$, $f(b)$ is negligible and
 $$
 f(x) \approx \int_b^{x} f'(y) \, dy
 $$
