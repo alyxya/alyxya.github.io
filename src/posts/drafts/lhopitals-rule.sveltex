@@ -45,12 +45,12 @@ $$
 
 ## The $\frac{\infty}{\infty}$ case
 
-Now suppose $\lim_{x \to c} f(x) = \lim_{x \to c} g(x) = \infty$ where $c$ is either finite or infinite, and we want to evaluate $\lim_{x \to c} \frac{f(x)}{g(x)}$.
+Now suppose $\lim_{x \to a} f(x) = \lim_{x \to a} g(x) = \infty$ where $a$ is either finite or infinite, and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
 By the fundamental theorem of calculus, for any fixed $b$,
 $$
 f(x) = f(b) + \int_b^{x} f'(t) \, dt
 $$
-Since $f(x) \to \infty$ as $x \to c$, the integral $\int_b^{x} f'(t) \, dt$ grows without bound while $f(b)$ is a fixed constant. So as $x$ approaches $c$, $f(b)$ is negligible and
+Since $f(x) \to \infty$ as $x \to a$, the integral $\int_b^{x} f'(t) \, dt$ grows without bound while $f(b)$ is a fixed constant. So as $x$ approaches $a$, $f(b)$ is negligible and
 $$
 f(x) \approx \int_b^{x} f'(t) \, dt
 $$
@@ -58,11 +58,11 @@ and similarly $g(x) \approx \int_b^{x} g'(t) \, dt$. The ratio becomes
 $$
 \frac{f(x)}{g(x)} \approx \frac{\int_b^{x} f'(t) \, dt}{\int_b^{x} g'(t) \, dt}
 $$
-As before, if $\frac{f'(t)}{g'(t)} \approx L$ for all $t$ between $b$ and $c$, then $f'(t) \approx L \cdot g'(t)$ and
+As before, if $\frac{f'(t)}{g'(t)} \approx L$ for all $t$ between $b$ and $a$, then $f'(t) \approx L \cdot g'(t)$ and
 $$
 \frac{\int_b^{x} f'(t) \, dt}{\int_b^{x} g'(t) \, dt} \approx \frac{\int_b^{x} L \cdot g'(t) \, dt}{\int_b^{x} g'(t) \, dt} = L
 $$
-Choosing $b$ close enough to $c$ makes the approximation arbitrarily precise, giving
+Choosing $b$ close enough to $a$ makes the approximation arbitrarily precise, giving
 $$
-\lim_{x \to c} \frac{f(x)}{g(x)} = L = \lim_{x \to c} \frac{f'(x)}{g'(x)}
+\lim_{x \to a} \frac{f(x)}{g(x)} = L = \lim_{x \to a} \frac{f'(x)}{g'(x)}
 $$
