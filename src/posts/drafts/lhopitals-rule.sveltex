@@ -13,7 +13,7 @@ L'Hôpital's rule resolves these by replacing the limit with the ratio of deriva
 Suppose $f(a) = g(a) = 0$ and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
 Recall that the derivative is defined as
 $$
-f'(a) = \lim_{\delta \to 0} \frac{f(a + \delta) - f(a)}{\delta}
+f'(x) = \lim_{\delta \to 0} \frac{f(x + \delta) - f(x)}{\delta}
 $$
 so for small $\delta$ we have $f(a + \delta) \approx f(a) + f'(a) \cdot \delta$.
 Since $f(a) = 0$, this gives $f(a + \delta) \approx f'(a) \cdot \delta$, and similarly $g(a + \delta) \approx g'(a) \cdot \delta$. So the ratio near $a$ is approximately
