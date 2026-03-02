@@ -20,7 +20,10 @@ Since $f(a) = 0$, this gives $f(a + \delta) \approx f'(a) \cdot \delta$, and sim
 $$
 \frac{f(a + \delta)}{g(a + \delta)} \approx \frac{f'(a) \cdot \delta}{g'(a) \cdot \delta} = \frac{f'(a)}{g'(a)}
 $$
-The $\delta$ cancels, and the ratio of the functions reduces to the ratio of their derivatives at $a$.
+The $\delta$ cancels, and the ratio of the functions reduces to the ratio of their derivatives at $a$, thus giving:
+$$
+\lim_{x \to a} \frac{f(x)}{g(x)} = \frac{f'(a)}{g'(a)}
+$$
 
 ## The $\frac{0}{0}$ case at an infinite limit
 
