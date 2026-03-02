@@ -28,17 +28,17 @@ $$
 ## The $\frac{0}{0}$ case at an infinite limit
 
 Now suppose $\lim_{x \to \infty} f(x) = \lim_{x \to \infty} g(x) = 0$ and we want to evaluate $\lim_{x \to \infty} \frac{f(x)}{g(x)}$.
-Since $f$ tends to $0$, by the fundamental theorem of calculus, for any $a$ we have
+Since $f$ tends to $0$, by the fundamental theorem of calculus,
 $$
-f(a) + \int_a^{\infty} f'(x) \, dx = \lim_{x \to \infty} f(x) = 0
+f(x) = -\int_x^{\infty} f'(t) \, dt
 $$
-so $f(a) = -\int_a^{\infty} f'(x) \, dx$, and similarly $g(a) = -\int_a^{\infty} g'(x) \, dx$.
+and similarly $g(x) = -\int_x^{\infty} g'(t) \, dt$.
 
-For a sufficiently large value of $a$, if $\frac{f'(x)}{g'(x)}$ is approximately equal to some constant $L$ for all $x \geq a$, then $f'(x) \approx L \cdot g'(x)$ throughout the interval, and so
+For sufficiently large $x$, if $\frac{f'(t)}{g'(t)}$ is approximately equal to some constant $L$ for all $t \geq x$, then $f'(t) \approx L \cdot g'(t)$ throughout the interval, and so
 $$
-\frac{f(a)}{g(a)} = \frac{\int_a^{\infty} f'(x) \, dx}{\int_a^{\infty} g'(x) \, dx} \approx \frac{\int_a^{\infty} L \cdot g'(x) \, dx}{\int_a^{\infty} g'(x) \, dx} = L
+\frac{f(x)}{g(x)} = \frac{\int_x^{\infty} f'(t) \, dt}{\int_x^{\infty} g'(t) \, dt} \approx \frac{\int_x^{\infty} L \cdot g'(t) \, dt}{\int_x^{\infty} g'(t) \, dt} = L
 $$
-As $a \to \infty$, the approximation $\frac{f'(x)}{g'(x)} \approx L$ becomes exact, giving
+As $x \to \infty$, the approximation $\frac{f'(t)}{g'(t)} \approx L$ becomes exact, giving
 $$
 \lim_{x \to \infty} \frac{f(x)}{g(x)} = L = \lim_{x \to \infty} \frac{f'(x)}{g'(x)}
 $$
@@ -48,19 +48,19 @@ $$
 Now suppose $\lim_{x \to c} f(x) = \lim_{x \to c} g(x) = \infty$ where $c$ is either finite or infinite, and we want to evaluate $\lim_{x \to c} \frac{f(x)}{g(x)}$.
 By the fundamental theorem of calculus, for any fixed $b$,
 $$
-f(a) = f(b) + \int_b^{a} f'(x) \, dx
+f(x) = f(b) + \int_b^{x} f'(t) \, dt
 $$
-Since $f(a) \to \infty$ as $a \to c$, the integral $\int_b^{a} f'(x) \, dx$ grows without bound while $f(b)$ is a fixed constant. So as $a$ approaches $c$, $f(b)$ is negligible and
+Since $f(x) \to \infty$ as $x \to c$, the integral $\int_b^{x} f'(t) \, dt$ grows without bound while $f(b)$ is a fixed constant. So as $x$ approaches $c$, $f(b)$ is negligible and
 $$
-f(a) \approx \int_b^{a} f'(x) \, dx
+f(x) \approx \int_b^{x} f'(t) \, dt
 $$
-and similarly $g(a) \approx \int_b^{a} g'(x) \, dx$. The ratio becomes
+and similarly $g(x) \approx \int_b^{x} g'(t) \, dt$. The ratio becomes
 $$
-\frac{f(a)}{g(a)} \approx \frac{\int_b^{a} f'(x) \, dx}{\int_b^{a} g'(x) \, dx}
+\frac{f(x)}{g(x)} \approx \frac{\int_b^{x} f'(t) \, dt}{\int_b^{x} g'(t) \, dt}
 $$
-As before, if $\frac{f'(x)}{g'(x)} \approx L$ for all $x$ between $b$ and $c$, then $f'(x) \approx L \cdot g'(x)$ and
+As before, if $\frac{f'(t)}{g'(t)} \approx L$ for all $t$ between $b$ and $c$, then $f'(t) \approx L \cdot g'(t)$ and
 $$
-\frac{\int_b^{a} f'(x) \, dx}{\int_b^{a} g'(x) \, dx} \approx \frac{\int_b^{a} L \cdot g'(x) \, dx}{\int_b^{a} g'(x) \, dx} = L
+\frac{\int_b^{x} f'(t) \, dt}{\int_b^{x} g'(t) \, dt} \approx \frac{\int_b^{x} L \cdot g'(t) \, dt}{\int_b^{x} g'(t) \, dt} = L
 $$
 Choosing $b$ close enough to $c$ makes the approximation arbitrarily precise, giving
 $$
