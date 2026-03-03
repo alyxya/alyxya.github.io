@@ -16,7 +16,7 @@ There's a lot of value in making the core of a neural network linear: it can be 
 
 Let's start with a proof in the discrete case.
 Suppose we have a function $f$ that maps discrete objects $x_1, x_2, \ldots, x_n$ to discrete objects $y_1, y_2, \ldots, y_m$, where each $x_a$ maps to some specific $y_b$.
-There are no restrictions on what these objects represent — for instance, the function could map a word to a color, like $f(\text{grass}) = \text{green}$.
+There are no restrictions on what these objects represent. For instance, the function could map a word to a color, like $f(\text{grass}) = \text{green}$.
 
 Each input $x_a$ can be one-hot encoded as an $n$-dimensional vector $e_a$, and each output $y_b$ as an $m$-dimensional vector $e_b$.
 We construct an $m \times n$ matrix $W$ initialized to all zeros, and for each mapping $f(x_a) = y_b$, we set $W_{ba} = 1$.
@@ -60,7 +60,7 @@ $$
 
 Dotting this with $[0, 1, 2, 3, 4, 5]$ gives $0.5 \cdot 1 + 0.5 \cdot 2 = 1.5$, confirming a valid encoding.
 Since the linear map is the identity, the output representation is the same vector, which decodes to $0.5 \cdot 1 + 0.5 \cdot 4 = 2.5$.
-The true value is $1.5^2 = 2.25$, so there's some error — we're linearly interpolating between $(1, 1)$ and $(2, 4)$.
+The true value is $1.5^2 = 2.25$, so there's some error since we're linearly interpolating between $(1, 1)$ and $(2, 4)$.
 By increasing the number of sample points, this piecewise linear approximation can achieve an arbitrary degree of accuracy.
 
 ---
@@ -83,13 +83,13 @@ For this to work, we encode the elements of each cycle so that $W$ rotates them 
 You can verify that $W$ maps each encoding to the encoding of the correct output.
 We've compressed from 6 dimensions down to 3 while still representing the function exactly, because the encodings capture the shared cyclic structure.
 
-The representations of the second cycle are no longer orthogonal to those of the first, but that's fine — the function is still represented accurately, and the overlapping components reflect the shared rotational structure.
+The representations of the second cycle are no longer orthogonal to those of the first, but that's fine. The function is still represented accurately, and the overlapping components reflect the shared rotational structure.
 This is closely related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
 ## Implications for Neural Networks
 
-This result suggests that neural networks don't strictly need nonlinear activation functions in their intermediate layers — the MLP activation function isn't necessary.
+This result suggests that neural networks don't strictly need nonlinear activation functions in their intermediate layers. The MLP activation function isn't necessary.
 If the inputs are encoded and outputs decoded with appropriate nonlinearities, the core transformation can be entirely linear.
 This aligns with interpretability research finding that features in LLM residual streams are primarily represented as linear directions.
 
