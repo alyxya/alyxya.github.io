@@ -73,8 +73,6 @@ By increasing the number of sample points, this piecewise linear approximation c
 
 The proof above is fairly trivial, so why care about this?
 
-## Compression and Generalization
-
 Going back to the discrete example, notice that $f(1) = 5$, $f(5) = 4$, $f(4) = 1$ forms a 3-cycle, and $f(2) = 3$, $f(3) = 6$, $f(6) = 2$ forms another.
 Instead of using 6-dimensional one-hot encodings and a $6 \times 6$ matrix, we can represent both cycles with a single $3 \times 3$ cyclic permutation matrix:
 
@@ -92,8 +90,6 @@ We've compressed from 6 dimensions down to 3 while still representing the functi
 The representations of the second cycle are no longer orthogonal to those of the first, but that's fine. The function is still represented accurately, and the overlapping components reflect the shared rotational structure.
 This is closely related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
-
-## Implications for Neural Networks
 
 This result suggests that neural networks don't strictly need nonlinear activation functions in their intermediate layers. The MLP activation function isn't necessary.
 If the inputs are encoded and outputs decoded with appropriate nonlinearities, the core transformation can be entirely linear.
