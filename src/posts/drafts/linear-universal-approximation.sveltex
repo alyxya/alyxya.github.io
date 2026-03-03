@@ -8,19 +8,43 @@ tags: ["machine-learning", "approximation-theory", "linear-algebra"]
 The Linear Universal Approximation Theorem is a theorem I made up that says you can represent any function as a linear function as long as you map the inputs and outputs to an arbitrarily high dimension space with an appropriate nonlinear transformation.
 Unlike the standard Universal Approximation Theorem that says how certain sufficiently large neural networks with nonlinear activation functions can approximate any function to an arbitrary degree of accuracy, the Linear Universal Approximation Theorem places its analogous nonlinearities only when encoding inputs and decoding outputs.
 I don't know if this idea has been formally expressed anywhere, but it's related to ideas like the kernel trick with Support Vector Machines that makes data linearly separable in a higher dimensional space.
-There's a lot of value in making the core of neural networks linear, such as being able to represent it with a single matrix multiplication, and the fact that the loss function can be made convex with respect to certain parameters.
+There's a lot of value in making the core of neural networks linear, such as being able to represent it with a single matrix multiplication, and the fact that the loss function can be convex with respect to certain parameters.
 
 Let's start off with demonstrating a proof in the discrete inputs and outputs case.
-* show function with discrete inputs and outputs
+Suppose we have a function that takes in discrete objects x_1, x_2, ... x_n and outputs discrete objects y_1, y_2, ... y_m and we want the function to map every x_a to some specific y_b.
+There are no restrictions on what the function can refer to.
+For instance, the function could map a word to its color, like f(grass) = green, and x_2 could be defined as grass and y_3 could be defined as green, so this is equivalent to f(x_2) = y_3.
+x_a can be one hot encoded to form an n dimensional vector and similarly for y_b to form an m dimensional vector.
+We can construct a mxn matrix where all entries are initially set to 0, and then for every desired output y_b to f(x_a), we can set the bth row and ath column to be 1.
+Thus, we can represent any discrete to discrete function by one hot encoding all inputs, multiply by this weight matrix, and decode the final one hot encoding.
+
+Here's an explicit example: suppose the desired function satisfies f(1) = 5, f(2) = 3, f(3) = 6, f(4) = 1, f(5) = 4, f(6) = 2
+All inputs and outputs can be one hot encoded as a 6 dimensional vector where the number n is represented as a vector v where v_n = 1 and 0 otherwise
+We can construct the 6x6 matrix <write out whole matrix> and verify this linear mapping represents the desired function
+It's also easy to see that this construction can be extended to support more inputs and outputs, and also allow for any arbitrary output for every input
 
 This can also be extended to continuous inputs and outputs.
-* show simple linear interpolation between predefined input and output encodings
+Let's say we want to represent the function f(x) = x^2
+We can start off with initial discrete inputs and outputs to learn with, so f(0) = 0, f(1) = 1, f(2) = 4, f(3) = 9, f(4) = 16, f(5) = 25
+Turning inputs 0, 1, 2, 3, 4, 5, 6 and outputs 0, 1, 4, 9, 16, 25 into one hot encoding vectors makes both of them 6d vectors and we can keep input and output representations separate
+The mapping can then be a 6x6 identity matrix
+To support continuous values, we can interpolate between the initial discrete values used, so we can create a decoder for the 6d input vector as a dot product of it and the vector [0, 1, 2, 3, 4, 5, 6] and same for the output except with [0, 1, 4, 9, 16, 25]
+Then, we can represent the input 1.5 as being halfway between 1 and 2, which turns into [0, 0.5, 0.5, 0, 0, 0] and verify that it decodes to 1.5
+The mapping being a 6x6 identity matrix means the output representation is also that same vector, which decodes to 2.5
+The true value of 1.5^2 is 2.25 whereas the interpolation approach described just interpolates halfway between (1, 1) and (2, 4)
+By increasing the number of discrete input and output points used, this linear interpolation approach can obtain an arbitrary degree of accuracy with a sufficiently large number of discrete input and output points
 
 ---
 
-* show motivating example on the topic of generalization where f(0) = 1, f(1) = 2, f(2) = 0, f(3) = 4, f(4) = 5, f(5) = 3 and how this can be done with 4x4 matrix
+This proof and everything shown so far is trivial, so why care about this?
+For starters, it can relate to the idea of compression and generalization.
+Going back to the discrete function example earlier, we may notice that f(1) = 5, f(5) = 4, f(4) = 1 forms a cycle and f(2) = 3, f(3) = 6, f(6) = 2 also forms a cycle
+Instead of naively using one hot encoding on 6 dimensional vectors and the transformation as a 6x6 matrix, we can instead represent things with a 3x3 rotation matrix [[0, 0, 1], [1, 0, 0], [0, 1, 0]]
+Then we can represent 1 as [2, 0, 0], 5 as [0, 2, 0], 4 as [0, 0, 2], 2 as [1, 1, 0], 3 as [0, 1, 1], 6 as [1, 0, 1] and we've compressed everything from 6 dimensions to 3 dimensions while accurately representing the desired function
 
-* lead into the almost orthogonal vectors blog post idea where you can compress things with almost orthogonal vectors and linear map between them
+There's also the idea in LLMs about superposition (insert link to anthropic blog) and having exponentially many almost orthogonal vectors in n dimensions (link to my blog) so there's reason to believe that there's a lot of compressability potential
+Even though the example above no longer has orthogonal and independent representations of 1, 2, 3, 4, 5, 6, it can still accurately represent the function, and the shared parts of the representation show the shared 3 cycle rotation structure of the function
 
-* implications: LLMs can work even if all layers are fully linear (e.g. no activation function in MLP needed), and this makes a lot of sense to do when they're primarily known to have linear features in the residual stream, easier to train a convex function with no vanishing gradients or getting trapped by local minima
-* note: in practice, inputs and outputs should be constrained to a hypersphere so you can do dot product cosine similarity, and numerical inputs can be turned into angles when transforming them into inputs kinda like RoPE embeddings
+Also this proves things like LLMs don't need any nonlinearities, so the activation function in MLP isn't strictly necessary, and it's possible this may even be helpful for training by removing nonlinearities that create bumpier loss functions
+
+this idea probably works better with discrete inputs and outputs in practice because it's unclear how numerical inputs and outputs should be represented in a higher dimension space with some relations to each other, but they can probably be turned into angles when transforming them kinda like RoPE embeddings with varying frequencies
