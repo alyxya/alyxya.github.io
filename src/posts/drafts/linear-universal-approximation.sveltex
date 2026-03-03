@@ -12,7 +12,7 @@ The Linear Universal Approximation Theorem makes an analogous claim, but places 
 I don't know if this idea has been formally expressed anywhere, but it's related to ideas like the kernel trick in Support Vector Machines, which makes data linearly separable by mapping it into a higher-dimensional space even when the data isn't originally linearly separable.
 There's a lot of value in making the core of a neural network linear, like it can be represented as a single matrix multiplication, and the loss function can be smoother or maybe even convex with respect to certain parameters.
 
-## Discrete Case
+## Discrete Function
 
 Let's start with a proof in the discrete case.
 Suppose we have a function $f$ that maps discrete objects $x_1, x_2, \ldots, x_n$ to discrete objects $y_1, y_2, \ldots, y_m$, where each $x_a$ maps to some specific $y_b$.
@@ -45,9 +45,9 @@ W = \begin{bmatrix}
 $$
 
 and you can verify that $W e_1 = e_5$, $W e_2 = e_3$, and so on for every input.
-This construction works for any number of inputs and outputs, and for any choice of mapping.
+This construction works for any finite number of inputs and outputs, and for any choice of mapping.
 
-## Continuous Case
+## Continuous Function
 
 This extends to continuous inputs and outputs.
 Suppose we want to approximate $f(x) = x^2$.
