@@ -1,6 +1,6 @@
 ---
 title: "Linear Universal Approximation Theorem"
-date: "2026-02-07"
+date: "2026-03-03"
 description: "A linear map can approximate any function if you encode and decode in high enough dimensions"
 tags: ["machine-learning", "approximation-theory", "linear-algebra"]
 ---
