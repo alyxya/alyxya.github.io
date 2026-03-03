@@ -51,11 +51,11 @@ For any $b < a$ where $f(b)$ is finite, by the fundamental theorem of calculus,
 $$
 f(x) - f(b) = \int_b^{x} f'(y) \, dy
 $$
-so $f(x) = f(b) + \int_b^{x} f'(y) \, dy$. As $x \to a$ the integral grows without bound, so $f(x) \approx \int_b^{x} f'(y) \, dy$, and similarly $g(x) \approx \int_b^{x} g'(y) \, dy$.
+so $f(x) = f(b) + \int_b^{x} f'(y) \, dy$. As $x \to a$ the integral grows without bound because $f(x)$ approaches $\infty$ while $f(b)$ remains finite, so $f(x) \approx \int_b^{x} f'(y) \, dy$, and similarly $g(x) \approx \int_b^{x} g'(y) \, dy$.
 
 As before, if $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, then $f'(y) \approx L \cdot g'(y)$ and
 $$
-\frac{f(x)}{g(x)} \approx \frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} L \cdot g'(y) \, dy}{\int_b^{x} g'(y) \, dy} = L
+\frac{f(x)}{g(x)} = \frac{f(b) + \int_b^{x} f'(y) \, dy}{g(b) + \int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} L \cdot g'(y) \, dy}{\int_b^{x} g'(y) \, dy} = L
 $$
 Choosing $b$ close enough to $a$ ensures $\frac{f'(y)}{g'(y)} \approx L$ throughout the interval, giving
 $$
