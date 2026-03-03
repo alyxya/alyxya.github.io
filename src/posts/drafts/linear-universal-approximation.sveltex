@@ -5,46 +5,96 @@ description: "A linear map can approximate any function if you encode and decode
 tags: ["machine-learning", "approximation-theory", "linear-algebra"]
 ---
 
-The Linear Universal Approximation Theorem is a theorem I made up that says you can represent any function as a linear function as long as you map the inputs and outputs to an arbitrarily high dimension space with an appropriate nonlinear transformation.
-Unlike the standard Universal Approximation Theorem that says how certain sufficiently large neural networks with nonlinear activation functions can approximate any function to an arbitrary degree of accuracy, the Linear Universal Approximation Theorem places its analogous nonlinearities only when encoding inputs and decoding outputs.
-I don't know if this idea has been formally expressed anywhere, but it's related to ideas like the kernel trick with Support Vector Machines that makes data linearly separable in a higher dimensional space.
-There's a lot of value in making the core of neural networks linear, such as being able to represent it with a single matrix multiplication, and the fact that the loss function can be convex with respect to certain parameters.
+The Linear Universal Approximation Theorem is a theorem I made up that says you can represent any function as a linear map, as long as you encode the inputs and decode the outputs in a sufficiently high-dimensional space with appropriate nonlinear transformations.
+The standard Universal Approximation Theorem says that certain sufficiently large neural networks with nonlinear activation functions can approximate any function to an arbitrary degree of accuracy.
+The Linear Universal Approximation Theorem makes an analogous claim, but places all nonlinearities in the encoding of inputs and decoding of outputs, leaving the core transformation entirely linear.
 
-Let's start off with demonstrating a proof in the discrete inputs and outputs case.
-Suppose we have a function that takes in discrete objects x_1, x_2, ... x_n and outputs discrete objects y_1, y_2, ... y_m and we want the function to map every x_a to some specific y_b.
-There are no restrictions on what the function can refer to.
-For instance, the function could map a word to its color, like f(grass) = green, and x_2 could be defined as grass and y_3 could be defined as green, so this is equivalent to f(x_2) = y_3.
-x_a can be one hot encoded to form an n dimensional vector and similarly for y_b to form an m dimensional vector.
-We can construct a mxn matrix where all entries are initially set to 0, and then for every desired output y_b to f(x_a), we can set the bth row and ath column to be 1.
-Thus, we can represent any discrete to discrete function by one hot encoding all inputs, multiply by this weight matrix, and decode the final one hot encoding.
+I don't know if this idea has been formally expressed anywhere, but it's related to ideas like the kernel trick in Support Vector Machines, which makes data linearly separable by mapping it into a higher-dimensional space.
+There's a lot of value in making the core of a neural network linear: it can be represented as a single matrix multiplication, and the loss function can be made convex with respect to the weight matrix.
 
-Here's an explicit example: suppose the desired function satisfies f(1) = 5, f(2) = 3, f(3) = 6, f(4) = 1, f(5) = 4, f(6) = 2
-All inputs and outputs can be one hot encoded as a 6 dimensional vector where the number n is represented as a vector v where v_n = 1 and 0 otherwise
-We can construct the 6x6 matrix <write out whole matrix> and verify this linear mapping represents the desired function
-It's also easy to see that this construction can be extended to support more inputs and outputs, and also allow for any arbitrary output for every input
+## Discrete Case
 
-This can also be extended to continuous inputs and outputs.
-Let's say we want to represent the function f(x) = x^2
-We can start off with initial discrete inputs and outputs to learn with, so f(0) = 0, f(1) = 1, f(2) = 4, f(3) = 9, f(4) = 16, f(5) = 25
-Turning inputs 0, 1, 2, 3, 4, 5, 6 and outputs 0, 1, 4, 9, 16, 25 into one hot encoding vectors makes both of them 6d vectors and we can keep input and output representations separate
-The mapping can then be a 6x6 identity matrix
-To support continuous values, we can interpolate between the initial discrete values used, so we can create a decoder for the 6d input vector as a dot product of it and the vector [0, 1, 2, 3, 4, 5, 6] and same for the output except with [0, 1, 4, 9, 16, 25]
-Then, we can represent the input 1.5 as being halfway between 1 and 2, which turns into [0, 0.5, 0.5, 0, 0, 0] and verify that it decodes to 1.5
-The mapping being a 6x6 identity matrix means the output representation is also that same vector, which decodes to 2.5
-The true value of 1.5^2 is 2.25 whereas the interpolation approach described just interpolates halfway between (1, 1) and (2, 4)
-By increasing the number of discrete input and output points used, this linear interpolation approach can obtain an arbitrary degree of accuracy with a sufficiently large number of discrete input and output points
+Let's start with a proof in the discrete case.
+Suppose we have a function $f$ that maps discrete objects $x_1, x_2, \ldots, x_n$ to discrete objects $y_1, y_2, \ldots, y_m$, where each $x_a$ maps to some specific $y_b$.
+There are no restrictions on what these objects represent — for instance, the function could map a word to a color, like $f(\text{grass}) = \text{green}$.
+
+Each input $x_a$ can be one-hot encoded as an $n$-dimensional vector $e_a$, and each output $y_b$ as an $m$-dimensional vector $e_b$.
+We construct an $m \times n$ matrix $W$ initialized to all zeros, and for each mapping $f(x_a) = y_b$, we set $W_{ba} = 1$.
+Multiplying $W$ by the one-hot encoding of any input $x_a$ then produces the one-hot encoding of the correct output $y_b$.
+This means we can represent any function between discrete sets by one-hot encoding the inputs, applying a linear map, and decoding the resulting one-hot vector.
+
+Here's an explicit example. Suppose $f(1) = 5$, $f(2) = 3$, $f(3) = 6$, $f(4) = 1$, $f(5) = 4$, $f(6) = 2$.
+Each number $k$ is one-hot encoded as a 6-dimensional vector with a $1$ in position $k$ and $0$s elsewhere.
+The weight matrix is
+
+$$
+W = \begin{bmatrix}
+0 & 0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 \\
+1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}
+$$
+
+and you can verify that $W e_1 = e_5$, $W e_2 = e_3$, and so on for every input.
+This construction works for any number of inputs and outputs, and for any choice of mapping.
+
+## Continuous Case
+
+This extends to continuous inputs and outputs.
+Suppose we want to approximate $f(x) = x^2$.
+We start by choosing sample points: $f(0) = 0$, $f(1) = 1$, $f(2) = 4$, $f(3) = 9$, $f(4) = 16$, $f(5) = 25$.
+
+We one-hot encode each of the 6 input values and each of the 6 output values as 6-dimensional vectors, keeping the input and output representations separate.
+Since input index $i$ maps to output index $i$, the linear map between them is just the $6 \times 6$ identity matrix.
+
+To handle continuous values, we interpolate between one-hot encodings.
+Define an input decoder as the dot product with $[0, 1, 2, 3, 4, 5]$ and an output decoder as the dot product with $[0, 1, 4, 9, 16, 25]$.
+For a continuous input like $x = 1.5$, we encode it as halfway between the one-hot encodings of $1$ and $2$:
+
+$$
+\text{enc}(1.5) = 0.5 \cdot e_2 + 0.5 \cdot e_3 = \begin{bmatrix} 0 & 0.5 & 0.5 & 0 & 0 & 0 \end{bmatrix}^\top
+$$
+
+Dotting this with $[0, 1, 2, 3, 4, 5]$ gives $0.5 \cdot 1 + 0.5 \cdot 2 = 1.5$, confirming a valid encoding.
+Since the linear map is the identity, the output representation is the same vector, which decodes to $0.5 \cdot 1 + 0.5 \cdot 4 = 2.5$.
+The true value is $1.5^2 = 2.25$, so there's some error — we're linearly interpolating between $(1, 1)$ and $(2, 4)$.
+By increasing the number of sample points, this piecewise linear approximation can achieve an arbitrary degree of accuracy.
 
 ---
 
-This proof and everything shown so far is trivial, so why care about this?
-For starters, it can relate to the idea of compression and generalization.
-Going back to the discrete function example earlier, we may notice that f(1) = 5, f(5) = 4, f(4) = 1 forms a cycle and f(2) = 3, f(3) = 6, f(6) = 2 also forms a cycle
-Instead of naively using one hot encoding on 6 dimensional vectors and the transformation as a 6x6 matrix, we can instead represent things with a 3x3 rotation matrix [[0, 0, 1], [1, 0, 0], [0, 1, 0]]
-Then we can represent 1 as [2, 0, 0], 5 as [0, 2, 0], 4 as [0, 0, 2], 2 as [1, 1, 0], 3 as [0, 1, 1], 6 as [1, 0, 1] and we've compressed everything from 6 dimensions to 3 dimensions while accurately representing the desired function
+The proof above is fairly trivial, so why care about this?
 
-There's also the idea in LLMs about superposition (insert link to anthropic blog) and having exponentially many almost orthogonal vectors in n dimensions (link to my blog) so there's reason to believe that there's a lot of compressability potential
-Even though the example above no longer has orthogonal and independent representations of 1, 2, 3, 4, 5, 6, it can still accurately represent the function, and the shared parts of the representation show the shared 3 cycle rotation structure of the function
+## Compression and Generalization
 
-Also this proves things like LLMs don't need any nonlinearities, so the activation function in MLP isn't strictly necessary, and it's possible this may even be helpful for training by removing nonlinearities that create bumpier loss functions
+Going back to the discrete example, notice that $f(1) = 5$, $f(5) = 4$, $f(4) = 1$ forms a 3-cycle, and $f(2) = 3$, $f(3) = 6$, $f(6) = 2$ forms another.
+Instead of using 6-dimensional one-hot encodings and a $6 \times 6$ matrix, we can represent both cycles with a single $3 \times 3$ cyclic permutation matrix:
 
-this idea probably works better with discrete inputs and outputs in practice because it's unclear how numerical inputs and outputs should be represented in a higher dimension space with some relations to each other, but they can probably be turned into angles when transforming them kinda like RoPE embeddings with varying frequencies
+$$
+W = \begin{bmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix}
+$$
+
+For this to work, we encode the elements of each cycle so that $W$ rotates them correctly:
+* First cycle: $1 \to [2, 0, 0]$, $\;5 \to [0, 2, 0]$, $\;4 \to [0, 0, 2]$
+* Second cycle: $2 \to [1, 1, 0]$, $\;3 \to [0, 1, 1]$, $\;6 \to [1, 0, 1]$
+
+You can verify that $W$ maps each encoding to the encoding of the correct output.
+We've compressed from 6 dimensions down to 3 while still representing the function exactly, because the encodings capture the shared cyclic structure.
+
+The representations of the second cycle are no longer orthogonal to those of the first, but that's fine — the function is still represented accurately, and the overlapping components reflect the shared rotational structure.
+This is closely related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
+Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
+
+## Implications for Neural Networks
+
+This result suggests that neural networks don't strictly need nonlinear activation functions in their intermediate layers — the MLP activation function isn't necessary.
+If the inputs are encoded and outputs decoded with appropriate nonlinearities, the core transformation can be entirely linear.
+This aligns with interpretability research finding that features in LLM residual streams are primarily represented as linear directions.
+
+Removing intermediate nonlinearities could also help with training.
+A purely linear map has a convex loss landscape with respect to the weight matrix, avoiding issues like vanishing gradients and local minima that arise from nonlinear activation functions.
+
+In practice, this framework works most naturally with discrete inputs and outputs, since the encoding scheme for discrete objects via one-hot vectors is straightforward.
+For continuous or numerical values, the right way to encode them in a high-dimensional space is less obvious, though approaches like [RoPE](https://arxiv.org/abs/2104.09864) offer some inspiration by mapping numbers to angles at varying frequencies.
