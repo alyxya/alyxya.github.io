@@ -22,5 +22,5 @@ This can also be extended to continuous inputs and outputs.
 
 * lead into the almost orthogonal vectors blog post idea where you can compress things with almost orthogonal vectors and linear map between them
 
-* implications: LLMs can work even if all layers are fully linear
+* implications: LLMs can work even if all layers are fully linear, and this makes a lot of sense to do when they're primarily known to have linear features in the residual stream, easier to train a convex function with no vanishing gradients or getting trapped by local minima
 * note: in practice, inputs and outputs should be constrained to a hypersphere
