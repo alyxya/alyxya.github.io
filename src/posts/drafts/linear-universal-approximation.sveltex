@@ -5,21 +5,27 @@ description: "A linear map can approximate any function if you encode and decode
 tags: ["machine-learning", "approximation-theory", "linear-algebra"]
 ---
 
-The Linear Universal Approximation Theorem is a theorem I made up that says you can represent any function as a linear map, as long as you encode the inputs and decode the outputs in a sufficiently high-dimensional space with appropriate nonlinear transformations.
+The Linear Universal Approximation Theorem is a theorem I made up that says you can represent any function as a linear map, as long as you encode the inputs and decode the outputs in a sufficiently high-dimensional space with the appropriate transformations.
 The standard Universal Approximation Theorem says that certain sufficiently large neural networks with nonlinear activation functions can approximate any function to an arbitrary degree of accuracy.
 The Linear Universal Approximation Theorem makes an analogous claim, but places all nonlinearities in the encoding of inputs and decoding of outputs, leaving the core transformation entirely linear.
 
-I don't know if this idea has been formally expressed anywhere, but it's related to ideas like the kernel trick in Support Vector Machines, which makes data linearly separable by mapping it into a higher-dimensional space.
-There's a lot of value in making the core of a neural network linear: it can be represented as a single matrix multiplication, and the loss function can be made convex with respect to the weight matrix.
+I don't know if this idea has been formally expressed anywhere, but it's related to ideas like the kernel trick in Support Vector Machines, which makes data linearly separable by mapping it into a higher-dimensional space even when the data isn't originally linearly separable.
+There's a lot of value in making the core of a neural network linear, like it can be represented as a single matrix multiplication, and the loss function can be smoother or maybe even convex with respect to certain parameters.
 
 ## Discrete Case
 
 Let's start with a proof in the discrete case.
 Suppose we have a function $f$ that maps discrete objects $x_1, x_2, \ldots, x_n$ to discrete objects $y_1, y_2, \ldots, y_m$, where each $x_a$ maps to some specific $y_b$.
-There are no restrictions on what these objects represent. For instance, the function could map a word to a color, like $f(\text{grass}) = \text{green}$.
+There are no restrictions on what these objects represent. For instance, the function could map a word to its color, like $f(\text{grass}) = \text{green}$, or the function could map the real numbers to itself and be something like $f(x) = x^2$.
 
-Each input $x_a$ can be one-hot encoded as an $n$-dimensional vector $e_a$, and each output $y_b$ as an $m$-dimensional vector $e_b$.
-We construct an $m \times n$ matrix $W$ initialized to all zeros, and for each mapping $f(x_a) = y_b$, we set $W_{ba} = 1$.
+Each input $x_a$ can be one-hot encoded as an $n$-dimensional vector $e_a$, which is a vector of all zeros except for a $1$ in position $a$. For example, with $n = 4$ inputs, $x_2$ would be encoded as
+
+$$
+e_2 = \begin{bmatrix} 0 \\ 1 \\ 0 \\ 0 \end{bmatrix}
+$$
+
+Similarly, each output $y_b$ is one-hot encoded as an $m$-dimensional vector $e_b$.
+We construct an $m \times n$ matrix $W$ initialized to all zeros, and for each mapping $f(x_a) = y_b$, we set $W_{b, a} = 1$.
 Multiplying $W$ by the one-hot encoding of any input $x_a$ then produces the one-hot encoding of the correct output $y_b$.
 This means we can represent any function between discrete sets by one-hot encoding the inputs, applying a linear map, and decoding the resulting one-hot vector.
 
