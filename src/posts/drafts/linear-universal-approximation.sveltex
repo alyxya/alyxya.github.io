@@ -5,8 +5,11 @@ description: "A linear map can approximate any function if you encode and decode
 tags: ["machine-learning", "approximation-theory", "linear-algebra"]
 ---
 
-* intro with the universal approximation theorem
-* explain the linear universal approximation theorem (a theorem I made up)
+The Linear Universal Approximation Theorem is a theorem I made up that says you can represent any function as a linear function as long as you map the inputs and outputs to an arbitrarily high dimension space.
+Unlike the standard Universal Approximation Theorem that says how certain sufficiently large neural networks with nonlinear activation functions can approximate any function to an arbitrary degree of accuracy, the Linear Universal Approximation Theorem places its analogous nonlinearities only when encoding inputs and decoding outputs.
+I don't know if this idea has been formally expressed anywhere, but it's related to ideas like the kernel trick with Support Vector Machines that makes data linearly separable in a higher dimensional space.
+There's a lot of value in making the core of neural networks linear, such as being able to represent it with a single matrix multiplication, and the fact that the loss function can be made convex with respect to certain parameters.
+
 * give discrete example with discrete inputs and discrete outputs
 * give continuous example where linear interpolation between discrete output points can approximate a continuous function
 * lead into the almost orthogonal vectors blog post idea where you can compress things with almost orthogonal vectors and linear map between them
