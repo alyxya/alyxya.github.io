@@ -35,11 +35,11 @@ f(\infty) - f(x) = \int_x^{\infty} f'(y) \, dy
 $$
 so $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty} g'(y) \, dy$.
 
-Suppose $\lim_{x \to \infty} \frac{f'(x)}{g'(x)} = L$. Then for sufficiently large $x$, $\frac{f'(y)}{g'(y)} \approx L$ for all $y \geq x$, so $f'(y) \approx L \cdot g'(y)$ throughout the interval, and
+Suppose $\lim_{x \to \infty} \frac{f'(x)}{g'(x)} = L$. Then for sufficiently large $x$, $\frac{f'(y)}{g'(y)} \approx L$ for all $y \geq x$, so $f'(y) \approx L \cdot g'(y)$, and
 $$
 \frac{f(x)}{g(x)} = \frac{-\int_x^{\infty} f'(y) \, dy}{-\int_x^{\infty} g'(y) \, dy} \approx \frac{\int_x^{\infty} L \cdot g'(y) \, dy}{\int_x^{\infty} g'(y) \, dy} = L
 $$
-As $x \to \infty$, the approximation $\frac{f'(y)}{g'(y)} \approx L$ becomes more precise, giving
+As $x \to \infty$, the approximation $\frac{f'(y)}{g'(y)} \approx L$ becomes arbitrarily tight, giving
 $$
 \lim_{x \to \infty} \frac{f(x)}{g(x)} = L = \lim_{x \to \infty} \frac{f'(x)}{g'(x)}
 $$
@@ -61,4 +61,4 @@ Taking $x \to a$ gives
 $$
 \lim_{x \to a} \frac{f(x)}{g(x)} = L = \lim_{x \to a} \frac{f'(x)}{g'(x)}
 $$
-This argument applies both when $a$ is finite or infinite.
+This argument applies whether $a$ is finite or infinite.
