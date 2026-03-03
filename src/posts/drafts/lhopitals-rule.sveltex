@@ -37,7 +37,7 @@ so $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty}
 
 For sufficiently large $x$, if $\frac{f'(y)}{g'(y)}$ is approximately equal to some constant $L$ for all $y \geq x$, then $f'(y) \approx L \cdot g'(y)$ throughout the interval, and so
 $$
-\frac{f(x)}{g(x)} = \frac{-\int_x^{\infty} f'(y) \, dy}{-\int_x^{\infty} g'(y) \, dy} \approx \frac{\int_x^{\infty} L \cdot g'(y) \, dy}{\int_x^{\infty} g'(y) \, dy} = L
+\lim_{x \to \infty} \frac{f(x)}{g(x)} = \frac{-\int_x^{\infty} f'(y) \, dy}{-\int_x^{\infty} g'(y) \, dy} \approx \frac{\int_x^{\infty} L \cdot g'(y) \, dy}{\int_x^{\infty} g'(y) \, dy} = L
 $$
 As $x \to \infty$, the approximation $\frac{f'(y)}{g'(y)} \approx L$ becomes more precise, giving
 $$
@@ -51,11 +51,11 @@ Letting $b < a$ be a constant where $f(b)$ is finite, by the fundamental theorem
 $$
 f(x) - f(b) = \int_b^{x} f'(y) \, dy
 $$
-so $f(x) = f(b) + \int_b^{x} f'(y) \, dy \approx \int_b^{x} f'(y) \, dy$ because the integral grows to infinity as $x \to a$, and similarly $g(x) \approx \int_b^{x} g'(y) \, dy$.
+so $f(x) = f(b) + \int_b^{x} f'(y) \, dy \approx \int_b^{x} f'(y) \, dy$ when $x$ approaches $a$ because the integral grows to infinity as $x \to a$, and similarly $g(x) \approx \int_b^{x} g'(y) \, dy$.
 
 As before, if $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, then $f'(y) \approx L \cdot g'(y)$ and
 $$
-\frac{f(x)}{g(x)} \approx \frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} L \cdot g'(y) \, dy}{\int_b^{x} g'(y) \, dy} = L
+\lim_{x \to a} \frac{f(x)}{g(x)} \approx \frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} L \cdot g'(y) \, dy}{\int_b^{x} g'(y) \, dy} = L
 $$
 As $x \to a$ the finite constant $f(b)$ becomes negligible, and choosing $b$ close enough to $a$ ensures $\frac{f'(y)}{g'(y)} \approx L$ throughout the interval, giving
 $$
