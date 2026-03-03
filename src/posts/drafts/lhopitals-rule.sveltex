@@ -35,7 +35,7 @@ f(\infty) - f(x) = \int_x^{\infty} f'(y) \, dy
 $$
 so $f(x) = -\int_x^{\infty} f'(y) \, dy$, and similarly $g(x) = -\int_x^{\infty} g'(y) \, dy$.
 
-For sufficiently large $x$, if $\frac{f'(y)}{g'(y)}$ is approximately equal to some constant $L$ for all $y \geq x$, then $f'(y) \approx L \cdot g'(y)$ throughout the interval, and so
+Suppose $\lim_{x \to \infty} \frac{f'(x)}{g'(x)} = L$. Then for sufficiently large $x$, $\frac{f'(y)}{g'(y)} \approx L$ for all $y \geq x$, so $f'(y) \approx L \cdot g'(y)$ throughout the interval, and
 $$
 \frac{f(x)}{g(x)} = \frac{-\int_x^{\infty} f'(y) \, dy}{-\int_x^{\infty} g'(y) \, dy} \approx \frac{\int_x^{\infty} L \cdot g'(y) \, dy}{\int_x^{\infty} g'(y) \, dy} = L
 $$
@@ -51,13 +51,13 @@ For any $b < a$ where $f(b)$ is finite, by the fundamental theorem of calculus,
 $$
 f(x) - f(b) = \int_b^{x} f'(y) \, dy
 $$
-so $f(x) = f(b) + \int_b^{x} f'(y) \, dy$. As $x \to a$ the integral grows without bound because $f(x)$ approaches $\infty$ while $f(b)$ remains finite, so $f(x) \approx \int_b^{x} f'(y) \, dy$, and similarly $g(x) \approx \int_b^{x} g'(y) \, dy$.
+so $f(x) = f(b) + \int_b^{x} f'(y) \, dy$. As $x \to a$, the integral grows without bound because $f(x)$ approaches $\infty$ while $f(b)$ remains finite, so $f(x) \approx \int_b^{x} f'(y) \, dy$, and similarly $g(x) \approx \int_b^{x} g'(y) \, dy$.
 
-As before, if $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, then $f'(y) \approx L \cdot g'(y)$ and
+Suppose $\lim_{x \to a} \frac{f'(x)}{g'(x)} = L$. If $b$ is close enough to $a$, then $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, so $f'(y) \approx L \cdot g'(y)$ and
 $$
 \frac{f(x)}{g(x)} = \frac{f(b) + \int_b^{x} f'(y) \, dy}{g(b) + \int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} L \cdot g'(y) \, dy}{\int_b^{x} g'(y) \, dy} = L
 $$
-Choosing $b$ close enough to $a$ ensures $\frac{f'(y)}{g'(y)} \approx L$ throughout the interval, giving
+Taking $x \to a$ gives
 $$
 \lim_{x \to a} \frac{f(x)}{g(x)} = L = \lim_{x \to a} \frac{f'(x)}{g'(x)}
 $$
