@@ -53,11 +53,11 @@ f(x) - f(b) = \int_b^{x} f'(y) \, dy
 $$
 so $f(x) = f(b) + \int_b^{x} f'(y) \, dy$. As $x \to a$, the integral grows without bound because $f(x)$ approaches $\infty$ while $f(b)$ remains finite, so $f(x) \approx \int_b^{x} f'(y) \, dy$, and similarly $g(x) \approx \int_b^{x} g'(y) \, dy$.
 
-Suppose $\lim_{x \to a} \frac{f'(x)}{g'(x)} = L$. If $b$ is close enough to $a$, then $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, so $f'(y) \approx L \cdot g'(y)$ and
+Suppose $\lim_{x \to a} \frac{f'(x)}{g'(x)} = L$. Fix $b$ close enough to $a$ that $\frac{f'(y)}{g'(y)} \approx L$ for all $y$ between $b$ and $a$, so $f'(y) \approx L \cdot g'(y)$ and
 $$
 \frac{f(x)}{g(x)} = \frac{f(b) + \int_b^{x} f'(y) \, dy}{g(b) + \int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} f'(y) \, dy}{\int_b^{x} g'(y) \, dy} \approx \frac{\int_b^{x} L \cdot g'(y) \, dy}{\int_b^{x} g'(y) \, dy} = L
 $$
-Taking $x \to a$ gives
+With $b$ fixed, taking $x \to a$ gives
 $$
 \lim_{x \to a} \frac{f(x)}{g(x)} = L = \lim_{x \to a} \frac{f'(x)}{g'(x)}
 $$
