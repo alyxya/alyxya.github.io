@@ -97,7 +97,7 @@ with encodings:
 * First cycle: $1 \to [1, 0]$, $\;5 \to [-1, 1]$, $\;4 \to [0, -1]$
 * Second cycle: $2 \to [0, 1]$, $\;3 \to [-1, 0]$, $\;6 \to [1, -1]$
 
-This is optimal: a scalar can't represent a 3-cycle since the only real cube root of unity is $1$.
+This is optimal because a scalar can't represent a 3-cycle since the only real cube root of unity is $1$.
 
 The 6 encodings can't all be orthogonal to each other in just 2 dimensions, but that's fine. The function is still represented exactly, and the overlapping components reflect shared structure.
 This is closely related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
@@ -105,7 +105,7 @@ Since the number of almost orthogonal vectors in $n$ dimensions grows exponentia
 
 This result suggests that nonlinear activation functions in intermediate layers aren't needed for expressiveness. The nonlinearity isn't eliminated, but relocated to the encoding and decoding, while the learned transformation itself stays linear.
 The interesting question is whether the encoding can be structured enough that the linear map compresses well, as in the cyclic example above.
-This aligns with interpretability research finding that features in LLM residual streams are primarily represented as linear directions: if networks naturally learn to encode information into high-dimensional linear subspaces and transform those representations linearly, that's evidence for something like this framework operating in practice.
+This aligns with interpretability research finding that features in LLM residual streams are primarily represented as linear directions. If networks naturally learn to encode information into high-dimensional linear subspaces and transform those representations linearly, that's evidence for something like this framework operating in practice.
 
 Relocating nonlinearities to the encoding and decoding could also help with training.
 The loss landscape can be convex with respect to the weight matrix, avoiding issues like vanishing gradients and difficult optimization that arise from composing nonlinear transformations.
