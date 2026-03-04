@@ -112,5 +112,5 @@ Relocating nonlinearities could also help with training.
 When the encoding and decoding are fixed, optimizing the weight matrix becomes a convex problem, avoiding issues like vanishing gradients that arise from composing nonlinear transformations.
 
 In practice, this framework works most naturally with discrete inputs and outputs.
-A model only needs to learn a distinct embedding for each discrete object, and high-dimensional spaces provide plenty of room for these to be separable.
+A model only needs to learn an embedding for each discrete object such that the embeddings have the right structure for a linear map to transform them correctly, and high-dimensional spaces provide plenty of room for this.
 For continuous or numerical values, the right way to encode them is less obvious, though approaches like [RoPE](https://arxiv.org/abs/2104.09864) offer some inspiration by mapping numbers to angles at varying frequencies.
