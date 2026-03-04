@@ -99,7 +99,7 @@ with encodings:
 
 This is optimal: a scalar can't represent a 3-cycle since the only real cube root of unity is $1$.
 
-None of the 6 encodings are orthogonal to each other, but that's fine. The function is still represented exactly, and the overlapping components reflect shared structure.
+The 6 encodings can't all be orthogonal to each other in just 2 dimensions, but that's fine. The function is still represented exactly, and the overlapping components reflect shared structure.
 This is closely related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
