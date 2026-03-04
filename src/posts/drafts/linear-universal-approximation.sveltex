@@ -27,7 +27,7 @@ $$
 Similarly, each output $y_b$ is one-hot encoded as an $m$-dimensional vector $e_b$.
 We construct an $m \times n$ matrix $W$ initialized to all zeros, and for each mapping $f(x_a) = y_b$, we set $W_{b, a} = 1$.
 Multiplying $W$ by the one-hot encoding of any input $x_a$ then produces the one-hot encoding of the correct output $y_b$.
-This means we can represent any function between discrete sets by one-hot encoding the inputs, applying a linear map, and decoding the resulting one-hot vector.
+This means we can represent any function between finite sets by one-hot encoding the inputs, applying a linear map, and decoding the resulting one-hot vector.
 
 Here's an explicit example. Suppose $f(1) = 5$, $f(2) = 3$, $f(3) = 6$, $f(4) = 1$, $f(5) = 4$, $f(6) = 2$.
 Each number $k$ is one-hot encoded as a 6-dimensional vector with a $1$ in position $k$ and $0$s elsewhere.
@@ -64,7 +64,7 @@ $$
 \text{enc}(1.5) = 0.5 \cdot e_2 + 0.5 \cdot e_3 = \begin{bmatrix} 0 & 0.5 & 0.5 & 0 & 0 & 0 \end{bmatrix}^\top
 $$
 
-We define an input decoder as the dot product with $[0, 1, 2, 3, 4, 5]$ and an output decoder as the dot product with $[0, 1, 4, 9, 16, 25]$.
+To recover a number from its encoding, we take the dot product with the list of sample values. The input decoder dots with $[0, 1, 2, 3, 4, 5]$ and the output decoder dots with $[0, 1, 4, 9, 16, 25]$.
 Dotting our encoded vector with $[0, 1, 2, 3, 4, 5]$ gives $0.5 \cdot 1 + 0.5 \cdot 2 = 1.5$, confirming a valid encoding.
 Since the linear map is the identity, the output representation is the same vector, which decodes to $0.5 \cdot 1 + 0.5 \cdot 4 = 2.5$.
 The true value is $1.5^2 = 2.25$, so there's some error since we're linearly interpolating between $(1, 1)$ and $(2, 4)$.
@@ -104,7 +104,7 @@ This is related to [superposition](https://transformer-circuits.pub/2022/toy_mod
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
 All of the function's complexity is absorbed into the encoding and decoding, while the core transformation remains a single matrix multiplication.
-This suggests that nonlinear activation functions in intermediate layers of a neural network aren't strictly needed for expressiveness.
+This suggests that nonlinear activation functions in intermediate layers of a neural network aren't needed for the core transformation to be expressive.
 The nonlinearity isn't eliminated, but relocated to the input and output boundaries.
 This connects to the [linear representation hypothesis](https://arxiv.org/abs/2311.03658) in mechanistic interpretability, which finds that concepts in LLMs are represented as linear directions in the residual stream.
 Transformers may already work this way: nonlinear layers (attention, MLPs) build up and read off features, while the residual stream serves as a linear representational space.
