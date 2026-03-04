@@ -9,7 +9,7 @@ The Linear Universal Approximation Theorem is a theorem I made up that says you 
 The standard Universal Approximation Theorem says that certain sufficiently large neural networks with nonlinear activation functions can approximate any function to an arbitrary degree of accuracy.
 The Linear Universal Approximation Theorem makes an analogous claim, but places all nonlinearities in the encoding of inputs and decoding of outputs, leaving the core transformation entirely linear.
 
-I don't know if this idea has been formally expressed anywhere, but it's related to ideas like the kernel trick in Support Vector Machines, which makes data linearly separable by mapping it into a higher-dimensional space even when the data isn't originally linearly separable.
+I don't know if this idea has been formally expressed anywhere, but it's related to ideas like [Cover's theorem](https://en.wikipedia.org/wiki/Cover%27s_theorem) and the kernel trick in Support Vector Machines, which make data linearly separable by mapping it into a higher-dimensional space even when the data isn't originally linearly separable.
 There's a lot of value in making the core of a neural network linear, since it can be represented as a single matrix multiplication, and the loss function can be convex with respect to the weight matrix.
 
 ## Discrete Function
@@ -54,7 +54,7 @@ Suppose we want to approximate $f(x) = x^2$.
 We start by choosing sample points: $f(0) = 0$, $f(1) = 1$, $f(2) = 4$, $f(3) = 9$, $f(4) = 16$, $f(5) = 25$.
 
 We one-hot encode each of the 6 input values and each of the 6 output values as 6-dimensional vectors, keeping the input and output representations separate.
-Since input index $i$ maps to output index $i$, the linear map between them is just the $6 \times 6$ identity matrix.
+Since we assign the same index to each input-output pair, the linear map between them is just the $6 \times 6$ identity matrix.
 
 To handle continuous values, we interpolate between one-hot encodings.
 Define an input decoder as the dot product with $[0, 1, 2, 3, 4, 5]$ and an output decoder as the dot product with $[0, 1, 4, 9, 16, 25]$.
@@ -93,10 +93,11 @@ Since the number of almost orthogonal vectors in $n$ dimensions grows exponentia
 
 This result suggests that neural networks don't strictly need nonlinear activation functions in their intermediate layers. In principle, the MLP activation function isn't necessary.
 If the inputs are encoded and outputs decoded with appropriate nonlinearities, the core transformation can be entirely linear.
+The nonlinearity isn't eliminated, but relocated to the encoding and decoding, while the learned transformation itself stays linear.
 This aligns with interpretability research finding that features in LLM residual streams are primarily represented as linear directions.
 
-Removing intermediate nonlinearities could also help with training.
-A purely linear map has a convex loss landscape with respect to the weight matrix, avoiding issues like vanishing gradients and local minima that arise from nonlinear activation functions.
+Relocating nonlinearities to the encoding and decoding could also help with training.
+Given a fixed encoder and decoder, a purely linear map has a convex loss landscape with respect to the weight matrix, avoiding issues like vanishing gradients and difficult loss landscapes that arise from composing nonlinear transformations.
 
 In practice, this framework works most naturally with discrete inputs and outputs, since the encoding scheme for discrete objects via one-hot vectors is straightforward.
 For continuous or numerical values, the right way to encode them in a high-dimensional space is less obvious, though approaches like [RoPE](https://arxiv.org/abs/2104.09864) offer some inspiration by mapping numbers to angles at varying frequencies.
