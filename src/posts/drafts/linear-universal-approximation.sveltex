@@ -10,7 +10,6 @@ The standard Universal Approximation Theorem says that certain sufficiently larg
 The Linear Universal Approximation Theorem makes an analogous claim, but places all nonlinearities in the encoding of inputs and decoding of outputs, leaving the core transformation entirely linear.
 
 I don't know if this idea has been formally expressed anywhere, but it's related to ideas like [Cover's theorem](https://en.wikipedia.org/wiki/Cover%27s_theorem) and the [kernel trick](https://en.wikipedia.org/wiki/Kernel_method) in Support Vector Machines, which exploit the fact that data becomes easier to linearly separate in higher-dimensional spaces.
-There's a lot of value in making the core of a neural network linear since it means you only need a single matrix multiplication.
 
 ## Discrete Function
 
