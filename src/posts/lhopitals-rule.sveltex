@@ -12,7 +12,7 @@ I'll walk through a few cases demonstrating why this is true. It won't be rigoro
 ## The $\frac{0}{0}$ case at a finite limit
 
 Suppose $f(a) = g(a) = 0$ and we want to evaluate $\lim_{x \to a} \frac{f(x)}{g(x)}$.
-Recall that the derivative is defined as
+Recall the derivative is defined as
 $$
 f'(x) = \lim_{\delta \to 0} \frac{f(x + \delta) - f(x)}{\delta}
 $$
