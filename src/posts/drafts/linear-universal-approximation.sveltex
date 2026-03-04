@@ -64,7 +64,7 @@ $$
 \text{enc}(1.5) = 0.5 \cdot e_2 + 0.5 \cdot e_3 = \begin{bmatrix} 0 & 0.5 & 0.5 & 0 & 0 & 0 \end{bmatrix}^\top
 $$
 
-To recover a number from its encoding, we take the dot product with the list of sample values. The input decoder dots with $[0, 1, 2, 3, 4, 5]$ and the output decoder dots with $[0, 1, 4, 9, 16, 25]$.
+To recover a number from its encoding, we take the dot product with the list of sample values. The input decoder uses $[0, 1, 2, 3, 4, 5]$ and the output decoder uses $[0, 1, 4, 9, 16, 25]$.
 Dotting our encoded vector with $[0, 1, 2, 3, 4, 5]$ gives $0.5 \cdot 1 + 0.5 \cdot 2 = 1.5$, confirming a valid encoding.
 Since the linear map is the identity, the output representation is the same vector, which decodes to $0.5 \cdot 1 + 0.5 \cdot 4 = 2.5$.
 The true value is $1.5^2 = 2.25$, so there's some error since we're linearly interpolating between $(1, 1)$ and $(2, 4)$.
