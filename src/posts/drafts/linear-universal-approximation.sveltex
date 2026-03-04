@@ -31,7 +31,7 @@ This means we can represent any function between discrete sets by one-hot encodi
 
 Here's an explicit example. Suppose $f(1) = 5$, $f(2) = 3$, $f(3) = 6$, $f(4) = 1$, $f(5) = 4$, $f(6) = 2$.
 Each number $k$ is one-hot encoded as a 6-dimensional vector with a $1$ in position $k$ and $0$s elsewhere.
-The weight matrix is
+The constructed weight matrix is
 
 $$
 W = \begin{bmatrix}
@@ -49,14 +49,14 @@ This construction works for any finite number of inputs and outputs, and for any
 
 ## Continuous Function
 
-This extends to continuous inputs and outputs.
+This extends from the discrete setup to continuous inputs and outputs.
 Suppose we want to approximate $f(x) = x^2$.
-We start by choosing sample points: $f(0) = 0$, $f(1) = 1$, $f(2) = 4$, $f(3) = 9$, $f(4) = 16$, $f(5) = 25$.
+We can start by choosing sample points: $f(0) = 0$, $f(1) = 1$, $f(2) = 4$, $f(3) = 9$, $f(4) = 16$, $f(5) = 25$.
 
 We one-hot encode each of the 6 input values and each of the 6 output values as 6-dimensional vectors, keeping the input and output representations separate.
-Since we assign the same index to each input-output pair, the linear map between them is just the $6 \times 6$ identity matrix. All of the nonlinearity is captured by using different decoders for the input and output spaces.
+Since we assign the same index to each input-output pair, the linear map between them is just the $6 \times 6$ identity matrix. All of the nonlinearity is captured by using different encoders/decoders for the input and output spaces.
 
-To handle continuous values, we interpolate between one-hot encodings.
+To handle continuous values, we can interpolate between one-hot encodings.
 For a continuous input like $x = 1.5$, we encode it as halfway between the one-hot encodings of $1$ and $2$:
 
 $$
@@ -71,7 +71,7 @@ By increasing the number of sample points, this piecewise linear approximation c
 
 ---
 
-The proof above is fairly trivial, so why care about this?
+The construction described above is trivial, so why care about this?
 
 Going back to the discrete example, notice that $f(1) = 5$, $f(5) = 4$, $f(4) = 1$ forms a 3-cycle, and $f(2) = 3$, $f(3) = 6$, $f(6) = 2$ forms another.
 Instead of using 6-dimensional one-hot encodings and a $6 \times 6$ matrix, we can represent both cycles with a single $3 \times 3$ cyclic permutation matrix:
@@ -97,18 +97,17 @@ with encodings:
 * First cycle: $1 \to [1, 0]$, $\;5 \to [-1, 1]$, $\;4 \to [0, -1]$
 * Second cycle: $2 \to [0, 1]$, $\;3 \to [-1, 0]$, $\;6 \to [1, -1]$
 
-This is optimal because a scalar can't represent a 3-cycle since the only real cube root of unity is $1$.
-
-The 6 encodings can't all be orthogonal to each other in just 2 dimensions, but that's fine. The function is still represented exactly, and the overlapping components reflect shared structure.
-This is closely related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
+The 6 encodings can't all be orthogonal to each other in less than 6 dimensions, but that's fine.
+The function is still represented exactly, and structured patterns in the encodings can be seen as a form of generalization.
+This is related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
-This result suggests that nonlinear activation functions in intermediate layers aren't needed for expressiveness. The nonlinearity isn't eliminated, but relocated to the encoding and decoding, while the learned transformation itself stays linear.
-The interesting question is whether the encoding can be structured enough that the linear map compresses well, as in the cyclic example above.
-This aligns with interpretability research finding that features in LLM residual streams are primarily represented as linear directions. If networks naturally learn to encode information into high-dimensional linear subspaces and transform those representations linearly, that's evidence for something like this framework operating in practice.
+This result suggests that nonlinear activation functions in intermediate layers aren't needed for expressiveness.
+The nonlinearity isn't eliminated, but relocated to the encoding and decoding, while the learned transformation itself stays linear.
+This aligns with mechanistic interpretability research where features of LLM residual streams are primarily known to be linear.
 
 Relocating nonlinearities to the encoding and decoding could also help with training.
 The loss landscape can be convex with respect to the weight matrix, avoiding issues like vanishing gradients and difficult optimization that arise from composing nonlinear transformations.
 
-In practice, this framework works most naturally with discrete inputs and outputs, since the encoding scheme for discrete objects via one-hot vectors is straightforward.
+In practice, this framework works most naturally with discrete inputs and outputs, since the encoding scheme for discrete objects can be random vectors.
 For continuous or numerical values, the right way to encode them in a high-dimensional space is less obvious, though approaches like [RoPE](https://arxiv.org/abs/2104.09864) offer some inspiration by mapping numbers to angles at varying frequencies.
