@@ -87,7 +87,19 @@ For this to work, we encode the elements of each cycle so that $W$ rotates them 
 You can verify that $W$ maps each encoding to the encoding of the correct output.
 We've compressed from 6 dimensions down to 3 while still representing the function exactly, because the encodings capture the shared cyclic structure.
 
-The representations of the second cycle are no longer orthogonal to those of the first, but that's fine. The function is still represented accurately, and the overlapping components reflect the shared rotational structure.
+We can compress further to 2 dimensions. Since both cycles have length 3, we need a $2 \times 2$ matrix satisfying $W^3 = I$:
+
+$$
+W = \begin{bmatrix} -1 & -1 \\ 1 & 0 \end{bmatrix}
+$$
+
+with encodings:
+* First cycle: $1 \to [1, 0]$, $\;5 \to [-1, 1]$, $\;4 \to [0, -1]$
+* Second cycle: $2 \to [0, 1]$, $\;3 \to [-1, 0]$, $\;6 \to [1, -1]$
+
+This is optimal: a scalar can't represent a 3-cycle since the only real cube root of unity is $1$.
+
+None of the 6 encodings are orthogonal to each other, but that's fine. The function is still represented exactly, and the overlapping components reflect shared structure.
 This is closely related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
