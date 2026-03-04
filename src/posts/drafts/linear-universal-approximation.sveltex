@@ -103,7 +103,7 @@ This is related to [superposition](https://transformer-circuits.pub/2022/toy_mod
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
 The core transformation is a single matrix multiplication, with all nonlinearity confined to the encoding and decoding.
-This connects to the [linear representation hypothesis](https://arxiv.org/abs/2311.03658) in mechanistic interpretability, which finds that concepts in LLMs are represented as linear directions in the residual stream.
+This connects to the [linear representation hypothesis](https://arxiv.org/abs/2311.03658) in mechanistic interpretability, which finds that concepts in transformers are represented as linear directions in the residual stream.
 Transformers may already work this way: nonlinear layers (attention, MLPs) build up and read off features, while the residual stream serves as a linear representational space.
 
 In practice, this framework works most naturally with discrete inputs and outputs.
