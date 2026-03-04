@@ -91,7 +91,7 @@
 	{/if}
 </svelte:head>
 
-<article class="mx-auto max-w-3xl px-4 py-12">
+<article class="mx-auto max-w-4xl px-4 py-12">
 	<div class="panel-card blog-post-card p-8">
 		<!-- Render metadata immediately - no await needed -->
 		<header class="mb-8">
