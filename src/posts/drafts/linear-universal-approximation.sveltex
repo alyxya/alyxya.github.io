@@ -103,7 +103,7 @@ The function is still represented exactly.
 This is related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
-All of the function's complexity is absorbed into the encoding and decoding, while the core transformation remains a single matrix multiplication.
+The core transformation is a single matrix multiplication, with all nonlinearity confined to the encoding and decoding.
 This connects to the [linear representation hypothesis](https://arxiv.org/abs/2311.03658) in mechanistic interpretability, which finds that concepts in LLMs are represented as linear directions in the residual stream.
 Transformers may already work this way: nonlinear layers (attention, MLPs) build up and read off features, while the residual stream serves as a linear representational space.
 
