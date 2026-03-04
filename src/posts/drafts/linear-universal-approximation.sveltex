@@ -104,13 +104,8 @@ This is related to [superposition](https://transformer-circuits.pub/2022/toy_mod
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
 All of the function's complexity is absorbed into the encoding and decoding, while the core transformation remains a single matrix multiplication.
-This suggests that nonlinear activation functions in intermediate layers of a neural network aren't needed for the core transformation to be expressive.
-The nonlinearity isn't eliminated, but relocated to the input and output boundaries.
 This connects to the [linear representation hypothesis](https://arxiv.org/abs/2311.03658) in mechanistic interpretability, which finds that concepts in LLMs are represented as linear directions in the residual stream.
 Transformers may already work this way: nonlinear layers (attention, MLPs) build up and read off features, while the residual stream serves as a linear representational space.
-
-Relocating nonlinearities could also help with training.
-When the encoding and decoding are fixed, optimizing the weight matrix becomes a convex problem, avoiding issues like vanishing gradients that arise from composing nonlinear transformations.
 
 In practice, this framework works most naturally with discrete inputs and outputs.
 A model only needs to learn an embedding for each discrete object such that the embeddings have the right structure for a linear map to transform them correctly.
