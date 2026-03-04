@@ -105,6 +105,7 @@ Since the number of almost orthogonal vectors in $n$ dimensions grows exponentia
 The core transformation is a single matrix multiplication, with all nonlinearity confined to the encoding and decoding.
 This connects to the [linear representation hypothesis](https://arxiv.org/abs/2311.03658) in mechanistic interpretability, which finds that concepts in transformers are represented as linear directions in the residual stream.
 Transformers may already work this way, with nonlinear layers (attention, MLPs) building up and reading off features while the residual stream serves as a linear representational space.
+In theory, those nonlinearities aren't strictly necessary, since the entire transformation on the residual stream can be linear.
 
 In practice, this framework works most naturally with discrete inputs and outputs.
 A model only needs to learn an embedding for each discrete object such that the embeddings have the right structure for a linear map to transform them correctly.
