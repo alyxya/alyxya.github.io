@@ -10,13 +10,13 @@ The standard Universal Approximation Theorem says that certain sufficiently larg
 The Linear Universal Approximation Theorem makes an analogous claim, but places all nonlinearities in the encoding of inputs and decoding of outputs, leaving the core transformation entirely linear.
 
 I don't know if this idea has been formally expressed anywhere, but it's related to ideas like the kernel trick in Support Vector Machines, which makes data linearly separable by mapping it into a higher-dimensional space even when the data isn't originally linearly separable.
-There's a lot of value in making the core of a neural network linear, like it can be represented as a single matrix multiplication, and the loss function can be smoother or maybe even convex with respect to certain parameters.
+There's a lot of value in making the core of a neural network linear, since it can be represented as a single matrix multiplication, and the loss function can be convex with respect to the weight matrix.
 
 ## Discrete Function
 
 Let's start with a proof in the discrete case.
 Suppose we have a function $f$ that maps discrete objects $x_1, x_2, \ldots, x_n$ to discrete objects $y_1, y_2, \ldots, y_m$, where each $x_a$ maps to some specific $y_b$.
-There are no restrictions on what these objects represent. For instance, the function could map a word to its color, like $f(\text{grass}) = \text{green}$, or the function could map the real numbers to itself and be something like $f(x) = x^2$.
+There are no restrictions on what these objects represent. For instance, the function could map a word to its color, like $f(\text{grass}) = \text{green}$, or the function could map finitely many real numbers to their squares, like $f(2) = 4$.
 
 Each input $x_a$ can be one-hot encoded as an $n$-dimensional vector $e_a$, which is a vector of all zeros except for a $1$ in position $a$. For example, with $n = 4$ inputs, $x_2$ would be encoded as
 
@@ -91,7 +91,7 @@ The representations of the second cycle are no longer orthogonal to those of the
 This is closely related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
-This result suggests that neural networks don't strictly need nonlinear activation functions in their intermediate layers. The MLP activation function isn't necessary.
+This result suggests that neural networks don't strictly need nonlinear activation functions in their intermediate layers. In principle, the MLP activation function isn't necessary.
 If the inputs are encoded and outputs decoded with appropriate nonlinearities, the core transformation can be entirely linear.
 This aligns with interpretability research finding that features in LLM residual streams are primarily represented as linear directions.
 
