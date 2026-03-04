@@ -9,8 +9,8 @@ The Linear Universal Approximation Theorem is a theorem I made up that says you 
 The standard Universal Approximation Theorem says that certain sufficiently large neural networks with nonlinear activation functions can approximate any function to an arbitrary degree of accuracy.
 The Linear Universal Approximation Theorem makes an analogous claim, but places all nonlinearities in the encoding of inputs and decoding of outputs, leaving the core transformation entirely linear.
 
-I don't know if this idea has been formally expressed anywhere, but it's related to ideas like [Cover's theorem](https://en.wikipedia.org/wiki/Cover%27s_theorem) and the kernel trick in Support Vector Machines, which make data linearly separable by mapping it into a higher-dimensional space even when the data isn't originally linearly separable.
-There's a lot of value in making the core of a neural network linear, since it can be represented as a single matrix multiplication, and the loss function can be convex with respect to the weight matrix.
+I don't know if this idea has been formally expressed anywhere, but it's related to ideas like [Cover's theorem](https://en.wikipedia.org/wiki/Cover%27s_theorem) and the kernel trick in Support Vector Machines, which exploit the fact that data becomes easier to linearly separate in higher-dimensional spaces.
+There's a lot of value in making the core of a neural network linear, since it can be represented as a single matrix multiplication, and, given fixed encoding and decoding, the loss function can be convex with respect to the weight matrix.
 
 ## Discrete Function
 
@@ -54,20 +54,20 @@ Suppose we want to approximate $f(x) = x^2$.
 We start by choosing sample points: $f(0) = 0$, $f(1) = 1$, $f(2) = 4$, $f(3) = 9$, $f(4) = 16$, $f(5) = 25$.
 
 We one-hot encode each of the 6 input values and each of the 6 output values as 6-dimensional vectors, keeping the input and output representations separate.
-Since we assign the same index to each input-output pair, the linear map between them is just the $6 \times 6$ identity matrix.
+Since we assign the same index to each input-output pair, the linear map between them is just the $6 \times 6$ identity matrix. All of the nonlinearity is captured by using different decoders for the input and output spaces.
 
 To handle continuous values, we interpolate between one-hot encodings.
-Define an input decoder as the dot product with $[0, 1, 2, 3, 4, 5]$ and an output decoder as the dot product with $[0, 1, 4, 9, 16, 25]$.
 For a continuous input like $x = 1.5$, we encode it as halfway between the one-hot encodings of $1$ and $2$:
 
 $$
 \text{enc}(1.5) = 0.5 \cdot e_2 + 0.5 \cdot e_3 = \begin{bmatrix} 0 & 0.5 & 0.5 & 0 & 0 & 0 \end{bmatrix}^\top
 $$
 
-Dotting this with $[0, 1, 2, 3, 4, 5]$ gives $0.5 \cdot 1 + 0.5 \cdot 2 = 1.5$, confirming a valid encoding.
+We define an input decoder as the dot product with $[0, 1, 2, 3, 4, 5]$ and an output decoder as the dot product with $[0, 1, 4, 9, 16, 25]$.
+Dotting our encoded vector with $[0, 1, 2, 3, 4, 5]$ gives $0.5 \cdot 1 + 0.5 \cdot 2 = 1.5$, confirming a valid encoding.
 Since the linear map is the identity, the output representation is the same vector, which decodes to $0.5 \cdot 1 + 0.5 \cdot 4 = 2.5$.
 The true value is $1.5^2 = 2.25$, so there's some error since we're linearly interpolating between $(1, 1)$ and $(2, 4)$.
-By increasing the number of sample points, this piecewise linear approximation can achieve an arbitrary degree of accuracy.
+By increasing the number of sample points, this piecewise linear approximation can get arbitrarily close to any continuous function.
 
 ---
 
@@ -91,8 +91,7 @@ The representations of the second cycle are no longer orthogonal to those of the
 This is closely related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
-This result suggests that neural networks don't strictly need nonlinear activation functions in their intermediate layers. In principle, the MLP activation function isn't necessary.
-If the inputs are encoded and outputs decoded with appropriate nonlinearities, the core transformation can be entirely linear.
+This result suggests that neural networks don't strictly need nonlinear activation functions in their intermediate layers. If the inputs are encoded and outputs decoded with appropriate nonlinearities, the MLP activation function isn't necessary, since the core transformation can be entirely linear.
 The nonlinearity isn't eliminated, but relocated to the encoding and decoding, while the learned transformation itself stays linear.
 This aligns with interpretability research finding that features in LLM residual streams are primarily represented as linear directions.
 
