@@ -10,7 +10,7 @@ The standard Universal Approximation Theorem says that certain sufficiently larg
 The Linear Universal Approximation Theorem makes an analogous claim, but places all nonlinearities in the encoding of inputs and decoding of outputs, leaving the core transformation entirely linear.
 
 I don't know if this idea has been formally expressed anywhere, but it's related to ideas like [Cover's theorem](https://en.wikipedia.org/wiki/Cover%27s_theorem) and the kernel trick in Support Vector Machines, which exploit the fact that data becomes easier to linearly separate in higher-dimensional spaces.
-There's a lot of value in making the core of a neural network linear, since it can be represented as a single matrix multiplication, and, given fixed encoding and decoding, the loss function can be convex with respect to the weight matrix.
+There's a lot of value in making the core of a neural network linear, since it can be represented as a single matrix multiplication, and the loss landscape can be convex with respect to the weight matrix.
 
 ## Discrete Function
 
@@ -91,12 +91,12 @@ The representations of the second cycle are no longer orthogonal to those of the
 This is closely related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
 
-This result suggests that neural networks don't strictly need nonlinear activation functions in their intermediate layers. If the inputs are encoded and outputs decoded with appropriate nonlinearities, the MLP activation function isn't necessary, since the core transformation can be entirely linear.
-The nonlinearity isn't eliminated, but relocated to the encoding and decoding, while the learned transformation itself stays linear.
-This aligns with interpretability research finding that features in LLM residual streams are primarily represented as linear directions.
+This result suggests that nonlinear activation functions in intermediate layers aren't needed for expressiveness. The nonlinearity isn't eliminated, but relocated to the encoding and decoding, while the learned transformation itself stays linear.
+The interesting question is whether the encoding can be structured enough that the linear map compresses well, as in the cyclic example above.
+This aligns with interpretability research finding that features in LLM residual streams are primarily represented as linear directions: if networks naturally learn to encode information into high-dimensional linear subspaces and transform those representations linearly, that's evidence for something like this framework operating in practice.
 
 Relocating nonlinearities to the encoding and decoding could also help with training.
-Given a fixed encoder and decoder, a purely linear map has a convex loss landscape with respect to the weight matrix, avoiding issues like vanishing gradients and difficult loss landscapes that arise from composing nonlinear transformations.
+The loss landscape can be convex with respect to the weight matrix, avoiding issues like vanishing gradients and difficult optimization that arise from composing nonlinear transformations.
 
 In practice, this framework works most naturally with discrete inputs and outputs, since the encoding scheme for discrete objects via one-hot vectors is straightforward.
 For continuous or numerical values, the right way to encode them in a high-dimensional space is less obvious, though approaches like [RoPE](https://arxiv.org/abs/2104.09864) offer some inspiration by mapping numbers to angles at varying frequencies.
