@@ -29,7 +29,7 @@ Multiplying $W$ by the one-hot encoding of any input $x_a$ then produces the one
 This means we can represent any function between finite sets by one-hot encoding the inputs, applying a linear map, and decoding the resulting one-hot vector.
 
 Here's an explicit example. Suppose $f(1) = 5$, $f(2) = 3$, $f(3) = 6$, $f(4) = 1$, $f(5) = 4$, $f(6) = 2$.
-Each number $k$ is one-hot encoded as a 6-dimensional vector with a $1$ in position $k$ and $0$s elsewhere.
+Each number $k$ is one-hot encoded as a $6$-dimensional vector with a $1$ in position $k$ and $0$s elsewhere.
 The constructed weight matrix is
 
 $$
@@ -53,7 +53,7 @@ For continuous inputs and outputs, the same idea gives an approximation that can
 Suppose we want to approximate $f(x) = x^2$.
 We can start by choosing sample points: $f(0) = 0$, $f(1) = 1$, $f(2) = 4$, $f(3) = 9$, $f(4) = 16$, $f(5) = 25$.
 
-We one-hot encode each of the 6 input values and each of the 6 output values as 6-dimensional vectors, keeping the input and output representations separate.
+We one-hot encode each of the $6$ input values and each of the $6$ output values as $6$-dimensional vectors, keeping the input and output representations separate.
 Since we assign the same index to each input-output pair, the linear map between them is just the $6 \times 6$ identity matrix. All of the nonlinearity is captured by using different encoders/decoders for the input and output spaces.
 
 To handle continuous values, we can interpolate between one-hot encodings.
@@ -73,8 +73,8 @@ By increasing the number of sample points, this piecewise linear approximation c
 
 The construction described above is trivial, so why care about this?
 
-Going back to the discrete example, notice that $f(1) = 5$, $f(5) = 4$, $f(4) = 1$ forms a 3-cycle, and $f(2) = 3$, $f(3) = 6$, $f(6) = 2$ forms another.
-Instead of using 6-dimensional one-hot encodings and a $6 \times 6$ matrix, we can represent both cycles with a single $3 \times 3$ cyclic permutation matrix:
+Going back to the discrete example, notice that $f(1) = 5$, $f(5) = 4$, $f(4) = 1$ forms a $3$-cycle, and $f(2) = 3$, $f(3) = 6$, $f(6) = 2$ forms another.
+Instead of using $6$-dimensional one-hot encodings and a $6 \times 6$ matrix, we can represent both cycles with a single $3 \times 3$ cyclic permutation matrix:
 
 $$
 W = \begin{bmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix}
@@ -85,9 +85,9 @@ For this to work, we encode the elements of each cycle so that $W$ rotates them 
 * Second cycle: $2 \to [1, 1, 0]$, $\;3 \to [0, 1, 1]$, $\;6 \to [1, 0, 1]$
 
 You can verify that $W$ maps each encoding to the encoding of the correct output.
-We've compressed from 6 dimensions down to 3 while still representing the function exactly, because the encodings capture the shared cyclic structure.
+We've compressed from $6$ dimensions down to $3$ while still representing the function exactly, because the encodings capture the shared cyclic structure.
 
-We can compress further to 2 dimensions. Since both cycles have length 3, we need a $2 \times 2$ matrix satisfying $W^3 = I$:
+We can compress further to $2$ dimensions. Since both cycles have length $3$, we need a $2 \times 2$ matrix satisfying $W^3 = I$:
 
 $$
 W = \begin{bmatrix} -1 & -1 \\ 1 & 0 \end{bmatrix}
@@ -97,7 +97,7 @@ with encodings:
 * First cycle: $1 \to [1, 0]$, $\;5 \to [-1, 1]$, $\;4 \to [0, -1]$
 * Second cycle: $2 \to [0, 1]$, $\;3 \to [-1, 0]$, $\;6 \to [1, -1]$
 
-The 6 encodings can't all be orthogonal to each other in fewer than 6 dimensions, but that's fine.
+The $6$ encodings can't all be orthogonal to each other in fewer than $6$ dimensions, but that's fine.
 The function is still represented exactly.
 This is related to [superposition](https://transformer-circuits.pub/2022/toy_model/index.html) in neural networks, where models represent more features than they have dimensions by allowing representations to be [almost orthogonal](/blog/almost-orthogonal-vectors) rather than strictly orthogonal.
 Since the number of almost orthogonal vectors in $n$ dimensions grows exponentially with $n$, there's significant potential for compression.
