@@ -5,7 +5,7 @@ description: "At its core, machine learning is just finding the minimum of a fun
 tags: ["machine-learning", "optimization"]
 ---
 
-Rather than cataloging machine learning models and techniques, I want to start from first principles and build up the idea of machine learning.
+Rather than listing machine learning models and techniques, I want to start from first principles and build up the idea of machine learning.
 Some problems seem intractable in computer science, like programmatically determining whether an image shows a dog.
 If you knew nothing about machine learning, it'd be hard to imagine where you'd even start.
 
