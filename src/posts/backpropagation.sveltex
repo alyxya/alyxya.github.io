@@ -1,11 +1,14 @@
 ---
 title: "Backpropagation"
 date: "2026-02-17"
+updated: "2026-03-09"
 description: "Computing gradients through a neural network"
 tags: ["machine-learning", "optimization", "calculus"]
 ---
 
-In [a previous post](/blog/ml-is-optimization), we defined the loss function as a measure of how wrong a model's predictions are, and minimized it with gradient descent. But we glossed over a key step: how do we actually compute the gradient of the loss with respect to every parameter in a neural network? That's what backpropagation answers.
+In [a previous post](/blog/ml-is-optimization), we defined the loss function as a measure of how wrong a model's predictions are, and minimized it with gradient descent.
+But we never addressed how to efficiently compute the gradient of the loss with respect to every parameter in a large neural network.
+That's what backpropagation does.
 
 The "gradient" in gradient descent is a vector of partial derivatives of the loss with respect to each parameter.
 A partial derivative $\frac{\partial y}{\partial x}$ is just a ratio: how much $y$ changes when we change $x$ by a small amount.
