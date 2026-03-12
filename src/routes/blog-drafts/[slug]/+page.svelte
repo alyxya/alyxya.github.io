@@ -50,7 +50,7 @@
 		return Promise.race([Promise.all(waits).then(() => undefined), timeout]);
 	}
 
-	onMount(async () => {
+	onMount(() => {
 		const handleHashChange = () => {
 			const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 			scrollToHash(prefersReducedMotion ? 'auto' : 'smooth');
@@ -58,10 +58,11 @@
 
 		window.addEventListener('hashchange', handleHashChange);
 
-		await tick();
-		scrollToHash('auto');
-		await waitForPostImages();
-		scrollToHash('auto');
+		tick().then(async () => {
+			scrollToHash('auto');
+			await waitForPostImages();
+			scrollToHash('auto');
+		});
 
 		return () => {
 			window.removeEventListener('hashchange', handleHashChange);
