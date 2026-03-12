@@ -1,16 +1,20 @@
 <script lang="ts">
-	import { tick } from 'svelte';
+	import { tick, type Snippet } from 'svelte';
 
 	type Placement = 'top' | 'bottom' | 'left' | 'right';
 
 	let {
 		note,
 		placement = 'top',
-		ariaLabel = 'Annotation'
+		ariaLabel = 'Annotation',
+		children,
+		noteContent
 	}: {
 		note?: string;
 		placement?: Placement;
 		ariaLabel?: string;
+		children: Snippet;
+		noteContent?: Snippet;
 	} = $props();
 
 	let root = $state<HTMLElement | null>(null);
@@ -79,25 +83,26 @@
 	});
 </script>
 
-<svelte:window on:click={handleWindowClick} on:keydown={handleWindowKeydown} />
+<svelte:window onclick={handleWindowClick} onkeydown={handleWindowKeydown} />
 
 <span
 	bind:this={root}
 	class="annotation relative inline"
-	on:mouseenter={() => (isHovered = true)}
-	on:mouseleave={handleBlur}
+	role="group"
+	onmouseenter={() => (isHovered = true)}
+	onmouseleave={handleBlur}
 ><button
 	type="button"
 	class={`annotation-trigger inline cursor-help rounded-sm px-0.5 -mx-0.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ocean-400/60 ${isHovered || isPinned ? 'bg-ocean-100/70' : ''}`}
 	aria-label={ariaLabel}
 	aria-pressed={isPinned}
 	aria-expanded={isHovered || isPinned}
-	on:focus={() => (isHovered = true)}
-	on:blur={handleBlur}
-	on:click={togglePinned}
+	onfocus={() => (isHovered = true)}
+	onblur={handleBlur}
+	onclick={togglePinned}
 ><span
 	class={`annotation-anchor border-b border-dotted border-ocean-300/80 pb-[0.08em] transition-colors ${isHovered || isPinned ? 'border-ocean-500/80 text-ocean-950' : ''}`}
-><slot /></span></button><span
+>{@render children()}</span></button><span
 	bind:this={popover}
 	class={`annotation-popover absolute z-20 w-64 max-w-[80vw] rounded-lg border border-ocean-200/80 bg-white/95 p-3 text-sm leading-relaxed text-ocean-900 shadow-xl backdrop-blur transition-[opacity,transform] duration-150 ease-out whitespace-normal break-words ${getPlacementClass(placement)}`}
 	style={`margin-left: ${shiftX}px;`}
@@ -109,4 +114,4 @@
 	class:pointer-events-auto={isHovered || isPinned}
 	aria-hidden={!isHovered && !isPinned}
 	role="note"
->{#if note}{note}{:else}<slot name="note" />{/if}</span></span>
+>{#if note}{note}{:else if noteContent}{@render noteContent()}{/if}</span></span>

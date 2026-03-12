@@ -191,6 +191,7 @@
 	}
 </script>
 
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	bind:this={wrapperElement}
 	class="not-prose plot-card relative group w-full rounded-xl overflow-hidden border border-ocean-200/50 shadow-lg"

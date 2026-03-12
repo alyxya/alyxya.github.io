@@ -11,7 +11,7 @@ tags: ["intro", "math"]
 
 # Welcome!
 
-This is a sample blog post written in **markdown** with support for LaTeX math <Annotation>rendering<span slot="note">SvelTeX compiles markdown and Svelte in a single file. See the <a href="https://sveltex.dev" target="_blank" rel="noreferrer">docs</a>.</span></Annotation>.
+This is a sample blog post written in **markdown** with support for LaTeX math <Annotation>rendering{#snippet noteContent()}SvelTeX compiles markdown and Svelte in a single file. See the <a href="https://sveltex.dev" target="_blank" rel="noreferrer">docs</a>.{/snippet}</Annotation>.
 
 <nav class="not-prose mt-6 mb-8 rounded-xl border border-ocean-200/70 bg-white/70 px-4 py-3 text-sm text-ocean-700 shadow-sm backdrop-blur" aria-label="On this page">
 	<div class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ocean-500">On this page</div>
