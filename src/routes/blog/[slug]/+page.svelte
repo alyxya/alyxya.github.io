@@ -1,19 +1,8 @@
 <script lang="ts">
 	import { formatDate } from '$lib/date';
 	import { onMount, tick } from 'svelte';
-	import type { ComponentType, SvelteComponent } from 'svelte';
-
-	type PostModule = {
-		default: ComponentType<SvelteComponent>;
-	};
-
-	const posts = import.meta.glob<PostModule>('/src/posts/**/*.sveltex');
 
 	let { data } = $props();
-	const postPath = $derived(data.postPath ?? `/src/posts/${data.slug}.sveltex`);
-
-	// Load the specific post component asynchronously
-	const postPromise = $derived(posts[postPath]?.() || Promise.reject(new Error('Post not found')));
 
 	function getHeaderOffset() {
 		if (typeof document === 'undefined') return 0;
@@ -61,7 +50,7 @@
 		return Promise.race([Promise.all(waits).then(() => undefined), timeout]);
 	}
 
-	onMount(() => {
+	onMount(async () => {
 		const handleHashChange = () => {
 			const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 			scrollToHash(prefersReducedMotion ? 'auto' : 'smooth');
@@ -69,14 +58,10 @@
 
 		window.addEventListener('hashchange', handleHashChange);
 
-		postPromise
-			.then(async () => {
-				await tick();
-				scrollToHash('auto');
-				await waitForPostImages();
-				scrollToHash('auto');
-			})
-			.catch(() => {});
+		await tick();
+		scrollToHash('auto');
+		await waitForPostImages();
+		scrollToHash('auto');
 
 		return () => {
 			window.removeEventListener('hashchange', handleHashChange);
@@ -93,7 +78,6 @@
 
 <article class="mx-auto max-w-4xl px-4 py-12">
 	<div class="panel-card blog-post-card p-8">
-		<!-- Render metadata immediately - no await needed -->
 		<header class="mb-8">
 			<h1 class="mb-4 text-4xl font-bold text-ocean-900">{data.metadata.title}</h1>
 
@@ -124,20 +108,9 @@
 			{/if}
 		</header>
 
-		<!-- Load post content asynchronously without blocking initial render -->
-		{#await postPromise}
-			<div class="space-y-4">
-				<div class="h-4 bg-ocean-200 rounded w-3/4"></div>
-				<div class="h-4 bg-ocean-200 rounded"></div>
-				<div class="h-4 bg-ocean-200 rounded w-5/6"></div>
-			</div>
-		{:then postModule}
-			<div class="prose prose-lg max-w-none prose-ocean" data-post-content>
-				<postModule.default />
-			</div>
-		{:catch error}
-			<p class="text-red-600">Unable to render this post: {error.message}</p>
-		{/await}
+		<div class="prose prose-lg max-w-none prose-ocean" data-post-content>
+			<data.component />
+		</div>
 
 	</div>
 </article>

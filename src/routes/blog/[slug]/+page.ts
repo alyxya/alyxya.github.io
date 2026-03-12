@@ -1,5 +1,5 @@
 import type { BlogPostMetadata } from '$lib';
-import type { EntryGenerator, PageServerLoad } from './$types';
+import type { EntryGenerator, PageLoad } from './$types';
 import type { ComponentType, SvelteComponent } from 'svelte';
 import { error } from '@sveltejs/kit';
 
@@ -27,19 +27,19 @@ const findPostEntry = (slug: string) =>
 export const entries: EntryGenerator = async () =>
 	Array.from(new Set(listPostSlugs())).map((slug) => ({ slug }));
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageLoad = async ({ params }) => {
 	const postEntry = findPostEntry(params.slug);
 
 	if (!postEntry) {
 		throw error(404, `Post not found: ${params.slug}`);
 	}
 
-	const [postPath, resolver] = postEntry;
+	const [, resolver] = postEntry;
 	const post = await resolver();
 
 	return {
 		slug: params.slug,
 		metadata: post.metadata,
-		postPath
+		component: post.default
 	};
 };
