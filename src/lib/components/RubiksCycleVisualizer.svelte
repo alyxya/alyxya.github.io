@@ -343,8 +343,7 @@
 
 <div class="not-prose">
 	<div class="mx-auto w-fit space-y-3">
-		<div class="flex items-start gap-3">
-			<div class="cube-stage shrink-0">
+		<div class="cube-stage">
 				<div
 					bind:this={viewportEl}
 					class:dragging={isDragging}
@@ -375,51 +374,34 @@
 						</div>
 					</div>
 				</div>
-				<p class="mt-1.5 text-center text-[0.6rem] tracking-widest text-ocean-400/70 uppercase select-none">
-					Drag to rotate
-				</p>
 			</div>
 
-			<div class="flex shrink-0 flex-col gap-2 pt-0.5">
-				<div class="grid grid-cols-2 gap-1">
-					{#each MOVES as move (move)}
-						<button
-							class="move-btn"
-							class:light={moveIsLight(move)}
-							style:background={moveColor(move)}
-							disabled={isPlaying}
-							onclick={() => addMove(move)}
-							aria-label="Turn {MOVE_FACE_NAME[move]} face clockwise"
-						>&#8635;</button>
-						<button
-							class="move-btn"
-							class:light={moveIsLight(move)}
-							style:background={moveColor(move)}
-							disabled={isPlaying}
-							onclick={() => addMove(`${move}'`)}
-							aria-label="Turn {MOVE_FACE_NAME[move]} face counterclockwise"
-						>&#8634;</button>
-					{/each}
-				</div>
-
-				<div class="flex flex-col gap-1">
-					{#if isPlaying}
-						<button class="action-btn" onclick={stop} aria-label="Stop">&#9632;</button>
-					{:else}
-						<button
-							class="action-btn"
-							disabled={moveSequence.length === 0}
-							onclick={play}
-							aria-label="Play"
-						>&#9654;</button>
-					{/if}
-				</div>
-			</div>
+		<div class="move-grid">
+			{#each MOVES as move (move)}
+				<button
+					class="move-btn"
+					class:light={moveIsLight(move)}
+					style:background={moveColor(move)}
+					disabled={isPlaying}
+					onclick={() => addMove(move)}
+					aria-label="Turn {MOVE_FACE_NAME[move]} face clockwise"
+				>↻</button>
+			{/each}
+			{#each MOVES as move (`${move}-inv`)}
+				<button
+					class="move-btn"
+					class:light={moveIsLight(move)}
+					style:background={moveColor(move)}
+					disabled={isPlaying}
+					onclick={() => addMove(`${move}'`)}
+					aria-label="Turn {MOVE_FACE_NAME[move]} face counterclockwise"
+				>↺</button>
+			{/each}
 		</div>
 
-		<div class="space-y-2">
-			<div class="flex min-h-[1.5rem] flex-wrap items-center gap-1">
-				{#if moveSequence.length > 0}
+		<div class="flex min-h-[1.5rem] items-center gap-1.5">
+			{#if moveSequence.length > 0}
+				<div class="flex flex-1 flex-wrap items-center gap-1">
 					{#each moveSequence as move, i (i)}
 						<span
 							class="seq-badge"
@@ -427,34 +409,43 @@
 							style:background={moveColor(move)}
 						>{move.includes("'") ? '↺' : '↻'}</span>
 					{/each}
-					<button
-						class="ml-0.5 text-sm text-ocean-400 transition-colors hover:text-ocean-600 disabled:opacity-30"
-						disabled={isPlaying || moveSequence.length === 0}
-						onclick={deleteLast}
-						aria-label="Delete last move"
-					>&#9003;</button>
-					<button
-						class="text-xs text-ocean-400 transition-colors hover:text-ocean-600 disabled:opacity-30"
-						disabled={isPlaying}
-						onclick={clearAll}
-					>Clear</button>
-				{:else}
-					<span class="text-xs text-ocean-300">No moves</span>
-				{/if}
-			</div>
+				</div>
+				<button
+					class="text-sm text-ocean-400 transition-colors hover:text-ocean-600 disabled:opacity-30"
+					disabled={isPlaying || moveSequence.length === 0}
+					onclick={deleteLast}
+					aria-label="Delete last move"
+				>⌫</button>
+				<button
+					class="text-xs text-ocean-400 transition-colors hover:text-ocean-600 disabled:opacity-30"
+					disabled={isPlaying}
+					onclick={clearAll}
+				>Clear</button>
+			{:else}
+				<span class="text-xs text-ocean-300">Click a color to add moves</span>
+			{/if}
+		</div>
 
-			<div class="flex items-center gap-2 text-ocean-500">
-				<span class="text-xs">Speed</span>
-				<input
-					type="range"
-					min="1"
-					max="10"
-					step="0.5"
-					bind:value={speed}
-					class="flex-1 accent-ocean-600"
-				/>
-				<span class="w-12 text-right font-mono text-xs text-ocean-400">{speed}/s</span>
-			</div>
+		<div class="flex items-center gap-2">
+			{#if isPlaying}
+				<button class="play-btn" onclick={stop} aria-label="Stop">■</button>
+			{:else}
+				<button
+					class="play-btn"
+					disabled={moveSequence.length === 0}
+					onclick={play}
+					aria-label="Play"
+				>▶</button>
+			{/if}
+			<input
+				type="range"
+				min="1"
+				max="10"
+				step="0.5"
+				bind:value={speed}
+				class="flex-1 accent-ocean-600"
+			/>
+			<span class="w-10 text-right font-mono text-xs text-ocean-400">{speed}/s</span>
 		</div>
 	</div>
 </div>
@@ -475,10 +466,10 @@
 		width: var(--cube-size);
 		height: var(--cube-size);
 		overflow: hidden;
-		border-radius: 1rem;
+		border-radius: 0.75rem;
 		border: 1px solid rgba(125, 168, 198, 0.2);
 		background: linear-gradient(145deg, #f0f9ff, #e2e8f0);
-		box-shadow: 0 6px 24px rgba(15, 23, 42, 0.07);
+		box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
 		cursor: grab;
 		touch-action: none;
 		user-select: none;
@@ -537,22 +528,27 @@
 			inset 0 -6px 10px rgba(0, 0, 0, 0.12);
 	}
 
+	.move-grid {
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		gap: 3px;
+	}
+
 	.move-btn {
-		width: 2rem;
-		height: 2rem;
-		border-radius: 0.3rem;
+		height: 2.2rem;
+		border-radius: 0.35rem;
 		border: 1px solid rgba(0, 0, 0, 0.1);
 		display: grid;
 		place-items: center;
 		font-size: 0.9rem;
-		color: white;
+		color: rgba(255, 255, 255, 0.9);
 		cursor: pointer;
 		transition: opacity 0.15s;
 	}
 
 	.move-btn.light {
-		color: rgba(0, 0, 0, 0.6);
-		border-color: rgba(0, 0, 0, 0.15);
+		color: rgba(0, 0, 0, 0.5);
+		border-color: rgba(0, 0, 0, 0.12);
 	}
 
 	.move-btn:hover:not(:disabled) {
@@ -564,24 +560,26 @@
 		cursor: default;
 	}
 
-	.action-btn {
-		height: 2rem;
-		border-radius: 0.3rem;
-		border: 1px solid rgba(125, 168, 198, 0.25);
+	.play-btn {
+		width: 2.2rem;
+		height: 2.2rem;
+		border-radius: 50%;
+		border: 1px solid rgba(125, 168, 198, 0.3);
 		background: white;
 		display: grid;
 		place-items: center;
-		font-size: 0.8rem;
+		font-size: 0.65rem;
 		color: #475569;
 		cursor: pointer;
 		transition: background-color 0.15s;
+		flex-shrink: 0;
 	}
 
-	.action-btn:hover:not(:disabled) {
+	.play-btn:hover:not(:disabled) {
 		background: #f0f9ff;
 	}
 
-	.action-btn:disabled {
+	.play-btn:disabled {
 		opacity: 0.3;
 		cursor: default;
 	}
@@ -590,22 +588,22 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 1.3rem;
-		height: 1.3rem;
-		border-radius: 0.2rem;
-		font-size: 0.65rem;
-		color: white;
+		width: 1.25rem;
+		height: 1.25rem;
+		border-radius: 50%;
+		font-size: 0.6rem;
+		color: rgba(255, 255, 255, 0.9);
 		border: 1px solid rgba(0, 0, 0, 0.1);
 	}
 
 	.seq-badge.light {
-		color: rgba(0, 0, 0, 0.55);
-		border-color: rgba(0, 0, 0, 0.15);
+		color: rgba(0, 0, 0, 0.45);
+		border-color: rgba(0, 0, 0, 0.12);
 	}
 
 	@media (max-width: 767px) {
 		.cube-stage {
-			--cube-size: clamp(12rem, calc(100vw - 8rem), 20rem);
+			--cube-size: clamp(12rem, calc(100vw - 3rem), 20rem);
 		}
 
 		.cubie-face {
