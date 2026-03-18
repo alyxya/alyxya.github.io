@@ -376,76 +376,78 @@
 				</div>
 			</div>
 
-		<div class="move-grid">
-			{#each MOVES as move (move)}
-				<button
-					class="move-btn"
-					class:light={moveIsLight(move)}
-					style:background={moveColor(move)}
-					disabled={isPlaying}
-					onclick={() => addMove(move)}
-					aria-label="Turn {MOVE_FACE_NAME[move]} face clockwise"
-				>↻</button>
-			{/each}
-			{#each MOVES as move (`${move}-inv`)}
-				<button
-					class="move-btn"
-					class:light={moveIsLight(move)}
-					style:background={moveColor(move)}
-					disabled={isPlaying}
-					onclick={() => addMove(`${move}'`)}
-					aria-label="Turn {MOVE_FACE_NAME[move]} face counterclockwise"
-				>↺</button>
-			{/each}
-		</div>
+		<div class="controls">
+			<div class="move-grid">
+				{#each MOVES as move (move)}
+					<button
+						class="move-btn"
+						class:light={moveIsLight(move)}
+						style:background={moveColor(move)}
+						disabled={isPlaying}
+						onclick={() => addMove(move)}
+						aria-label="Turn {MOVE_FACE_NAME[move]} face clockwise"
+					>↻</button>
+				{/each}
+				{#each MOVES as move (`${move}-inv`)}
+					<button
+						class="move-btn"
+						class:light={moveIsLight(move)}
+						style:background={moveColor(move)}
+						disabled={isPlaying}
+						onclick={() => addMove(`${move}'`)}
+						aria-label="Turn {MOVE_FACE_NAME[move]} face counterclockwise"
+					>↺</button>
+				{/each}
+			</div>
 
-		<div class="flex min-h-[1.5rem] items-center gap-1.5">
-			{#if moveSequence.length > 0}
-				<div class="flex flex-1 flex-wrap items-center gap-1">
-					{#each moveSequence as move, i (i)}
-						<span
-							class="seq-badge"
-							class:light={moveIsLight(move)}
-							style:background={moveColor(move)}
-						>{move.includes("'") ? '↺' : '↻'}</span>
-					{/each}
-				</div>
-				<button
-					class="text-sm text-ocean-400 transition-colors hover:text-ocean-600 disabled:opacity-30"
-					disabled={isPlaying || moveSequence.length === 0}
-					onclick={deleteLast}
-					aria-label="Delete last move"
-				>⌫</button>
-				<button
-					class="text-xs text-ocean-400 transition-colors hover:text-ocean-600 disabled:opacity-30"
-					disabled={isPlaying}
-					onclick={clearAll}
-				>Clear</button>
-			{:else}
-				<span class="text-xs text-ocean-300">Click a color to add moves</span>
-			{/if}
-		</div>
+			<div class="flex min-h-[1.5rem] items-center gap-1.5">
+				{#if moveSequence.length > 0}
+					<div class="flex flex-1 flex-wrap items-center gap-1">
+						{#each moveSequence as move, i (i)}
+							<span
+								class="seq-badge"
+								class:light={moveIsLight(move)}
+								style:background={moveColor(move)}
+							>{move.includes("'") ? '↺' : '↻'}</span>
+						{/each}
+					</div>
+					<button
+						class="text-sm text-ocean-400 transition-colors hover:text-ocean-600 disabled:opacity-30"
+						disabled={isPlaying || moveSequence.length === 0}
+						onclick={deleteLast}
+						aria-label="Delete last move"
+					>⌫</button>
+					<button
+						class="text-xs text-ocean-400 transition-colors hover:text-ocean-600 disabled:opacity-30"
+						disabled={isPlaying}
+						onclick={clearAll}
+					>Clear</button>
+				{:else}
+					<span class="text-xs text-ocean-300">Click a color to add moves</span>
+				{/if}
+			</div>
 
-		<div class="flex items-center gap-2">
-			{#if isPlaying}
-				<button class="play-btn" onclick={stop} aria-label="Stop">■</button>
-			{:else}
-				<button
-					class="play-btn"
-					disabled={moveSequence.length === 0}
-					onclick={play}
-					aria-label="Play"
-				>▶</button>
-			{/if}
-			<input
-				type="range"
-				min="1"
-				max="10"
-				step="0.5"
-				bind:value={speed}
-				class="flex-1 accent-ocean-600"
-			/>
-			<span class="w-10 text-right font-mono text-xs text-ocean-400">{speed}/s</span>
+			<div class="flex items-center gap-2">
+				{#if isPlaying}
+					<button class="play-btn" onclick={stop} aria-label="Stop">■</button>
+				{:else}
+					<button
+						class="play-btn"
+						disabled={moveSequence.length === 0}
+						onclick={play}
+						aria-label="Play"
+					>▶</button>
+				{/if}
+				<input
+					type="range"
+					min="1"
+					max="10"
+					step="0.5"
+					bind:value={speed}
+					class="flex-1 accent-ocean-600"
+				/>
+				<span class="w-10 text-right font-mono text-xs text-ocean-400">{speed}/s</span>
+			</div>
 		</div>
 	</div>
 </div>
@@ -528,27 +530,37 @@
 			inset 0 -6px 10px rgba(0, 0, 0, 0.12);
 	}
 
+	.controls {
+		width: calc(2.4rem * 6 + 4px * 5);
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+
 	.move-grid {
 		display: grid;
-		grid-template-columns: repeat(6, 1fr);
-		gap: 3px;
+		grid-template-columns: repeat(6, 2.4rem);
+		gap: 4px;
 	}
 
 	.move-btn {
-		height: 2.2rem;
-		border-radius: 0.35rem;
+		width: 2.4rem;
+		height: 2.4rem;
+		border-radius: 0.4rem;
 		border: 1px solid rgba(0, 0, 0, 0.1);
 		display: grid;
 		place-items: center;
-		font-size: 0.9rem;
+		font-size: 0.95rem;
 		color: rgba(255, 255, 255, 0.9);
 		cursor: pointer;
 		transition: opacity 0.15s;
 	}
 
 	.move-btn.light {
-		color: rgba(0, 0, 0, 0.5);
-		border-color: rgba(0, 0, 0, 0.12);
+		color: rgba(0, 0, 0, 0.45);
+		border-color: rgba(0, 0, 0, 0.18);
+		box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
 	}
 
 	.move-btn:hover:not(:disabled) {
@@ -561,9 +573,8 @@
 	}
 
 	.play-btn {
-		width: 2.2rem;
-		height: 2.2rem;
-		border-radius: 50%;
+		padding: 0.4rem 0.75rem;
+		border-radius: 0.35rem;
 		border: 1px solid rgba(125, 168, 198, 0.3);
 		background: white;
 		display: grid;
@@ -588,10 +599,10 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 1.25rem;
-		height: 1.25rem;
+		width: 1.5rem;
+		height: 1.5rem;
 		border-radius: 50%;
-		font-size: 0.6rem;
+		font-size: 0.7rem;
 		color: rgba(255, 255, 255, 0.9);
 		border: 1px solid rgba(0, 0, 0, 0.1);
 	}
