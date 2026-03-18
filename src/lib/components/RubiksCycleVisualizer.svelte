@@ -188,7 +188,6 @@
 	let cubeState = $state(createSolvedCubies());
 	let moveSequence: string[] = $state([]);
 	let isPlaying = $state(false);
-	let cycleCount = $state(0);
 	let speed = $state(2);
 	let activeTurn = $state<ActiveTurn | null>(null);
 	let viewMatrix = $state(initialViewMatrix());
@@ -203,7 +202,6 @@
 	let lastPointerY = 0;
 
 	const duration = $derived(1000 / speed);
-	const solved = $derived(isSolved(cubeState));
 
 	function addMove(move: string) {
 		if (isPlaying) return;
@@ -237,7 +235,6 @@
 		stop();
 		moveSequence = [];
 		cubeState = createSolvedCubies();
-		cycleCount = 0;
 	}
 
 	function animateMove(move: string, duration: number, token: number): Promise<boolean> {
@@ -295,7 +292,6 @@
 
 		isPlaying = true;
 		cubeState = createSolvedCubies();
-		cycleCount = 0;
 
 		while (token === playToken) {
 			for (const move of moveSequence) {
@@ -303,7 +299,6 @@
 				if (!completed) return;
 			}
 
-			cycleCount += 1;
 			if (isSolved(cubeState)) break;
 
 			const keepGoing = await wait(Math.max(45, Math.round(duration * 0.18)), token);
@@ -460,18 +455,6 @@
 				/>
 				<span class="w-12 text-right font-mono text-xs text-ocean-400">{speed}/s</span>
 			</div>
-
-			{#if cycleCount > 0}
-				<div class="rounded border border-ocean-200 bg-ocean-50/60 px-4 py-2.5 text-center">
-					{#if solved && !isPlaying}
-						<span class="font-semibold text-ocean-900">Cycle length: {cycleCount}</span>
-					{:else}
-						<span class="font-mono text-sm text-ocean-600"
-							>Iteration {cycleCount}{isPlaying ? '...' : ''}</span
-						>
-					{/if}
-				</div>
-			{/if}
 		</div>
 	</div>
 </div>
