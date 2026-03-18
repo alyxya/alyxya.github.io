@@ -11,6 +11,11 @@ export default await sveltex({
 				name: 'Annotation',
 				type: 'phrasing',
 				importPath: '$lib/components/Annotation.svelte'
+			},
+			{
+				name: 'RubiksCycleVisualizer',
+				type: 'sectioning',
+				importPath: '$lib/components/RubiksCycleVisualizer.svelte'
 			}
 		]
 	},

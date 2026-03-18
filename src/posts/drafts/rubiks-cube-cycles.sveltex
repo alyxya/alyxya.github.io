@@ -5,9 +5,4 @@ description: "Exploring the cycle structure of Rubik's cube permutations"
 tags: ["math", "group-theory"]
 ---
 
-<script lang="ts">
-	'use runes';
-	import RubiksCycleVisualizer from '$lib/components/RubiksCycleVisualizer.svelte';
-</script>
-
 <RubiksCycleVisualizer />
