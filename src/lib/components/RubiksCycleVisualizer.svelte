@@ -157,7 +157,7 @@
 	}
 
 	function sceneTransform(pitch: number, yaw: number): string {
-		return `rotateX(${pitch}deg) rotateY(${yaw}deg)`;
+		return `scale3d(0.55, 0.55, 0.55) rotateX(${pitch}deg) rotateY(${yaw}deg)`;
 	}
 
 	let cubeState = $state(createSolvedCubies());
@@ -353,69 +353,74 @@
 	});
 </script>
 
-<div class="not-prose mx-auto max-w-2xl space-y-5">
-	<div class="flex justify-center">
-		<div class="cube-stage">
-			<div
-				bind:this={viewportEl}
-				class:dragging={isDragging}
-				class="cube-viewport"
-				role="img"
-				aria-label="Interactive 3D Rubik's cube showing the current state of the selected move sequence"
-				onpointerdown={handlePointerDown}
-				onpointermove={handlePointerMove}
-				onpointerup={handlePointerUp}
-				onpointercancel={handlePointerUp}
-			>
-				<div class="scene" style:transform={sceneTransform(viewPitch, viewYaw)}>
-					<div class="cube">
-						{#each cubeState as cubie (cubie.id)}
-							<div class="cubie" style:transform={cubieTransform(cubie, activeTurn)}>
-								{#each FACE_KEYS as faceKey (faceKey)}
-									<div class="cubie-face" style:transform={FACE_TRANSFORMS[faceKey]}>
-										{#if cubie.stickers[faceKey] !== undefined}
-											<div
-												class="sticker"
-												style:background={COLORS[cubie.stickers[faceKey] as number]}
-												title={`${FACE_LABELS[faceKey]} face`}
-											></div>
-										{/if}
-									</div>
-								{/each}
-							</div>
-						{/each}
-					</div>
+<div class="not-prose mx-auto max-w-xl space-y-3">
+	<div class="cube-stage">
+		<div
+			bind:this={viewportEl}
+			class:dragging={isDragging}
+			class="cube-viewport"
+			role="img"
+			aria-label="Interactive 3D Rubik's cube"
+			onpointerdown={handlePointerDown}
+			onpointermove={handlePointerMove}
+			onpointerup={handlePointerUp}
+			onpointercancel={handlePointerUp}
+		>
+			<div class="scene" style:transform={sceneTransform(viewPitch, viewYaw)}>
+				<div class="cube">
+					{#each cubeState as cubie (cubie.id)}
+						<div class="cubie" style:transform={cubieTransform(cubie, activeTurn)}>
+							{#each FACE_KEYS as faceKey (faceKey)}
+								<div class="cubie-face" style:transform={FACE_TRANSFORMS[faceKey]}>
+									{#if cubie.stickers[faceKey] !== undefined}
+										<div
+											class="sticker"
+											style:background={COLORS[cubie.stickers[faceKey] as number]}
+										></div>
+									{/if}
+								</div>
+							{/each}
+						</div>
+					{/each}
 				</div>
 			</div>
-			<div
-				class="mt-3 flex items-center justify-between gap-3 text-xs font-medium tracking-[0.22em] text-ocean-500 uppercase"
-			>
-				<span>Drag to rotate</span>
-				<button
-					class="rounded-full border border-ocean-200 bg-white px-3 py-1.5 text-[0.65rem] tracking-[0.18em] text-ocean-700 transition-colors hover:bg-ocean-50"
-					onclick={resetView}
-				>
-					Reset view
-				</button>
-			</div>
 		</div>
+		<p class="mt-1.5 text-center text-[0.6rem] tracking-widest text-ocean-400/70 uppercase select-none">
+			Drag to rotate
+		</p>
 	</div>
 
-	<div class="rounded-lg border border-ocean-200 bg-ocean-50/50 px-4 py-3">
-		<div class="mb-1 text-xs font-medium tracking-wider text-ocean-500 uppercase">Sequence</div>
-		<div class="min-h-[1.75rem] font-mono text-sm text-ocean-900">
+	<div class="flex items-center gap-1.5">
+		<div
+			class="flex-1 overflow-x-auto rounded border border-ocean-200 bg-white px-3 py-2 font-mono text-sm text-ocean-900"
+		>
 			{#if moveSequence.length > 0}
 				{moveSequence.join(' ')}
 			{:else}
-				<span class="text-ocean-400">No moves selected</span>
+				<span class="text-ocean-300">No moves</span>
 			{/if}
 		</div>
+		<button
+			class="rounded border border-ocean-200 bg-white px-2.5 py-2 text-sm text-ocean-500 transition-colors hover:bg-ocean-50 disabled:opacity-30"
+			disabled={isPlaying || moveSequence.length === 0}
+			onclick={deleteLast}
+			aria-label="Delete last move"
+		>
+			&#9003;
+		</button>
+		<button
+			class="rounded border border-ocean-200 bg-white px-2.5 py-2 text-xs text-ocean-500 transition-colors hover:bg-ocean-50 disabled:opacity-30"
+			disabled={isPlaying}
+			onclick={clearAll}
+		>
+			Clear
+		</button>
 	</div>
 
-	<div class="grid grid-cols-6 gap-2">
+	<div class="grid grid-cols-6 gap-1.5">
 		{#each MOVES as move (move)}
 			<button
-				class="rounded-lg border border-ocean-200 bg-white px-2 py-2.5 text-sm font-semibold text-ocean-900 transition-colors hover:bg-ocean-100 disabled:opacity-40"
+				class="rounded border border-ocean-200 bg-white py-2 text-sm font-semibold text-ocean-900 transition-colors hover:bg-ocean-50 disabled:opacity-30"
 				disabled={isPlaying}
 				onclick={() => addMove(move)}
 			>
@@ -424,7 +429,7 @@
 		{/each}
 		{#each MOVES as move (`${move}-inverse`)}
 			<button
-				class="rounded-lg border border-ocean-200 bg-white px-2 py-2.5 text-sm font-semibold text-ocean-900 transition-colors hover:bg-ocean-100 disabled:opacity-40"
+				class="rounded border border-ocean-200 bg-white py-2 text-sm font-semibold text-ocean-900 transition-colors hover:bg-ocean-50 disabled:opacity-30"
 				disabled={isPlaying}
 				onclick={() => addMove(`${move}'`)}
 			>
@@ -433,17 +438,17 @@
 		{/each}
 	</div>
 
-	<div class="flex flex-wrap gap-2">
+	<div class="flex gap-1.5">
 		{#if isPlaying}
 			<button
-				class="flex-1 rounded-lg bg-ocean-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ocean-800"
+				class="flex-1 rounded bg-ocean-700 py-2 text-sm font-semibold text-white transition-colors hover:bg-ocean-800"
 				onclick={stop}
 			>
 				Stop
 			</button>
 		{:else}
 			<button
-				class="flex-1 rounded-lg bg-ocean-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ocean-800 disabled:opacity-40"
+				class="flex-1 rounded bg-ocean-700 py-2 text-sm font-semibold text-white transition-colors hover:bg-ocean-800 disabled:opacity-30"
 				disabled={moveSequence.length === 0}
 				onclick={play}
 			>
@@ -451,64 +456,43 @@
 			</button>
 		{/if}
 		<button
-			class="flex-1 rounded-lg border border-ocean-200 bg-white px-4 py-2.5 text-sm font-semibold text-ocean-700 transition-colors hover:bg-ocean-50 disabled:opacity-40"
+			class="rounded border border-ocean-200 bg-white px-4 py-2 text-sm text-ocean-700 transition-colors hover:bg-ocean-50 disabled:opacity-30"
 			disabled={isPlaying || moveSequence.length === 0}
 			onclick={computeInstant}
 		>
 			Skip
 		</button>
 		<button
-			class="flex-1 rounded-lg border border-ocean-200 bg-white px-4 py-2.5 text-sm font-semibold text-ocean-700 transition-colors hover:bg-ocean-50 disabled:opacity-40"
+			class="rounded border border-ocean-200 bg-white px-4 py-2 text-sm text-ocean-700 transition-colors hover:bg-ocean-50 disabled:opacity-30"
 			disabled={isPlaying}
 			onclick={reset}
 		>
 			Reset
 		</button>
-		<button
-			class="rounded-lg border border-ocean-200 bg-white px-3 py-2.5 text-sm text-ocean-600 transition-colors hover:bg-ocean-50 disabled:opacity-40"
-			disabled={isPlaying || moveSequence.length === 0}
-			onclick={deleteLast}
-			aria-label="Delete last move"
-		>
-			&#9003;
-		</button>
-		<button
-			class="rounded-lg border border-ocean-200 bg-white px-3 py-2.5 text-sm text-ocean-600 transition-colors hover:bg-ocean-50 disabled:opacity-40"
-			disabled={isPlaying}
-			onclick={clearAll}
-			aria-label="Clear all"
-		>
-			Clear
-		</button>
 	</div>
 
-	<div class="flex items-center gap-3 text-sm text-ocean-600">
-		<span>Turn speed</span>
+	<div class="flex items-center gap-2 text-ocean-500">
+		<span class="text-xs">Speed</span>
 		<input
 			type="range"
 			min="120"
 			max="700"
 			step="20"
 			bind:value={speed}
-			class="flex-1 accent-ocean-700"
+			class="flex-1 accent-ocean-600"
 			disabled={isPlaying}
 		/>
-		<span class="w-16 text-right font-mono text-xs">{speed}ms</span>
+		<span class="w-12 text-right font-mono text-xs text-ocean-400">{speed}ms</span>
 	</div>
 
 	{#if cycleCount > 0}
-		<div class="rounded-lg border border-ocean-200 bg-ocean-50/50 px-4 py-3 text-center">
+		<div class="rounded border border-ocean-200 bg-ocean-50/60 px-4 py-2.5 text-center">
 			{#if solved && !isPlaying}
-				<div class="text-lg font-bold text-ocean-900">Cycle length: {cycleCount}</div>
-				<div class="text-sm text-ocean-600">
-					The cube returned to its solved state after {cycleCount} repetition{cycleCount === 1
-						? ''
-						: 's'}.
-				</div>
+				<span class="font-semibold text-ocean-900">Cycle length: {cycleCount}</span>
 			{:else}
-				<div class="font-mono text-ocean-700">
-					Iteration {cycleCount}{isPlaying ? '...' : ''}
-				</div>
+				<span class="font-mono text-sm text-ocean-600"
+					>Iteration {cycleCount}{isPlaying ? '...' : ''}</span
+				>
 			{/if}
 		</div>
 	{/if}
@@ -522,7 +506,8 @@
 		--step: calc(var(--cubie) + var(--gap));
 		--half-cubie: calc(var(--cubie) / 2);
 		width: min(100%, calc(var(--cube-size) + 1rem));
-		perspective: 1100px;
+		margin: 0 auto;
+		perspective: 1400px;
 	}
 
 	.cube-viewport {
@@ -531,15 +516,10 @@
 		height: var(--cube-size);
 		margin: 0 auto;
 		overflow: hidden;
-		border-radius: 1.6rem;
-		border: 1px solid rgba(125, 168, 198, 0.32);
-		background:
-			radial-gradient(circle at 26% 20%, rgba(255, 255, 255, 0.95), transparent 34%),
-			radial-gradient(circle at 70% 78%, rgba(14, 116, 144, 0.18), transparent 32%),
-			linear-gradient(145deg, rgba(240, 249, 255, 0.94), rgba(226, 232, 240, 0.92));
-		box-shadow:
-			inset 0 1px 0 rgba(255, 255, 255, 0.75),
-			0 24px 60px rgba(15, 23, 42, 0.12);
+		border-radius: 1rem;
+		border: 1px solid rgba(125, 168, 198, 0.2);
+		background: linear-gradient(145deg, #f0f9ff, #e2e8f0);
+		box-shadow: 0 6px 24px rgba(15, 23, 42, 0.07);
 		cursor: grab;
 		touch-action: none;
 		user-select: none;
@@ -547,16 +527,6 @@
 
 	.cube-viewport.dragging {
 		cursor: grabbing;
-	}
-
-	.cube-viewport::after {
-		content: '';
-		position: absolute;
-		inset: 8% 10%;
-		border-radius: 50%;
-		background: radial-gradient(circle, rgba(15, 23, 42, 0.18), transparent 68%);
-		filter: blur(16px);
-		transform: translateY(36%);
 	}
 
 	.scene {
@@ -591,23 +561,21 @@
 		inset: 0;
 		display: grid;
 		place-items: center;
-		border-radius: 0.45rem;
-		background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.86));
-		border: 1px solid rgba(148, 163, 184, 0.12);
-		box-shadow:
-			inset 0 0 0 1px rgba(255, 255, 255, 0.03),
-			inset 0 -10px 14px rgba(0, 0, 0, 0.12);
+		border-radius: 0.35rem;
+		background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.85));
+		border: 1px solid rgba(148, 163, 184, 0.08);
+		box-shadow: inset 0 -6px 10px rgba(0, 0, 0, 0.1);
 		backface-visibility: hidden;
 	}
 
 	.sticker {
 		position: absolute;
 		inset: 9%;
-		border-radius: 0.34rem;
-		border: 1px solid rgba(255, 255, 255, 0.38);
+		border-radius: 0.28rem;
+		border: 1px solid rgba(255, 255, 255, 0.3);
 		box-shadow:
-			inset 0 1px 0 rgba(255, 255, 255, 0.26),
-			inset 0 -8px 14px rgba(0, 0, 0, 0.16);
+			inset 0 1px 0 rgba(255, 255, 255, 0.2),
+			inset 0 -6px 10px rgba(0, 0, 0, 0.12);
 	}
 
 	@media (max-width: 640px) {
@@ -616,11 +584,11 @@
 		}
 
 		.cubie-face {
-			border-radius: 0.32rem;
+			border-radius: 0.25rem;
 		}
 
 		.sticker {
-			border-radius: 0.24rem;
+			border-radius: 0.2rem;
 		}
 	}
 </style>
