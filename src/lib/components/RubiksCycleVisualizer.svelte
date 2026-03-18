@@ -463,20 +463,6 @@
 							aria-label="Play"
 						>&#9654;</button>
 					{/if}
-					<div class="grid grid-cols-2 gap-1">
-						<button
-							class="action-btn"
-							disabled={isPlaying || moveSequence.length === 0}
-							onclick={computeInstant}
-							aria-label="Skip to result"
-						>&#9197;</button>
-						<button
-							class="action-btn"
-							disabled={isPlaying}
-							onclick={reset}
-							aria-label="Reset cube"
-						>&#8634;</button>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -537,7 +523,7 @@
 
 <style>
 	.cube-stage {
-		--cube-size: clamp(14rem, 40vw, 18rem);
+		--cube-size: clamp(16rem, 45vw, 24rem);
 		--gap: clamp(0.22rem, 0.9vw, 0.34rem);
 		--cubie: calc((var(--cube-size) - var(--gap) * 2) / 3);
 		--step: calc(var(--cubie) + var(--gap));
@@ -681,7 +667,7 @@
 
 	@media (max-width: 767px) {
 		.cube-stage {
-			--cube-size: clamp(11rem, calc(100vw - 8rem), 16rem);
+			--cube-size: clamp(12rem, calc(100vw - 8rem), 20rem);
 		}
 
 		.cubie-face {
