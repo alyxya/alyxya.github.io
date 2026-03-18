@@ -25,6 +25,10 @@
 	--color-ocean-50: var(--color-ocean-surface);
 }
 
+body {
+	font-family: 'Lora', Georgia, serif;
+}
+
 /* Ocean gradient background */
 html {
 	/* Solid color for overscroll areas - matches bottom of gradient */
