@@ -17,7 +17,6 @@ The proof for why this is the case turns out to be quite simple. It relies on tw
 
 The first observation alone doesn't guarantee you'll return to the original state.
 You might loop back to some intermediate state rather than the starting one.
-
 So let's say repeating the moves $n$ times produces the same state as repeating them $k$ times, where $k < n$.
 
 Now we can use invertibility.
