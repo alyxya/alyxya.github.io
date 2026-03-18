@@ -164,7 +164,7 @@
 	let moveSequence: string[] = $state([]);
 	let isPlaying = $state(false);
 	let cycleCount = $state(0);
-	let speed = $state(260);
+	let speed = $state(2);
 	let activeTurn = $state<ActiveTurn | null>(null);
 	let viewPitch = $state(-27);
 	let viewYaw = $state(39);
@@ -180,6 +180,7 @@
 	let dragStartPitch = 0;
 	let dragStartYaw = 0;
 
+	const duration = $derived(1000 / speed);
 	const solved = $derived(isSolved(cubeState));
 
 	function addMove(move: string) {
@@ -287,14 +288,14 @@
 
 		while (token === playToken) {
 			for (const move of moveSequence) {
-				const completed = await animateMove(move, speed, token);
+				const completed = await animateMove(move, duration, token);
 				if (!completed) return;
 			}
 
 			cycleCount += 1;
 			if (isSolved(cubeState)) break;
 
-			const keepGoing = await wait(Math.max(45, Math.round(speed * 0.18)), token);
+			const keepGoing = await wait(Math.max(45, Math.round(duration * 0.18)), token);
 			if (!keepGoing) return;
 		}
 
@@ -475,13 +476,13 @@
 		<span class="text-xs">Speed</span>
 		<input
 			type="range"
-			min="120"
-			max="700"
-			step="20"
+			min="1"
+			max="10"
+			step="0.5"
 			bind:value={speed}
 			class="flex-1 accent-ocean-600"
 		/>
-		<span class="w-12 text-right font-mono text-xs text-ocean-400">{speed}ms</span>
+		<span class="w-12 text-right font-mono text-xs text-ocean-400">{speed}/s</span>
 	</div>
 
 	{#if cycleCount > 0}
