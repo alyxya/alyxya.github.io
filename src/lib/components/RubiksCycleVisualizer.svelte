@@ -480,7 +480,6 @@
 			step="20"
 			bind:value={speed}
 			class="flex-1 accent-ocean-600"
-			disabled={isPlaying}
 		/>
 		<span class="w-12 text-right font-mono text-xs text-ocean-400">{speed}ms</span>
 	</div>
