@@ -35,6 +35,7 @@
 		nz: [0, 0, -1]
 	};
 	const MOVES = ['R', 'L', 'U', 'D', 'F', 'B'];
+	const MOVE_ROWS = [['L', 'U', 'F'], ['R', 'D', 'B']];
 	const MOVE_DEFS: Record<string, MoveDef> = {
 		R: { axis: 'x', axisIndex: 0, layer: 1, dir: -1 },
 		L: { axis: 'x', axisIndex: 0, layer: -1, dir: 1 },
@@ -343,7 +344,7 @@
 </script>
 
 <div class="not-prose">
-	<div class="mx-auto w-fit space-y-3">
+	<div class="widget">
 		<div class="cube-stage">
 				<div
 					bind:this={viewportEl}
@@ -379,23 +380,27 @@
 
 		<div class="controls">
 			<div class="move-pills">
-				{#each MOVES as move (move)}
-					<div class="pill" class:light={moveIsLight(move)} style:background={moveColor(move)}>
-						<button
-							class="pill-half"
-							class:light={moveIsLight(move)}
-							disabled={isPlaying}
-							onclick={() => addMove(move)}
-							aria-label="Turn {MOVE_FACE_NAME[move]} face clockwise"
-						><svg class="pill-icon" viewBox="0 0 16 16"><path d="M12 8a4 4 0 1 1-1.2-2.85" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 3v2.5h-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-						<div class="pill-divider" class:light={moveIsLight(move)}></div>
-						<button
-							class="pill-half"
-							class:light={moveIsLight(move)}
-							disabled={isPlaying}
-							onclick={() => addMove(`${move}'`)}
-							aria-label="Turn {MOVE_FACE_NAME[move]} face counterclockwise"
-						><svg class="pill-icon" viewBox="0 0 16 16"><path d="M4 8a4 4 0 1 0 1.2-2.85" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 3v2.5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+				{#each MOVE_ROWS as row, ri (ri)}
+					<div class="pill-row">
+						{#each row as move (move)}
+							<div class="pill" class:light={moveIsLight(move)} style:background={moveColor(move)}>
+								<button
+									class="pill-half"
+									class:light={moveIsLight(move)}
+									disabled={isPlaying}
+									onclick={() => addMove(move)}
+									aria-label="Turn {MOVE_FACE_NAME[move]} face clockwise"
+								><svg class="pill-icon" viewBox="0 0 16 16"><path d="M12 8a4 4 0 1 1-1.2-2.85" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 3v2.5h-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+								<div class="pill-divider" class:light={moveIsLight(move)}></div>
+								<button
+									class="pill-half"
+									class:light={moveIsLight(move)}
+									disabled={isPlaying}
+									onclick={() => addMove(`${move}'`)}
+									aria-label="Turn {MOVE_FACE_NAME[move]} face counterclockwise"
+								><svg class="pill-icon" viewBox="0 0 16 16"><path d="M4 8a4 4 0 1 0 1.2-2.85" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 3v2.5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+							</div>
+						{/each}
 					</div>
 				{/each}
 			</div>
@@ -453,8 +458,17 @@
 </div>
 
 <style>
-	.cube-stage {
+	.widget {
 		--cube-size: clamp(16rem, 45vw, 24rem);
+		width: var(--cube-size);
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.cube-stage {
 		--gap: clamp(0.22rem, 0.9vw, 0.34rem);
 		--cubie: calc((var(--cube-size) - var(--gap) * 2) / 3);
 		--step: calc(var(--cubie) + var(--gap));
@@ -531,6 +545,7 @@
 	}
 
 	.controls {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		gap: 0.6rem;
@@ -538,7 +553,13 @@
 
 	.move-pills {
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		gap: 4px;
+	}
+
+	.pill-row {
+		display: flex;
 		gap: 5px;
 	}
 
@@ -643,7 +664,7 @@
 	}
 
 	@media (max-width: 767px) {
-		.cube-stage {
+		.widget {
 			--cube-size: clamp(12rem, calc(100vw - 3rem), 20rem);
 		}
 
