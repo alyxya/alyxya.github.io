@@ -21,7 +21,8 @@ export default await sveltex({
 	},
 	code: {
 		shiki: {
-			theme: 'nord'
+			theme: 'nord',
+			tabindex: false
 		}
 	},
 	math: {
