@@ -189,7 +189,7 @@
 	let cubeState = $state(createSolvedCubies());
 	let moveSequence: string[] = $state([]);
 	let isPlaying = $state(false);
-	let speed = $state(2);
+	let sliderPos = $state(23); // log scale: 20^(pos/100)
 	let activeTurn = $state<ActiveTurn | null>(null);
 	let viewMatrix = $state(initialViewMatrix());
 	let isDragging = $state(false);
@@ -202,6 +202,7 @@
 	let lastPointerX = 0;
 	let lastPointerY = 0;
 
+	const speed = $derived(20 ** (sliderPos / 100));
 	const duration = $derived(1000 / speed);
 
 	function addMove(move: string) {
@@ -445,13 +446,13 @@
 				{/if}
 				<input
 					type="range"
-					min="1"
-					max="10"
-					step="0.5"
-					bind:value={speed}
+					min="0"
+					max="100"
+					step="1"
+					bind:value={sliderPos}
 					class="flex-1 accent-ocean-600"
 				/>
-				<span class="w-10 text-right font-mono text-xs text-ocean-400">{speed}/s</span>
+				<span class="w-10 text-right font-mono text-xs text-ocean-400">{speed.toPrecision(2)}/s</span>
 			</div>
 		</div>
 	</div>
