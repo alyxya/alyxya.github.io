@@ -5,7 +5,7 @@ description: "Why repeating any sequence of moves on a Rubik's cube always retur
 tags: ["math", "group-theory"]
 ---
 
-If you've ever played around with a Rubik's cube, you may have encountered an interesting pattern where repeating any arbitrary sequence of moves will always eventually return the cube to its original state.
+If you've ever played around with a Rubik's cube, you may have encountered an interesting pattern where repeating any sequence of moves will always eventually return the cube to its original state.
 You can try this out:
 
 <RubiksCycleVisualizer />
@@ -27,5 +27,5 @@ We can keep reversing like this until we find that $n - k$ repetitions produce t
 
 ---
 
-The proof above can be generalized using a branch of math called group theory, which I purposely avoided mentioning to keep things simple.
+The proof above can be generalized using a branch of math called group theory, which I avoided mentioning to keep things simple.
 I think group theory would be more understandable if it were taught through specific examples like this rather than with abstract groups from the start.
