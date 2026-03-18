@@ -1,11 +1,11 @@
 ---
 title: "Rubik's Cube Cycles"
 date: "2026-03-12"
-description: "Exploring the cycle structure of Rubik's cube permutations"
+description: "Why repeating any sequence of moves on a Rubik's cube always returns it to its starting state"
 tags: ["math", "group-theory"]
 ---
 
-If you've ever played around with a Rubik's cube, you may have encountered an interesting pattern where choosing an arbitrary sequence of moves to repeat will always eventually return the cube to its original state.
+If you've ever played around with a Rubik's cube, you may have encountered an interesting pattern where repeating any arbitrary sequence of moves will always eventually return the cube to its original state.
 You can try this out:
 
 <RubiksCycleVisualizer />
@@ -23,9 +23,9 @@ So let's say repeating the moves $n$ times produces the same state as repeating 
 Now we can use invertibility.
 If the states after $n$ and $k$ repetitions are the same, we can reverse the moves once from both.
 That gives us the states after $n - 1$ and $k - 1$ repetitions, which must also be the same.
-We can keep reversing like this until we find that $n - k$ repetitions produce the same state as $0$ repetitions, proving that repeating the moves $n - k$ times returns the cube to its original state.
+We can keep reversing like this until we find that $n - k$ repetitions produce the same state as $0$ repetitions, so the cube is back where it started after $n - k$ repetitions.
 
 ---
 
-The proof above can be generalized using a field of math called group theory, which I purposely avoided mentioning to keep things simple.
-I think group theory would be more understandable if it was taught through specific examples like this rather than with abstract groups from the start.
+The proof above can be generalized using a branch of math called group theory, which I purposely avoided mentioning to keep things simple.
+I think group theory would be more understandable if it were taught through specific examples like this rather than with abstract groups from the start.
