@@ -387,7 +387,7 @@
 						disabled={isPlaying}
 						onclick={() => addMove(move)}
 						aria-label="Turn {MOVE_FACE_NAME[move]} face clockwise"
-					>↻</button>
+					><svg class="arrow-icon" viewBox="0 0 16 16"><path d="M12 8a4 4 0 1 1-1.2-2.85" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 3v2.5h-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 				{/each}
 				{#each MOVES as move (`${move}-inv`)}
 					<button
@@ -397,7 +397,7 @@
 						disabled={isPlaying}
 						onclick={() => addMove(`${move}'`)}
 						aria-label="Turn {MOVE_FACE_NAME[move]} face counterclockwise"
-					>↺</button>
+					><svg class="arrow-icon" viewBox="0 0 16 16"><path d="M4 8a4 4 0 1 0 1.2-2.85" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 3v2.5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 				{/each}
 			</div>
 
@@ -409,7 +409,7 @@
 								class="seq-badge"
 								class:light={moveIsLight(move)}
 								style:background={moveColor(move)}
-							>{move.includes("'") ? '↺' : '↻'}</span>
+							>{#if move.includes("'")}<svg class="badge-icon" viewBox="0 0 16 16"><path d="M4 8a4 4 0 1 0 1.2-2.85" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 3v2.5h2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>{:else}<svg class="badge-icon" viewBox="0 0 16 16"><path d="M12 8a4 4 0 1 1-1.2-2.85" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 3v2.5h-2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>{/if}</span>
 						{/each}
 					</div>
 					<button
@@ -430,14 +430,14 @@
 
 			<div class="flex items-center gap-2">
 				{#if isPlaying}
-					<button class="play-btn" onclick={stop} aria-label="Stop">■</button>
+					<button class="play-btn" onclick={stop} aria-label="Stop"><svg viewBox="0 0 16 16" width="14" height="14"><rect x="3" y="3" width="10" height="10" rx="1" fill="currentColor"/></svg></button>
 				{:else}
 					<button
 						class="play-btn"
 						disabled={moveSequence.length === 0}
 						onclick={play}
 						aria-label="Play"
-					>▶</button>
+					><svg viewBox="0 0 16 16" width="14" height="14"><path d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg></button>
 				{/if}
 				<input
 					type="range"
@@ -552,7 +552,6 @@
 		border: 1px solid rgba(0, 0, 0, 0.1);
 		display: grid;
 		place-items: center;
-		font-size: 0.95rem;
 		color: rgba(255, 255, 255, 0.9);
 		cursor: pointer;
 		transition: opacity 0.15s;
@@ -562,6 +561,16 @@
 		color: rgba(0, 0, 0, 0.45);
 		border-color: rgba(0, 0, 0, 0.18);
 		box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+	}
+
+	.arrow-icon {
+		width: 1.1rem;
+		height: 1.1rem;
+	}
+
+	.badge-icon {
+		width: 0.85rem;
+		height: 0.85rem;
 	}
 
 	.move-btn:hover:not(:disabled) {
@@ -580,7 +589,6 @@
 		background: white;
 		display: grid;
 		place-items: center;
-		font-size: 0.65rem;
 		color: #475569;
 		cursor: pointer;
 		transition: background-color 0.15s;
@@ -603,7 +611,6 @@
 		width: 1.5rem;
 		height: 1.5rem;
 		border-radius: 50%;
-		font-size: 0.7rem;
 		color: rgba(255, 255, 255, 0.9);
 		border: 1px solid rgba(0, 0, 0, 0.1);
 	}
