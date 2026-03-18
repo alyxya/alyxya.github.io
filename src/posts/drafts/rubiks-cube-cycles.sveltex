@@ -27,5 +27,5 @@ We can keep reversing the moves back like this until we reach the point where $n
 
 ---
 
-The proof above can be generalized using group theory, which I purposely avoided mentioning to keep things simple.
+The proof above can be generalized using a field of math called group theory, which I purposely avoided mentioning to keep things simple.
 I think group theory would be more understandable if it was taught through specific examples like this rather than with abstract groups from the start.
