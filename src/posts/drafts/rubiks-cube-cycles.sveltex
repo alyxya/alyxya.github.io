@@ -5,7 +5,7 @@ description: "Exploring the cycle structure of Rubik's cube permutations"
 tags: ["math", "group-theory"]
 ---
 
-If you've ever played around with a Rubik's cube, you may have encountered an interesting pattern where if you choose an arbitrary sequence of moves to repeat, you'll always eventually return to the original state.
+If you've ever played around with a Rubik's cube, you may have encountered an interesting pattern where choosing an arbitrary sequence of moves to repeat will always eventually return the cube to its original state.
 You can try this out:
 
 <RubiksCycleVisualizer />
@@ -16,14 +16,14 @@ The proof for why this is the case turns out to be quite simple. It relies on tw
 2. Every move is invertible. If you turn a face clockwise, you can turn it counterclockwise to undo it.
 
 The first observation alone doesn't guarantee you'll return to the original state.
-You might only revisit some states that came up after repeating the sequence of moves a certain number of times.
+You might loop back to some intermediate state rather than the starting one.
 
 So let's say repeating the moves $n$ times produces the same state as repeating them $k$ times, where $k < n$.
 
 Now we can use invertibility.
 If the states after $n$ and $k$ repetitions are the same, we can reverse the moves once from both.
 That gives us the states after $n - 1$ and $k - 1$ repetitions, which must also be the same.
-We can keep reversing the moves back like this until we reach the point where $n - k$ and $0$ repetitions must be the same state, proving that repeating the moves $n - k$ times returns the cube to its original state.
+We can keep reversing like this until we find that $n - k$ repetitions produce the same state as $0$ repetitions, proving that repeating the moves $n - k$ times returns the cube to its original state.
 
 ---
 
