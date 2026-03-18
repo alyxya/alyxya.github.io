@@ -229,6 +229,7 @@
 		playToken += 1;
 		isPlaying = false;
 		clearAsyncState();
+		cubeState = createSolvedCubies();
 	}
 
 	function clearAll() {
