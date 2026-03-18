@@ -5,25 +5,11 @@ description: "A first post demonstrating markdown, LaTeX, and the power of svelt
 tags: ["intro", "math"]
 ---
 
-<script lang="ts">
-	import Annotation from '$lib/components/Annotation.svelte';
-</script>
-
 # Welcome!
 
-This is a sample blog post written in **markdown** with support for LaTeX math <Annotation>rendering{#snippet noteContent()}SvelTeX compiles markdown and Svelte in a single file. See the <a href="https://sveltex.dev" target="_blank" rel="noreferrer">docs</a>.{/snippet}</Annotation>.
-
-<nav class="not-prose mt-6 mb-8 rounded-xl border border-ocean-200/70 bg-white/70 px-4 py-3 text-sm text-ocean-700 shadow-sm backdrop-blur" aria-label="On this page">
-	<div class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ocean-500">On this page</div>
-	<div class="mt-2 flex flex-wrap gap-x-4 gap-y-1">
-		<span>Embedded image</span>
-		<span>Inline math</span>
-		<span>Display math</span>
-		<span>Matrix example</span>
-		<span>Code examples</span>
-		<span>What's next</span>
-	</div>
-</nav>
+This is a sample blog post written in **markdown** with support for LaTeX math.
+SvelTeX compiles markdown and Svelte in a single file. See the
+[docs](https://sveltex.dev).
 
 ## Embedded Image
 
