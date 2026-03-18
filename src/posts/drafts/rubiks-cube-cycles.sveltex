@@ -1,6 +1,6 @@
 ---
 title: "Rubik's Cube Cycles"
-date: "2026-03-12"
+date: "2026-03-18"
 description: "Why repeating any sequence of moves on a Rubik's cube always returns it to its starting state"
 tags: ["math", "group-theory"]
 ---
