@@ -54,3 +54,9 @@ npm run preview      # serve the production build locally
 
 With that plumbing in place you can freely mix Markdown, fenced code blocks,
 LaTeX, and Svelte components inside your posts using only one file format.
+
+## Notes
+
+- TODO: add automatic heading slug generation in the markdown/SvelTeX pipeline
+  so posts can use plain markdown headings while still supporting stable
+  in-page anchor links and table-of-contents navigation.
