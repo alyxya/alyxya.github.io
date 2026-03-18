@@ -10,14 +10,6 @@
 
 	const COLORS = ['#ffffff', '#b91c1c', '#16a34a', '#eab308', '#ea580c', '#2563eb'];
 	const FACE_KEYS: FaceKey[] = ['px', 'nx', 'py', 'ny', 'pz', 'nz'];
-	const FACE_LABELS: Record<FaceKey, string> = {
-		px: 'Right',
-		nx: 'Left',
-		py: 'Up',
-		ny: 'Down',
-		pz: 'Front',
-		nz: 'Back'
-	};
 	const FACE_TRANSFORMS: Record<FaceKey, string> = {
 		px: 'rotateY(90deg) translateZ(var(--half-cubie))',
 		nx: 'rotateY(-90deg) translateZ(var(--half-cubie))',
@@ -133,14 +125,6 @@
 		});
 	}
 
-	function applySequence(state: Cubie[], sequence: string[]): Cubie[] {
-		let current = state;
-		for (const move of sequence) {
-			current = applyMove(current, move);
-		}
-		return current;
-	}
-
 	function isSolved(state: Cubie[]): boolean {
 		return state.every((cubie) =>
 			(Object.entries(cubie.stickers) as [FaceKey, number][]).every(
@@ -153,10 +137,6 @@
 		return 1 - Math.pow(1 - t, 3);
 	}
 
-	function cssTurnAngle(axis: Axis, angle: number): number {
-		return axis === 'y' ? angle : -angle;
-	}
-
 	function cubieTransform(cubie: Cubie, turn: ActiveTurn | null): string {
 		const x = cubie.pos[0];
 		const y = -cubie.pos[1];
@@ -165,7 +145,7 @@
 
 		if (!turn || cubie.pos[turn.axisIndex] !== turn.layer) return translate;
 
-		const angle = cssTurnAngle(turn.axis, turn.angle);
+		const angle = turn.axis === 'y' ? turn.angle : -turn.angle;
 		if (turn.axis === 'x') return `rotateX(${angle}deg) ${translate}`;
 		if (turn.axis === 'y') return `rotateY(${angle}deg) ${translate}`;
 		return `rotateZ(${angle}deg) ${translate}`;
@@ -260,16 +240,6 @@
 		cycleCount = 0;
 	}
 
-	function reset() {
-		stop();
-		cubeState = createSolvedCubies();
-		cycleCount = 0;
-	}
-
-	function resetView() {
-		viewMatrix = initialViewMatrix();
-	}
-
 	function animateMove(move: string, duration: number, token: number): Promise<boolean> {
 		const base = move.replace("'", '');
 		const inverse = move.includes("'");
@@ -343,21 +313,6 @@
 		if (token !== playToken) return;
 		isPlaying = false;
 		activeTurn = null;
-	}
-
-	function computeInstant() {
-		if (moveSequence.length === 0) return;
-
-		stop();
-		let state = createSolvedCubies();
-		let count = 0;
-		do {
-			state = applySequence(state, moveSequence);
-			count += 1;
-		} while (!isSolved(state) && count < 2000);
-
-		cubeState = state;
-		cycleCount = count;
 	}
 
 	function handlePointerDown(event: PointerEvent) {
