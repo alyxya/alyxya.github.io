@@ -5,4 +5,24 @@ description: "Exploring the cycle structure of Rubik's cube permutations"
 tags: ["math", "group-theory"]
 ---
 
+If you've ever played around with a Rubik's cube, you may have encountered an interesting pattern where if you choose an arbitrary set of moves to repeat, you'll always eventually return to the original state.
+You can try this out:
+
 <RubiksCycleVisualizer />
+
+The proof for why this is the case turns out to be quite simple.
+
+A Rubik's cube has a finite number of combinations you can turn it into, so if you perform any random or predetermined moves indefinitely, you're guaranteed to eventually return to a combination you visited before.
+
+This alone doesn't guarantee you'll necessarily return back to the original solved state though.
+Another property of the moves is that each one is invertible, so if you turn one face clockwise, you can turn it counterclockwise to undo the changes.
+
+Combining these two observations, the first observation tells us that repeating an arbitrary set of moves sufficiently many times will end up revisiting some combination, so let's say that we find out that repeating some set of moves $n$ times ends up revisiting the same state from repeating the same set of moves $k$ times with $k < n$.
+The second observation with moves being invertible means we can reverse the set of moves, so if we reverse the moves one time starting from the revisited state, that must be the state if we initially only repeated the original set of moves $n - 1$ times as well as $k - 1$ times, so the state of the cube at $n - 1$ iterations and $k - 1$ iterations must be the same.
+This can be continued until you come to the conclusion that repeating the moves $n - k$ times results in the same state as repeating the moves $0$ times, thus proving that you will always eventually reach your original state.
+
+---
+
+The proof above can be generalized into a part of math called group theory.
+I purposely avoided referring to it in the proof to keep things as simple as possible.
+I think group theory would be more understandable if it was only taught with specific examples rather than with generalized groups.
