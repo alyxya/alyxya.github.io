@@ -171,8 +171,38 @@
 		return `rotateZ(${angle}deg) ${translate}`;
 	}
 
-	function sceneTransform(pitch: number, yaw: number): string {
-		return `scale3d(0.55, 0.55, 0.55) rotateX(${pitch}deg) rotateY(${yaw}deg)`;
+	function mulMat(a: number[], b: number[]): number[] {
+		return [
+			a[0] * b[0] + a[1] * b[3] + a[2] * b[6],
+			a[0] * b[1] + a[1] * b[4] + a[2] * b[7],
+			a[0] * b[2] + a[1] * b[5] + a[2] * b[8],
+			a[3] * b[0] + a[4] * b[3] + a[5] * b[6],
+			a[3] * b[1] + a[4] * b[4] + a[5] * b[7],
+			a[3] * b[2] + a[4] * b[5] + a[5] * b[8],
+			a[6] * b[0] + a[7] * b[3] + a[8] * b[6],
+			a[6] * b[1] + a[7] * b[4] + a[8] * b[7],
+			a[6] * b[2] + a[7] * b[5] + a[8] * b[8]
+		];
+	}
+
+	function rotX(a: number): number[] {
+		const c = Math.cos(a), s = Math.sin(a);
+		return [1, 0, 0, 0, c, -s, 0, s, c];
+	}
+
+	function rotY(a: number): number[] {
+		const c = Math.cos(a), s = Math.sin(a);
+		return [c, 0, s, 0, 1, 0, -s, 0, c];
+	}
+
+	function initialViewMatrix(): number[] {
+		const p = -27 * Math.PI / 180;
+		const y = 39 * Math.PI / 180;
+		return mulMat(rotX(p), rotY(y));
+	}
+
+	function sceneTransform(m: number[]): string {
+		return `scale3d(0.55, 0.55, 0.55) matrix3d(${m[0]},${m[3]},${m[6]},0,${m[1]},${m[4]},${m[7]},0,${m[2]},${m[5]},${m[8]},0,0,0,0,1)`;
 	}
 
 	let cubeState = $state(createSolvedCubies());
@@ -181,8 +211,7 @@
 	let cycleCount = $state(0);
 	let speed = $state(2);
 	let activeTurn = $state<ActiveTurn | null>(null);
-	let viewPitch = $state(-27);
-	let viewYaw = $state(39);
+	let viewMatrix = $state(initialViewMatrix());
 	let isDragging = $state(false);
 
 	let playToken = 0;
@@ -190,10 +219,8 @@
 	let pauseTimeout: ReturnType<typeof setTimeout> | undefined;
 	let viewportEl: HTMLDivElement | null = null;
 	let dragPointerId: number | null = null;
-	let dragStartX = 0;
-	let dragStartY = 0;
-	let dragStartPitch = 0;
-	let dragStartYaw = 0;
+	let lastPointerX = 0;
+	let lastPointerY = 0;
 
 	const duration = $derived(1000 / speed);
 	const solved = $derived(isSolved(cubeState));
@@ -240,8 +267,7 @@
 	}
 
 	function resetView() {
-		viewPitch = -27;
-		viewYaw = 39;
+		viewMatrix = initialViewMatrix();
 	}
 
 	function animateMove(move: string, duration: number, token: number): Promise<boolean> {
@@ -334,27 +360,23 @@
 		cycleCount = count;
 	}
 
-	function clampPitch(pitch: number): number {
-		return Math.max(-85, Math.min(85, pitch));
-	}
-
 	function handlePointerDown(event: PointerEvent) {
 		if (event.pointerType !== 'touch' && event.button !== 0) return;
 		dragPointerId = event.pointerId;
 		isDragging = true;
-		dragStartX = event.clientX;
-		dragStartY = event.clientY;
-		dragStartPitch = viewPitch;
-		dragStartYaw = viewYaw;
+		lastPointerX = event.clientX;
+		lastPointerY = event.clientY;
 		viewportEl?.setPointerCapture(event.pointerId);
 	}
 
 	function handlePointerMove(event: PointerEvent) {
 		if (event.pointerId !== dragPointerId) return;
-		const dx = event.clientX - dragStartX;
-		const dy = event.clientY - dragStartY;
-		viewYaw = dragStartYaw + dx * 0.38;
-		viewPitch = clampPitch(dragStartPitch - dy * 0.32);
+		const dx = event.clientX - lastPointerX;
+		const dy = event.clientY - lastPointerY;
+		lastPointerX = event.clientX;
+		lastPointerY = event.clientY;
+		const s = 0.007;
+		viewMatrix = mulMat(mulMat(rotY(dx * s), rotX(-dy * s)), viewMatrix);
 	}
 
 	function handlePointerUp(event: PointerEvent) {
@@ -384,7 +406,7 @@
 					onpointerup={handlePointerUp}
 					onpointercancel={handlePointerUp}
 				>
-					<div class="scene" style:transform={sceneTransform(viewPitch, viewYaw)}>
+					<div class="scene" style:transform={sceneTransform(viewMatrix)}>
 						<div class="cube">
 							{#each cubeState as cubie (cubie.id)}
 								<div class="cubie" style:transform={cubieTransform(cubie, activeTurn)}>
