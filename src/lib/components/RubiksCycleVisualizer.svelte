@@ -378,26 +378,25 @@
 			</div>
 
 		<div class="controls">
-			<div class="move-grid">
+			<div class="move-pills">
 				{#each MOVES as move (move)}
-					<button
-						class="move-btn"
-						class:light={moveIsLight(move)}
-						style:background={moveColor(move)}
-						disabled={isPlaying}
-						onclick={() => addMove(move)}
-						aria-label="Turn {MOVE_FACE_NAME[move]} face clockwise"
-					><svg class="arrow-icon" viewBox="0 0 16 16"><path d="M12 8a4 4 0 1 1-1.2-2.85" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 3v2.5h-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-				{/each}
-				{#each MOVES as move (`${move}-inv`)}
-					<button
-						class="move-btn"
-						class:light={moveIsLight(move)}
-						style:background={moveColor(move)}
-						disabled={isPlaying}
-						onclick={() => addMove(`${move}'`)}
-						aria-label="Turn {MOVE_FACE_NAME[move]} face counterclockwise"
-					><svg class="arrow-icon" viewBox="0 0 16 16"><path d="M4 8a4 4 0 1 0 1.2-2.85" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 3v2.5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+					<div class="pill" class:light={moveIsLight(move)} style:background={moveColor(move)}>
+						<button
+							class="pill-half"
+							class:light={moveIsLight(move)}
+							disabled={isPlaying}
+							onclick={() => addMove(move)}
+							aria-label="Turn {MOVE_FACE_NAME[move]} face clockwise"
+						><svg class="pill-icon" viewBox="0 0 16 16"><path d="M12 8a4 4 0 1 1-1.2-2.85" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 3v2.5h-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+						<div class="pill-divider" class:light={moveIsLight(move)}></div>
+						<button
+							class="pill-half"
+							class:light={moveIsLight(move)}
+							disabled={isPlaying}
+							onclick={() => addMove(`${move}'`)}
+							aria-label="Turn {MOVE_FACE_NAME[move]} face counterclockwise"
+						><svg class="pill-icon" viewBox="0 0 16 16"><path d="M4 8a4 4 0 1 0 1.2-2.85" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 3v2.5h2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+					</div>
 				{/each}
 			</div>
 
@@ -532,54 +531,77 @@
 	}
 
 	.controls {
-		width: calc(2.4rem * 6 + 4px * 5);
-		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
 		gap: 0.6rem;
 	}
 
-	.move-grid {
-		display: grid;
-		grid-template-columns: repeat(6, 2.4rem);
-		gap: 4px;
+	.move-pills {
+		display: flex;
+		justify-content: center;
+		gap: 5px;
 	}
 
-	.move-btn {
-		width: 2.4rem;
-		height: 2.4rem;
-		border-radius: 0.4rem;
+	.pill {
+		display: flex;
+		border-radius: 0.5rem;
 		border: 1px solid rgba(0, 0, 0, 0.1);
+		overflow: hidden;
+		position: relative;
+	}
+
+	.pill.light {
+		border-color: rgba(0, 0, 0, 0.18);
+	}
+
+	.pill-half {
+		width: 2.2rem;
+		height: 2.4rem;
 		display: grid;
 		place-items: center;
+		background: transparent;
+		border: none;
 		color: rgba(255, 255, 255, 0.9);
 		cursor: pointer;
 		transition: opacity 0.15s;
 	}
 
-	.move-btn.light {
+	.pill-half.light {
 		color: rgba(0, 0, 0, 0.45);
-		border-color: rgba(0, 0, 0, 0.18);
-		box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
 	}
 
-	.arrow-icon {
-		width: 1.1rem;
-		height: 1.1rem;
+	.pill-half:hover:not(:disabled) {
+		opacity: 0.75;
+		background: rgba(0, 0, 0, 0.08);
+	}
+
+	.pill-half.light:hover:not(:disabled) {
+		background: rgba(0, 0, 0, 0.06);
+	}
+
+	.pill-half:disabled {
+		opacity: 0.35;
+		cursor: default;
+	}
+
+	.pill-divider {
+		width: 1px;
+		background: rgba(255, 255, 255, 0.25);
+		align-self: stretch;
+	}
+
+	.pill-divider.light {
+		background: rgba(0, 0, 0, 0.1);
+	}
+
+	.pill-icon {
+		width: 1rem;
+		height: 1rem;
 	}
 
 	.badge-icon {
 		width: 0.85rem;
 		height: 0.85rem;
-	}
-
-	.move-btn:hover:not(:disabled) {
-		opacity: 0.8;
-	}
-
-	.move-btn:disabled {
-		opacity: 0.35;
-		cursor: default;
 	}
 
 	.play-btn {
