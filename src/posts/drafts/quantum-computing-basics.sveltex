@@ -1,0 +1,16 @@
+---
+title: "Quantum Computing Basics"
+date: "2026-03-19"
+description: ""
+tags: []
+---
+
+You start off with n qubits, all initialized to 0.
+Mathematically, this is a 2^n-dimensional vector with 1 at the first entry and 0 everywhere else.
+
+You then build a circuit out of gates that process this vector.
+Each gate is a unitary linear operation on the 2^n vector, meaning it's linear and preserves the total length of the vector (so probabilities always sum to 1).
+
+The final step is measurement, which collapses the vector into a single outcome.
+Each of the 2^n elements is chosen with probability equal to the squared magnitude of its amplitude (the Born rule).
+The output is that element's index, expressed in bits.
