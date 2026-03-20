@@ -5,6 +5,45 @@ description: ""
 tags: []
 ---
 
+If neural networks is what you get out of the Universal Approximation Theorem, then matrix networks is what you get out of the Linear Universal Approximation Theorem.
+
+A matrix network (MxN) is a new class of machine learning models I made up that only performs linear operations in a latent space.
+There are two types of mathematical objects: vectors and matrices.
+A vector can be interpreted as a feature vector, where due to superposition it can represent an exponential number of possible features relative to its number of dimensions.
+A matrix can be interpreted a few different ways.
+It can be interpreted as a feature map function between input and output vectors, and those vectors can be in the same or different latent spaces.
+It can be interpreted as a key-value store, where using a key vector as an input produces a value vector as output.
+It can also be interpreted as a way to update and transform another matrix.
+
+The only operations performed by a MxN are some kind of matrix multiplication, whether that be multiplying matrices together, multiplying a matrix with a vector, or taking the dot product of two vectors.
+
+The conversion from input to latent space and latent space to output is mostly left unspecified here, but generally speaking having vectors be unit vectors and matrices be orthogonal matrices is ideal.
+
+For a concrete example, the matrix network equivalent of a LLM can be defined as follows:
+* Input embeddings are defined as nxn matrices
+* Output embeddings are defined as n dimensional vectors
+* The state matrix is updated with S <- S @ M_input
+* There is a next token query vector q_next, with S @ q_next giving the output embedding vector by finding the vector with closest cosine similarity to S @ q_next
+* There is a base matrix S_base onto which all input embeddings are applied onto
+* All vectors are unit vectors and matrices are orthogonal
+
+Training is done by learning rotations to apply to vectors and matrices.
+There is no loss function or standard backpropagation as is typical in neural networks.
+
+For an example of a single training update on a matrix, suppose you want S_base @ S_1 @ S_+ @ S_2 @ S_= @ q_next = v_3 as a way to teach the model to learn "3" follows "1+2=".
+Let u = S_base @ S_1 @ S_+ @ S_2 @ S_= @ q_next be the current vector value of that expression.
+The goal is to learn to rotate u into v_3, so an update to v_3 can be applied to rotate it towards u, and an update to u can be applied to rotate it towards v_3.
+The change on the latter could be a change on any of the S matrices or q_next.
+For S_base, the incremental rotation R that rotates u towards v_3 can be applied with S_base <- R @ S_base
+There isn't a way to learn the updates on any of the other S matrices or q_next vector directly, so what must be done is to left multiply by the inverses of the matrices.
+Recall that S_base^-1 = S_base^T
+S_+ @ S_2 @ S_= @ q_next = S_1^T @ S_base^T @ u should be rotated towards S_1^T @ S_base^T @ v_3 and vice versa so the learned rotations can be applied to both S_+ and S_1
+
+There's a lot of batching optimizations that can be applied in this update process to make it hardware efficient.
+Also, Newton-Schulz orthogonalization is necessary to keep the matrices orthogonal after updates.
+
+The end result of the LLM equivalent of a MxN for inference is that prefill becomes S_base @ S_input1 @ S_input2 @ ..., as a chain of matrix multiplications, and then decode interleaves matrix multiplication with multiplying by a query vector.
+
 - intro with linear universal approximation theorem
 - connect idea to the fact that the nonlinearity that the universal approximation theorem requires exists in the encoding/decoding parts
 - describe architecture as matrix encoding, matrix multiplication with state, vector query to decode
